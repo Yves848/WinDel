@@ -10,10 +10,10 @@ type
     sLabel : String;
     iPos : integer;
     iLen : integer;
-    constructor create(aPos1, aPos2 : Integer);
+    constructor create(aPos1, aLen : Integer);
   end;
 
-  tUpgradePackage = Class
+  tWingetPackage = Class
   public
     Nom : String;
     ID : String;
@@ -23,7 +23,7 @@ type
   End;
 
 var
-  dUpgradeColumn : TDictionary<String, tColumnClass>;
+  lListColumn : TStrings;
 
   procedure makeUpgradeDictonary(sLine : String);
 
@@ -37,7 +37,7 @@ implementation
     iPosDispo,
     iPosSource : Integer;
     iLen : Integer;
-    pColumnClass : tColumnClass;
+    pColumn : tColumnClass;
     lHeaders : TStringDynArray;
     lsHeaders : tStringList;
     i : integer;
@@ -55,41 +55,42 @@ implementation
       else
         inc(i);
     end;
-    iPosNom := pos('Nom',sLine);
-    iPosID := pos('ID',sLine);
-    iPosVersion := pos('Version',sLine);
-    iPosDispo := pos('Disponible',sLine);
-    iPosSource := pos('Source',sLine);
-    iLen := length(sLine);
 
-    dUpgradeColumn := TDictionary<String,tColumnClass>.create;
+      lListColumn := tStringlist.Create;
+      i := 0;
+      repeat
+        var key := lsHeaders[i];
+        var iPosCol := pos(key,sLine);
+        var iLenCol := 0;
+        pColumn := tColumnClass.Create(iPosCol,iLenCol);
+        pColumn.sLabel := key;
+        inc(i);
+        lListColumn.AddObject(key,pColumn)
+      until i > lsHeaders.Count -1;
 
-    pColumnClass := tColumnClass.Create(iPosNom,iPosID-iPosNom);
-    dUpgradeColumn.Add('Nom',pColumnClass);
-
-    pColumnClass := tColumnClass.Create(iPosID,iPosVersion-iPosID);
-    dUpgradeColumn.Add('ID',pColumnClass);
-
-    pColumnClass := tColumnClass.Create(iPosVersion,iPosDispo-iPosVersion);
-    dUpgradeColumn.Add('Version',pColumnClass);
-
-    pColumnClass := tColumnClass.Create(iPosDispo,iPosSource-iPosDispo);
-    dUpgradeColumn.Add('Disponible',pColumnClass);
-
-    pColumnClass := tColumnClass.Create(iPosSource,-1); // '-1' = jusqu'au bout de la ligne
-    dUpgradeColumn.Add('Source',pColumnClass);
+      i := 0;
+      repeat
+         if i < lListColumn.Count -1 then
+         begin
+             var iPos1 := tColumnClass(lListColumn.Objects[i]).iPos;
+             var iPos2 := tColumnClass(lListColumn.Objects[i+1]).iPos;
+             tColumnClass(lListColumn.Objects[i]).iLen := iPos2 - iPos1;
+         end
+         else
+         begin
+            tColumnClass(lListColumn.Objects[i]).iLen := -1;
+         end;
+         inc(i);
+      until i < lsHeaders.Count -1;
 
   end;
 
 { tColumnClass }
 
-constructor tColumnClass.create(aPos1, aPos2: Integer);
+constructor tColumnClass.create(aPos1, aLen: Integer);
 begin
     iPos := aPos1;
-    if aPos2 <> -1 then
-      iLen := aPos2-aPos1
-    else
-      iLen := -1;
+    iLen := aLen;
 end;
 
 end.

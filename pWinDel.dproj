@@ -136,6 +136,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uConst.pas"/>
+        <DCCReference Include="uOptions.pas">
+            <Form>frmOptions</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

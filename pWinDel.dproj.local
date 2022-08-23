@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899-12-30 00:00:00.000.948,C:\Users\yvesg\git\WinDel\uMain.dfm=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
     <Transaction>1899-12-30 00:00:00.000.659,C:\Users\yvesg\git\WinDel\uConst.pas=C:\Users\yvesg\git\WinDel\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.948,C:\Users\yvesg\git\WinDel\uMain.dfm=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
     <Transaction>1899-12-30 00:00:00.000.194,C:\Users\yvesg\git\WinDel\pWinDel.dproj=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.431,=C:\Users\yvesg\git\WinDel\Unit1.pas</Transaction>
-    <Transaction>1899-12-30 00:00:00.000.948,C:\Users\yvesg\git\WinDel\uMain.pas=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.015,C:\Users\yvesg\git\WinDel\uOptions.pas=C:\Users\yvesg\git\WinDel\Unit2.pas</Transaction>
     <Transaction>1899-12-30 00:00:00.000.264,=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.431,=C:\Users\yvesg\git\WinDel\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.232,=C:\Users\yvesg\git\WinDel\Unit2.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.948,C:\Users\yvesg\git\WinDel\uMain.pas=C:\Users\yvesg\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.015,C:\Users\yvesg\git\WinDel\uOptions.dfm=C:\Users\yvesg\git\WinDel\Unit2.dfm</Transaction>
   </Transactions>
 </BorlandProject>
