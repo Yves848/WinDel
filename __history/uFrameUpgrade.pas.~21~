@@ -1,0 +1,23 @@
+unit uFrameUpgrade;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,ShellApi,System.IOUtils,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TframeUpgrade = class(TfrmBase)
+    ListView1: TListView;
+    Panel1: TPanel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,45 @@
+unit uFrameUpgrade;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes,ShellApi,System.IOUtils,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ExtCtrls, Vcl.StdCtrls;
+
+type
+  TframeUpgrade = class(TfrmBase)
+    Label1: TLabel;
+    procedure Label1MouseEnter(Sender: TObject);
+    procedure Label1MouseLeave(Sender: TObject);
+    procedure Label1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+implementation
+
+{$R *.dfm}
+
+procedure TframeUpgrade.Label1Click(Sender: TObject);
+var
+  sFolder : String;
+begin
+  sFolder := tPath.GetTempPath;
+  ShellExecute(Handle,'explore',PChar(sFolder),nil,nil,SW_SHOW);
+end;
+
+procedure TframeUpgrade.Label1MouseEnter(Sender: TObject);
+begin
+  tLabel(Sender).Font.Style := [fsunderline];
+  screen.Cursor := crHandPoint;
+end;
+
+procedure TframeUpgrade.Label1MouseLeave(Sender: TObject);
+begin
+  tLabel(Sender).Font.Style := [];
+  screen.Cursor := crDefault;
+end;
+
+end.

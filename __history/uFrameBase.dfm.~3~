@@ -1,0 +1,16 @@
+object frmBase: TfrmBase
+  Left = 0
+  Top = 0
+  Width = 640
+  Height = 480
+  TabOrder = 0
+  object LinkLabel1: TLinkLabel
+    Left = 72
+    Top = 72
+    Width = 60
+    Height = 19
+    Caption = 'LinkLabel1'
+    TabOrder = 0
+    UseVisualStyle = True
+  end
+end

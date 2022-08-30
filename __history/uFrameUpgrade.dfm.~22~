@@ -1,0 +1,48 @@
+object frameUpgrade: TframeUpgrade
+  Left = 0
+  Top = 0
+  Width = 640
+  Height = 480
+  TabOrder = 0
+  object ListView1: TListView
+    Left = 0
+    Top = 0
+    Width = 496
+    Height = 480
+    Align = alClient
+    BevelInner = bvNone
+    Columns = <
+      item
+        AutoSize = True
+        Caption = 'Description'
+        MinWidth = 200
+      end
+      item
+        AutoSize = True
+        Caption = 'ID'
+      end
+      item
+        Caption = 'Version'
+      end
+      item
+        Caption = 'Available'
+      end
+      item
+        Caption = 'Source'
+      end>
+    GridLines = True
+    TabOrder = 0
+    ViewStyle = vsList
+  end
+  object Panel1: TPanel
+    Left = 496
+    Top = 0
+    Width = 144
+    Height = 480
+    Align = alRight
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    ShowCaption = False
+    TabOrder = 1
+  end
+end

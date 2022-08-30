@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = 'Form1'
+  Caption = 'Winget Helper'
   ClientHeight = 712
   ClientWidth = 1002
   Color = clBtnFace
@@ -39,18 +39,17 @@ object Form1: TForm1
       TabOrder = 0
       OnClick = btnQuitClick
     end
-    object btnOptions: TBitBtn
-      Left = 0
+    object btnSearch: TBitBtn
+      Left = 150
       Top = 0
       Width = 75
       Height = 41
       Align = alLeft
-      Caption = 'Options'
+      Caption = 'Search'
       TabOrder = 1
-      OnClick = btnOptionsClick
     end
     object btn1: TBitBtn
-      Left = 75
+      Left = 225
       Top = 0
       Width = 75
       Height = 41
@@ -58,6 +57,26 @@ object Form1: TForm1
       Caption = 'btn1'
       TabOrder = 2
       OnClick = btn1Click
+    end
+    object btnUpgrade: TBitBtn
+      Left = 75
+      Top = 0
+      Width = 75
+      Height = 41
+      Align = alLeft
+      Caption = 'Upgrade'
+      TabOrder = 3
+      OnClick = btnUpgradeClick
+    end
+    object btnList: TBitBtn
+      Left = 0
+      Top = 0
+      Width = 75
+      Height = 41
+      Align = alLeft
+      Caption = 'List'
+      TabOrder = 4
+      OnClick = btnOptionsClick
     end
   end
   object pnlFooter: TPanel
@@ -81,42 +100,6 @@ object Form1: TForm1
     Caption = 'pnlMain'
     ShowCaption = False
     TabOrder = 3
-    object PageControl1: TPageControl
-      Left = 0
-      Top = 6
-      Width = 993
-      Height = 618
-      ActivePage = tsList
-      TabOrder = 0
-      object tsList: TTabSheet
-        Caption = 'tsList'
-      end
-      object tsSearch: TTabSheet
-        Caption = 'tsSearch'
-        ImageIndex = 1
-      end
-      object TabSheet3: TTabSheet
-        Caption = 'TabSheet3'
-        ImageIndex = 2
-        object Memo1: TMemo
-          Left = 0
-          Top = 0
-          Width = 985
-          Height = 588
-          Align = alClient
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Source Code Pro'
-          Font.Style = []
-          Lines.Strings = (
-            'Memo1')
-          ParentFont = False
-          ScrollBars = ssVertical
-          TabOrder = 0
-        end
-      end
-    end
   end
   object DosCommand1: TDosCommand
     CommandLine = 'winget upgrade'
@@ -124,8 +107,8 @@ object Form1: TForm1
     MaxTimeAfterBeginning = 0
     MaxTimeAfterLastOutput = 0
     OnCharDecoding = DosCommand1CharDecoding
+    OnExecuteError = DosCommand1ExecuteError
     OnNewLine = DosCommand1NewLine
-    OnTerminated = DosCommand1Terminated
     Left = 508
     Top = 124
   end

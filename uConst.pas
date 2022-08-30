@@ -81,7 +81,7 @@ implementation
             tColumnClass(lListColumn.Objects[i]).iLen := -1;
          end;
          inc(i);
-      until i < lsHeaders.Count -1;
+      until i > lsHeaders.Count -1;
 
   end;
 

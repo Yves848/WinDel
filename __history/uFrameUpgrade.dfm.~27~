@@ -1,0 +1,58 @@
+object frameUpgrade: TframeUpgrade
+  Left = 0
+  Top = 0
+  ClientHeight = 441
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  TextHeight = 15
+  object ListView1: TListView
+    Left = 0
+    Top = 0
+    Width = 480
+    Height = 441
+    Align = alClient
+    BevelInner = bvNone
+    Columns = <
+      item
+        AutoSize = True
+        Caption = 'Description'
+        MinWidth = 200
+      end
+      item
+        AutoSize = True
+        Caption = 'ID'
+      end
+      item
+        AutoSize = True
+        Caption = 'Version'
+      end
+      item
+        AutoSize = True
+        Caption = 'Available'
+      end
+      item
+        AutoSize = True
+        Caption = 'Source'
+      end>
+    GridLines = True
+    RowSelect = True
+    TabOrder = 0
+    ViewStyle = vsReport
+  end
+  object Panel1: TPanel
+    Left = 480
+    Top = 0
+    Width = 144
+    Height = 441
+    Align = alRight
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    ShowCaption = False
+    TabOrder = 1
+  end
+end
