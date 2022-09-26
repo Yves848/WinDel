@@ -4,11 +4,10 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, System.Types, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils,
-  System.RegularExpressions, uConst, Vcl.CheckLst, SynEdit, DosCommand,
-  Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons, Vcl.ComCtrls, uFrameUpgrade2,
-  uFrameBase;
+  System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
+  Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
+  Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -24,6 +23,8 @@ type
     btn1: TBitBtn;
     btnUpgrade: TBitBtn;
     btnList: TBitBtn;
+    pnl1: TPanel;
+    mmo1: TMemo;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -37,6 +38,7 @@ type
     lOutPut: tStrings;
     aFrame: TfrmBase;
     procedure upgradeTerminated(Sender: TObject);
+    procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
   end;
 
 var
@@ -55,17 +57,18 @@ procedure TForm1.btnUpgradeClick(Sender: TObject);
 begin
   if aFrame <> Nil then
     aFrame.Free;
+
   AI1.Animate := True;
+
   aFrame := TfrmHeritee.Create(pnlMain);
   aFrame.Parent := pnlMain;
   aFrame.Align := alClient;
-
+  TfrmHeritee(aFrame).ListView1.OnSelectItem := LVSelectItem;
   lOutPut := tStringList.Create;
 
   DosCommand1.OnTerminated := upgradeTerminated;
   DosCommand1.CommandLine := tWingetcommand.Upgrade;
   DosCommand1.Execute;
-
 end;
 
 function TForm1.DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -94,27 +97,27 @@ begin
 end;
 
 procedure TForm1.DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
-
 begin
+  lOutPut.Add(ANewLine);
+end;
 
-  case AOutputType of
-    otEntireLine:
-      OutputDebugString('EntireLine');
-    otBeginningOfLine:
-      OutputDebugString('BeginningOfLine');
-  end;
+procedure TForm1.LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+var
+  aWingetPackage : tWingetPackage;
+begin
+  if selected then
 
-  if AOutputType = otEntireLine then
+  if (item.Data <> Nil) then
   begin
-    lOutPut.Add(ANewLine);
-
+      aWingetPackage := tWingetPackage(item.data);
+      mmo1.Lines.Add(aWingetPackage.getField('nom'));
   end;
 end;
 
 function TForm1.makeUpgList: tStrings;
 var
   sHeaders: string;
-  ANewLine: String;
+  ANewLine: string;
   iLine: Integer;
   bClean: Boolean;
 begin
@@ -123,11 +126,11 @@ begin
   bClean := False;
   while iLine < lOutPut.Count - 1 do
   begin
-    aNewLine := lOutPut[iLine];
+    ANewLine := lOutPut[iLine];
     if TRegEx.IsMatch(ANewLine, '----') then
     begin
       bClean := True;
-      sHeaders := lOutPut[lOutPut.Count - 2];
+      sHeaders := lOutPut[iLine -1];
       makeUpgradeDictonary(sHeaders);
     end
     else if bClean then
@@ -138,35 +141,37 @@ end;
 
 procedure TForm1.upgradeTerminated(Sender: TObject);
 var
-  i: Integer;
+  i, iCol: Integer;
   liste: TListItems;
   item: tListItem;
-  sLine: String;
-  sString: String;
+  sLine: string;
+  sString: string;
   aColumn: tColumnClass;
-  lOutClean : tStrings;
+  lOutClean: tStrings;
+  aWingetPackage: tWingetPackage;
 begin
   i := 0;
   lOutClean := makeUpgList;
   liste := TfrmHeritee(aFrame).ListView1.Items;
-  while i <= lOutClean.Count - 2 do
+  while i <= lOutClean.Count - 1 do
   begin
     sLine := lOutClean[i];
+    aWingetPackage := tWingetPackage.Create(sLine, ptUpgrade);
     item := liste.Add;
-    aColumn := tColumnClass(lListColumn.Objects[0]);
-    item.Caption := copy(sLine, aColumn.iPos, aColumn.iLen);
-    aColumn := tColumnClass(lListColumn.Objects[1]);
-    sString := copy(sLine, aColumn.iPos, aColumn.iLen);
-    item.SubItems.Add(sString);
-    aColumn := tColumnClass(lListColumn.Objects[2]);
-    sString := copy(sLine, aColumn.iPos, aColumn.iLen);
-    item.SubItems.Add(sString);
-    aColumn := tColumnClass(lListColumn.Objects[3]);
-    sString := copy(sLine, aColumn.iPos, aColumn.iLen);
-    item.SubItems.Add(sString);
-    aColumn := tColumnClass(lListColumn.Objects[4]);
-    sString := copy(sLine, aColumn.iPos, aColumn.iLen);
-    item.SubItems.Add(sString);
+    item.Data := aWingetPackage;
+    iCol := 0;
+    while iCol <= length(aUpgFields)-1 do
+    begin
+       if (iCol = 0) then
+       begin
+          item.Caption := aWingetPackage.getField(aUpgFields[iCol]);
+       end
+       else
+       begin
+          item.SubItems.Add(aWingetPackage.getField(aUpgFields[iCol]));
+       end;
+      inc(iCol);
+    end;
     inc(i);
   end;
   AI1.Animate := False;

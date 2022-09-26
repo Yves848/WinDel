@@ -61,6 +61,8 @@ object Form1: TForm1
       Caption = 'Upgrade'
       TabOrder = 3
       OnClick = btnUpgradeClick
+      ExplicitLeft = 69
+      ExplicitTop = -6
     end
     object btnList: TBitBtn
       Left = 0
@@ -94,15 +96,41 @@ object Form1: TForm1
   object pnlMain: TPanel
     Left = 0
     Top = 41
-    Width = 1002
+    Width = 705
     Height = 630
-    Align = alClient
+    Align = alLeft
     BevelOuter = bvNone
     Caption = 'pnlMain'
     ShowCaption = False
     TabOrder = 2
-    ExplicitWidth = 1000
-    ExplicitHeight = 626
+    ExplicitTop = 42
+  end
+  object pnl1: TPanel
+    Left = 705
+    Top = 41
+    Width = 297
+    Height = 630
+    Align = alClient
+    BevelOuter = bvNone
+    Caption = 'pnl1'
+    ShowCaption = False
+    TabOrder = 3
+    ExplicitLeft = 912
+    ExplicitTop = 304
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object mmo1: TMemo
+      Left = 0
+      Top = 0
+      Width = 297
+      Height = 630
+      Align = alClient
+      TabOrder = 0
+      ExplicitLeft = 80
+      ExplicitTop = 152
+      ExplicitWidth = 185
+      ExplicitHeight = 89
+    end
   end
   object DosCommand1: TDosCommand
     CommandLine = 'winget upgrade'

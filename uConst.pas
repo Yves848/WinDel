@@ -5,13 +5,17 @@ interface
 uses
   System.Generics.Collections, System.Types, System.strUtils, System.SysUtils, System.classes;
 
+const
+  aUpgFields : array of string = ['nom', 'id', 'version','disponible','source'];
+
 type
+  tPackageType = (ptInstall, ptUpgrade, ptSearch);
 
   tWingetcommand = class
-    class function Install(sId : String) : String;
-    class function Upgrade : String;
-    class Function List : String;
-    class function Search(sText : String) : String;
+    class function Install(sId: String): String;
+    class function Upgrade: String;
+    class Function List: String;
+    class function Search(sText: String): String;
   end;
 
   tColumnClass = class
@@ -24,11 +28,13 @@ type
 
   tWingetPackage = Class
   private
+    fType: tPackageType;
     dFields: TDictionary<string, string>;
+    procedure makeFields(sLine: String);
+    procedure makeUpgradeFields(sLine : String);
   public
-
-
-    constructor create(sLine: String);
+    constructor create(sLine: String; sType: tPackageType);
+    function getField(sField : string) : String;
   End;
 
 var
@@ -41,7 +47,6 @@ implementation
 
 procedure makeUpgradeDictonary(sLine: String);
 var
-  iPosNom, iPosID, iPosVersion, iPosDispo, iPosSource: integer;
   iLen: integer;
   pColumn: tColumnClass;
   lHeaders: TStringDynArray;
@@ -65,16 +70,19 @@ begin
   lListColumn := tStringList.create;
   i := 0;
   repeat
-    var
-    key := lsHeaders[i];
-    var
-    iPosCol := pos(key, sLine);
-    var
-    iLenCol := 0;
-    pColumn := tColumnClass.create(iPosCol, iLenCol);
-    pColumn.sLabel := key;
+    if (trim(lsHeaders[i]) <> '') then
+    begin
+      var
+      key := lsHeaders[i];
+      var
+      iPosCol := pos(key, sLine);
+      var
+      iLenCol := 0;
+      pColumn := tColumnClass.create(iPosCol, iLenCol);
+      pColumn.sLabel := key;
+      lListColumn.AddObject(key, pColumn)
+    end;
     inc(i);
-    lListColumn.AddObject(key, pColumn)
   until i > lsHeaders.Count - 1;
 
   i := 0;
@@ -95,7 +103,6 @@ begin
     end;
     inc(i);
   until i > lsHeaders.Count - 1;
-
 end;
 
 { tColumnClass }
@@ -108,33 +115,74 @@ end;
 
 { tWingetPackage }
 
-constructor tWingetPackage.create(sLine: String);
+constructor tWingetPackage.create(sLine: String; sType: tPackageType);
+var
+  aColumn: tColumnClass;
 begin
-
+  fType := sType;
+  dFields := TDictionary<String,String>.Create();
+  case sType of
+    ptInstall:
+      begin
+      end;
+    ptUpgrade:
+      begin
+        makeUpgradeFields(sLine);
+      end;
+    ptSearch:
+      begin
+      end;
+  end;
 end;
 
 { tCommandClass }
 
-class function tWingetcommand.Install(sId : String): String;
+class function tWingetcommand.Install(sId: String): String;
 begin
-  dCommands.TryGetValue('install',result);
-  result := format(result,[sId]);
+  dCommands.TryGetValue('install', result);
+  result := format(result, [sId]);
 end;
 
 class function tWingetcommand.List: String;
 begin
-   dCommands.TryGetValue('list',result);
+  dCommands.TryGetValue('list', result);
 end;
 
 class function tWingetcommand.Search(sText: String): String;
 begin
-   dCommands.TryGetValue('search',result);
-   result := format(result,[sText]);
+  dCommands.TryGetValue('search', result);
+  result := format(result, [sText]);
 end;
 
 class function tWingetcommand.Upgrade: String;
 begin
-   dCommands.TryGetValue('upgrade',result);
+  dCommands.TryGetValue('upgrade', result);
+end;
+
+function tWingetPackage.getField(sField: string): String;
+begin
+  if not dFields.TryGetValue(sField,result) then
+    result := 'N/A';
+
+end;
+
+procedure tWingetPackage.makeFields(sLine: String);
+begin
+
+end;
+
+procedure tWingetPackage.makeUpgradeFields(sLine: String);
+var
+  aColumn : tColumnClass;
+  iCol    : Integer;
+begin
+    iCol := 0;
+    while iCol <= lListColumn.Count -1 do
+    begin
+        aColumn := tColumnClass(lListColumn.Objects[iCol]);
+        dFields.Add(aUpgFields[icol],copy(sLine, aColumn.iPos, aColumn.iLen));
+        inc(iCol);
+    end;
 end;
 
 initialization
