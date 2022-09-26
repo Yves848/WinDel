@@ -103,15 +103,14 @@ end;
 
 procedure TForm1.LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
 var
-  aWingetPackage : tWingetPackage;
+  aWingetPackage: tWingetPackage;
 begin
-  if selected then
-
-  if (item.Data <> Nil) then
-  begin
-      aWingetPackage := tWingetPackage(item.data);
-      mmo1.Lines.Add(aWingetPackage.getField('nom'));
-  end;
+  if Selected then
+    if (Item.Data <> Nil) then
+    begin
+      aWingetPackage := tWingetPackage(Item.Data);
+      mmo1.Lines.AddStrings(aWingetPackage.getAllFields);
+    end;
 end;
 
 function TForm1.makeUpgList: tStrings;
@@ -130,7 +129,7 @@ begin
     if TRegEx.IsMatch(ANewLine, '----') then
     begin
       bClean := True;
-      sHeaders := lOutPut[iLine -1];
+      sHeaders := lOutPut[iLine - 1];
       makeUpgradeDictonary(sHeaders);
     end
     else if bClean then
@@ -143,7 +142,7 @@ procedure TForm1.upgradeTerminated(Sender: TObject);
 var
   i, iCol: Integer;
   liste: TListItems;
-  item: tListItem;
+  Item: TListItem;
   sLine: string;
   sString: string;
   aColumn: tColumnClass;
@@ -157,19 +156,19 @@ begin
   begin
     sLine := lOutClean[i];
     aWingetPackage := tWingetPackage.Create(sLine, ptUpgrade);
-    item := liste.Add;
-    item.Data := aWingetPackage;
+    Item := liste.Add;
+    Item.Data := aWingetPackage;
     iCol := 0;
-    while iCol <= length(aUpgFields)-1 do
+    while iCol <= length(aUpgFields) - 1 do
     begin
-       if (iCol = 0) then
-       begin
-          item.Caption := aWingetPackage.getField(aUpgFields[iCol]);
-       end
-       else
-       begin
-          item.SubItems.Add(aWingetPackage.getField(aUpgFields[iCol]));
-       end;
+      if (iCol = 0) then
+      begin
+        Item.Caption := aWingetPackage.getField(aUpgFields[iCol]);
+      end
+      else
+      begin
+        Item.SubItems.Add(aWingetPackage.getField(aUpgFields[iCol]));
+      end;
       inc(iCol);
     end;
     inc(i);

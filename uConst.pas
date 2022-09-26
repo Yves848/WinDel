@@ -6,7 +6,7 @@ uses
   System.Generics.Collections, System.Types, System.strUtils, System.SysUtils, System.classes;
 
 const
-  aUpgFields : array of string = ['nom', 'id', 'version','disponible','source'];
+  aUpgFields: array of string = ['nom', 'id', 'version', 'disponible', 'source'];
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch);
@@ -31,10 +31,11 @@ type
     fType: tPackageType;
     dFields: TDictionary<string, string>;
     procedure makeFields(sLine: String);
-    procedure makeUpgradeFields(sLine : String);
+    procedure makeUpgradeFields(sLine: String);
   public
     constructor create(sLine: String; sType: tPackageType);
-    function getField(sField : string) : String;
+    function getField(sField: string): String;
+    function getAllFields: TStrings;
   End;
 
 var
@@ -120,7 +121,7 @@ var
   aColumn: tColumnClass;
 begin
   fType := sType;
-  dFields := TDictionary<String,String>.Create();
+  dFields := TDictionary<String, String>.create();
   case sType of
     ptInstall:
       begin
@@ -159,9 +160,20 @@ begin
   dCommands.TryGetValue('upgrade', result);
 end;
 
+function tWingetPackage.getAllFields: TStrings;
+var
+  sField: String;
+begin
+  Result := TStringList.Create;
+  for sField in aUpgFields do
+  begin
+      Result.add(getField(sField));
+  end;
+end;
+
 function tWingetPackage.getField(sField: string): String;
 begin
-  if not dFields.TryGetValue(sField,result) then
+  if not dFields.TryGetValue(sField, result) then
     result := 'N/A';
 
 end;
@@ -173,16 +185,16 @@ end;
 
 procedure tWingetPackage.makeUpgradeFields(sLine: String);
 var
-  aColumn : tColumnClass;
-  iCol    : Integer;
+  aColumn: tColumnClass;
+  iCol: integer;
 begin
-    iCol := 0;
-    while iCol <= lListColumn.Count -1 do
-    begin
-        aColumn := tColumnClass(lListColumn.Objects[iCol]);
-        dFields.Add(aUpgFields[icol],copy(sLine, aColumn.iPos, aColumn.iLen));
-        inc(iCol);
-    end;
+  iCol := 0;
+  while iCol <= lListColumn.Count - 1 do
+  begin
+    aColumn := tColumnClass(lListColumn.Objects[iCol]);
+    dFields.Add(aUpgFields[iCol], copy(sLine, aColumn.iPos, aColumn.iLen));
+    inc(iCol);
+  end;
 end;
 
 initialization
