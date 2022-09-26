@@ -8,7 +8,8 @@ uses
   uConst in 'uConst.pas',
   uOptions in 'uOptions.pas' {frmOptions},
   uFrameBase in 'uFrameBase.pas' {frmBase: TFrame},
-  uFrameUpgrade in 'uFrameUpgrade.pas' {frameUpgrade: TFrame};
+  uFrameUpgrade in 'uFrameUpgrade.pas' {frameUpgrade: TFrame},
+  uFrameUpgrade2 in 'uFrameUpgrade2.pas' {frmHeritee: TFrame};
 
 {$R *.res}
 

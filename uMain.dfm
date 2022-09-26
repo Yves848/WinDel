@@ -12,13 +12,6 @@ object Form1: TForm1
   Font.Style = []
   Position = poScreenCenter
   TextHeight = 15
-  object ActivityIndicator1: TActivityIndicator
-    Left = 744
-    Top = 328
-    IndicatorColor = aicWhite
-    IndicatorSize = aisLarge
-    IndicatorType = aitRotatingSector
-  end
   object pnlToolbar: TPanel
     Left = 0
     Top = 0
@@ -28,7 +21,8 @@ object Form1: TForm1
     BevelOuter = bvNone
     Caption = 'pnlToolbar'
     ShowCaption = False
-    TabOrder = 1
+    TabOrder = 0
+    ExplicitWidth = 1000
     object btnQuit: TBitBtn
       Left = 911
       Top = 0
@@ -38,6 +32,7 @@ object Form1: TForm1
       Caption = 'Quit'
       TabOrder = 0
       OnClick = btnQuitClick
+      ExplicitLeft = 909
     end
     object btnSearch: TBitBtn
       Left = 150
@@ -56,7 +51,6 @@ object Form1: TForm1
       Align = alLeft
       Caption = 'btn1'
       TabOrder = 2
-      OnClick = btn1Click
     end
     object btnUpgrade: TBitBtn
       Left = 75
@@ -76,7 +70,12 @@ object Form1: TForm1
       Align = alLeft
       Caption = 'List'
       TabOrder = 4
-      OnClick = btnOptionsClick
+    end
+    object AI1: TActivityIndicator
+      Left = 306
+      Top = 4
+      IndicatorColor = aicWhite
+      IndicatorType = aitRotatingSector
     end
   end
   object pnlFooter: TPanel
@@ -88,7 +87,9 @@ object Form1: TForm1
     BevelOuter = bvNone
     Caption = 'pnlFooter'
     ShowCaption = False
-    TabOrder = 2
+    TabOrder = 1
+    ExplicitTop = 667
+    ExplicitWidth = 1000
   end
   object pnlMain: TPanel
     Left = 0
@@ -99,7 +100,9 @@ object Form1: TForm1
     BevelOuter = bvNone
     Caption = 'pnlMain'
     ShowCaption = False
-    TabOrder = 3
+    TabOrder = 2
+    ExplicitWidth = 1000
+    ExplicitHeight = 626
   end
   object DosCommand1: TDosCommand
     CommandLine = 'winget upgrade'
@@ -109,7 +112,7 @@ object Form1: TForm1
     OnCharDecoding = DosCommand1CharDecoding
     OnExecuteError = DosCommand1ExecuteError
     OnNewLine = DosCommand1NewLine
-    Left = 508
-    Top = 124
+    Left = 908
+    Top = 84
   end
 end
