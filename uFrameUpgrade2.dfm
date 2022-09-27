@@ -82,7 +82,7 @@ inherited frmHeritee: TfrmHeritee
         Width = 127
         Height = 40
         Align = alTop
-        Caption = 'Update'
+        Caption = 'Upgrade Selected'
         TabOrder = 1
       end
     end

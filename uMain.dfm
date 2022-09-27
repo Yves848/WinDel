@@ -1,4 +1,4 @@
-object Form1: TForm1
+object fMain: TfMain
   Left = 0
   Top = 0
   Caption = 'Winget Helper'
@@ -71,6 +71,7 @@ object Form1: TForm1
       Align = alLeft
       Caption = 'List'
       TabOrder = 4
+      OnClick = btnListClick
     end
     object AI1: TActivityIndicator
       Left = 306
@@ -102,7 +103,7 @@ object Form1: TForm1
     Caption = 'pnlMain'
     ShowCaption = False
     TabOrder = 2
-    ExplicitWidth = 865
+    ExplicitWidth = 1000
     ExplicitHeight = 626
   end
   object DosCommand1: TDosCommand

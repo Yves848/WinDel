@@ -56,6 +56,9 @@ var
   lHeaders: TStringDynArray;
   lsHeaders: tStringList;
   i: integer;
+  iPos1, iPos2 : Integer;
+  iPosCol, iLenCol : Integer;
+  key : String;
 begin
   lHeaders := SplitString(sLine, ' ');
   i := 0;
@@ -76,11 +79,8 @@ begin
   repeat
     if (trim(lsHeaders[i]) <> '') then
     begin
-      var
       key := lsHeaders[i];
-      var
       iPosCol := pos(key, sLine);
-      var
       iLenCol := 0;
       pColumn := tColumnClass.create(iPosCol, iLenCol);
       pColumn.sLabel := key;
@@ -93,15 +93,12 @@ begin
   repeat
     if i < lListColumn.Count - 1 then
     begin
-      var
       iPos1 := tColumnClass(lListColumn.Objects[i]).iPos;
-      var
       iPos2 := tColumnClass(lListColumn.Objects[i + 1]).iPos;
       tColumnClass(lListColumn.Objects[i]).iLen := iPos2 - iPos1;
     end
     else
     begin
-      var
       iPos1 := tColumnClass(lListColumn.Objects[i]).iPos;
       tColumnClass(lListColumn.Objects[i]).iLen := (length(sLine) - iPos1) + 1
     end;

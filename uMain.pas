@@ -7,12 +7,12 @@ uses
   System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase;
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
 
-  TForm1 = class(TForm)
+  TfMain = class(TForm)
     AI1: TActivityIndicator;
     DosCommand1: TDosCommand;
     pnlToolbar: TPanel;
@@ -29,6 +29,7 @@ type
     procedure btnUpgradeClick(Sender: TObject);
     procedure DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
     procedure btn1Click(Sender: TObject);
+    procedure btnListClick(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -37,40 +38,52 @@ type
     lOutPut: tStrings;
     aFrame: TfrmBase;
     procedure upgradeTerminated(Sender: TObject);
+    procedure listTerminated(Sender: TObject);
     procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
   end;
 
 var
-  Form1: TForm1;
+  fMain: TfMain;
 
 implementation
 
 {$R *.dfm}
 
-procedure TForm1.btn1Click(Sender: TObject);
+procedure TfMain.btn1Click(Sender: TObject);
 var
   listeView: TListView;
-  columns : TListColumns;
-  column : TListColumn;
-  i : Integer;
+  columns: TListColumns;
+  column: TListColumn;
+  i: Integer;
 begin
   if (aFrame <> Nil) then
   begin
     listeView := TfrmHeritee(aFrame).ListView1;
-    for I := 0 to listeView.Columns.Count -1 do
+    for i := 0 to listeView.columns.Count - 1 do
     begin
-      column := listeView.Columns[i];
-      //mmo1.Lines.Add(format('col %s | width : %d',[column.Caption,column.width]));
+      column := listeView.columns[i];
+      // mmo1.Lines.Add(format('col %s | width : %d',[column.Caption,column.width]));
     end;
   end;
 end;
 
-procedure TForm1.btnQuitClick(Sender: TObject);
+procedure TfMain.btnListClick(Sender: TObject);
+begin
+  AI1.Animate := True;
+  if aFrame <> Nil then
+    aFrame.Free;
+  lOutPut := tStringList.Create;
+  DosCommand1.OnTerminated := ListTerminated;
+  DosCommand1.CommandLine := tWingetcommand.List;
+  DosCommand1.Execute;
+end;
+
+procedure TfMain.btnQuitClick(Sender: TObject);
 begin
   Close;
 end;
 
-procedure TForm1.btnUpgradeClick(Sender: TObject);
+procedure TfMain.btnUpgradeClick(Sender: TObject);
 begin
   if aFrame <> Nil then
     aFrame.Free;
@@ -88,7 +101,7 @@ begin
   DosCommand1.Execute;
 end;
 
-function TForm1.DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
+function TfMain.DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
 var
   pBytes: TBytes;
   iLength: Integer;
@@ -108,17 +121,48 @@ begin
     result := '';
 end;
 
-procedure TForm1.DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
+procedure TfMain.DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
 begin
   AHandled := True;
 end;
 
-procedure TForm1.DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
+procedure TfMain.DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
 begin
   lOutPut.Add(ANewLine);
 end;
 
-procedure TForm1.LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+procedure TfMain.listTerminated(Sender: TObject);
+var
+  i, iCol: Integer;
+  liste: TListItems;
+  Item: TListItem;
+  sLine: string;
+  sString: string;
+  aColumn: tColumnClass;
+  lOutClean: tStrings;
+  aWingetPackage: tWingetPackage;
+begin
+  i := 0;
+  aFrame := TfrmList.Create(pnlMain);
+  aFrame.Parent := pnlMain;
+  aFrame.Align := alClient;
+  TfrmList(aFrame).init;
+  lOutClean := makeUpgList;
+  liste := TfrmList(aFrame).ListView1.Items;
+  while i <= lOutClean.Count - 1 do
+  begin
+    sLine := lOutClean[i];
+    aWingetPackage := tWingetPackage.Create(sLine, ptList);
+    TfrmList(aFrame).addItem(aWingetPackage);
+    TfrmList(aFrame).AddFilterCB(aWingetPackage.getField('source'));
+    inc(i);
+  end;
+  TfrmList(aFrame).ApplyFilter;
+  TfrmList(aFrame).ListView1.OnSelectItem := LVSelectItem;
+  AI1.Animate := False;
+end;
+
+procedure TfMain.LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
 var
   aWingetPackage: tWingetPackage;
 begin
@@ -129,7 +173,7 @@ begin
     end;
 end;
 
-function TForm1.makeUpgList: tStrings;
+function TfMain.makeUpgList: tStrings;
 var
   sHeaders: string;
   ANewLine: string;
@@ -154,7 +198,7 @@ begin
   end;
 end;
 
-procedure TForm1.upgradeTerminated(Sender: TObject);
+procedure TfMain.upgradeTerminated(Sender: TObject);
 var
   i, iCol: Integer;
   liste: TListItems;
