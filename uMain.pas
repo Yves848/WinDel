@@ -23,9 +23,6 @@ type
     btn1: TBitBtn;
     btnUpgrade: TBitBtn;
     btnList: TBitBtn;
-    pnl1: TPanel;
-    spl1: TSplitter;
-    mmo1: TMemo;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -60,11 +57,10 @@ begin
   if (aFrame <> Nil) then
   begin
     listeView := TfrmHeritee(aFrame).ListView1;
-    mmo1.Lines.Add(format('Width %d',[listeView.Width]));
     for I := 0 to listeView.Columns.Count -1 do
     begin
       column := listeView.Columns[i];
-      mmo1.Lines.Add(format('col %s | width : %d',[column.Caption,column.width]));
+      //mmo1.Lines.Add(format('col %s | width : %d',[column.Caption,column.width]));
     end;
   end;
 end;

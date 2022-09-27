@@ -6,10 +6,11 @@ uses
   System.Generics.Collections, System.Types, System.strUtils, System.SysUtils, System.classes;
 
 const
-  aUpgFields: array of string = ['nom', 'id', 'version', 'disponible', 'source'];
+  aUpgFields: TArray<String> = ['nom', 'id', 'version', 'disponible', 'source'];
+  aLstFields: TArray<String> = ['nom', 'id', 'version', 'source'];
 
 type
-  tPackageType = (ptInstall, ptUpgrade, ptSearch);
+  tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList);
 
   tWingetcommand = class
     class function Install(sId: String): String;
@@ -28,11 +29,13 @@ type
 
   tWingetPackage = Class
   private
+    fFields : TArray<String>;
     fType: tPackageType;
     dFields: TDictionary<string, string>;
     procedure makeFields(sLine: String);
-    procedure makeUpgradeFields(sLine: String);
+    procedure makeListFields(sLine: String);
   public
+    property Fields : TArray<String> read fFields write fFields;
     constructor create(sLine: String; sType: tPackageType);
     function getField(sField: string): String;
     function getAllFields: TStrings;
@@ -128,12 +131,17 @@ begin
       end;
     ptUpgrade:
       begin
-        makeUpgradeFields(sLine);
+        Fields := aUpgFields;
       end;
     ptSearch:
       begin
       end;
+    ptList:
+      begin
+        Fields := aLstFields;
+      end;
   end;
+  makeFields(sLine);
 end;
 
 { tCommandClass }
@@ -164,10 +172,10 @@ function tWingetPackage.getAllFields: TStrings;
 var
   sField: String;
 begin
-  Result := TStringList.Create;
+  result := tStringList.create;
   for sField in aUpgFields do
   begin
-      Result.add(getField(sField));
+    result.add(getField(sField));
   end;
 end;
 
@@ -179,11 +187,6 @@ begin
 end;
 
 procedure tWingetPackage.makeFields(sLine: String);
-begin
-
-end;
-
-procedure tWingetPackage.makeUpgradeFields(sLine: String);
 var
   aColumn: tColumnClass;
   iCol: integer;
@@ -192,19 +195,24 @@ begin
   while iCol <= lListColumn.Count - 1 do
   begin
     aColumn := tColumnClass(lListColumn.Objects[iCol]);
-    dFields.Add(aUpgFields[iCol], copy(sLine, aColumn.iPos, aColumn.iLen));
+    dFields.add(Fields[iCol], copy(sLine, aColumn.iPos, aColumn.iLen));
     inc(iCol);
   end;
+end;
+
+procedure tWingetPackage.makeListFields(sLine: String);
+begin
+
 end;
 
 initialization
 
 dCommands := TDictionary<string, string>.create();
-dCommands.Add('list', 'winget list');
-dCommands.Add('upgrade', 'winget upgrade --include-unknown');
-dCommands.Add('search', 'winget search "%s"');
-dCommands.Add('install', 'winget install --id "%s"');
-dCommands.Add('uninstall', 'winget uninstall --id "%s"');
+dCommands.add('list', 'winget list');
+dCommands.add('upgrade', 'winget upgrade --include-unknown');
+dCommands.add('search', 'winget search "%s"');
+dCommands.add('install', 'winget install --id "%s"');
+dCommands.add('uninstall', 'winget uninstall --id "%s"');
 
 Finalization
 

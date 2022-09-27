@@ -12,14 +12,6 @@ object Form1: TForm1
   Font.Style = []
   Position = poScreenCenter
   TextHeight = 15
-  object spl1: TSplitter
-    Left = 865
-    Top = 41
-    Width = 4
-    Height = 630
-    ExplicitLeft = 705
-    ExplicitTop = 35
-  end
   object pnlToolbar: TPanel
     Left = 0
     Top = 0
@@ -70,8 +62,6 @@ object Form1: TForm1
       Caption = 'Upgrade'
       TabOrder = 3
       OnClick = btnUpgradeClick
-      ExplicitLeft = 69
-      ExplicitTop = -6
     end
     object btnList: TBitBtn
       Left = 0
@@ -105,37 +95,15 @@ object Form1: TForm1
   object pnlMain: TPanel
     Left = 0
     Top = 41
-    Width = 865
+    Width = 1002
     Height = 630
-    Align = alLeft
+    Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlMain'
     ShowCaption = False
     TabOrder = 2
-  end
-  object pnl1: TPanel
-    Left = 869
-    Top = 41
-    Width = 133
-    Height = 630
-    Align = alClient
-    BevelOuter = bvNone
-    Caption = 'pnl1'
-    ShowCaption = False
-    TabOrder = 3
-    ExplicitLeft = 709
-    ExplicitWidth = 293
-    object mmo1: TMemo
-      Left = 0
-      Top = 0
-      Width = 133
-      Height = 630
-      Align = alClient
-      TabOrder = 0
-      Visible = False
-      ExplicitLeft = 136
-      ExplicitWidth = 157
-    end
+    ExplicitWidth = 865
+    ExplicitHeight = 626
   end
   object DosCommand1: TDosCommand
     CommandLine = 'winget upgrade'
