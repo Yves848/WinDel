@@ -7,7 +7,7 @@ uses
   System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList;
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -30,6 +30,8 @@ type
     procedure DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
     procedure btn1Click(Sender: TObject);
     procedure btnListClick(Sender: TObject);
+    procedure btnSearchClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -73,7 +75,7 @@ begin
   if aFrame <> Nil then
     aFrame.Free;
   lOutPut := tStringList.Create;
-  DosCommand1.OnTerminated := ListTerminated;
+  DosCommand1.OnTerminated := listTerminated;
   DosCommand1.CommandLine := tWingetcommand.List;
   DosCommand1.Execute;
 end;
@@ -82,6 +84,21 @@ procedure TfMain.btnQuitClick(Sender: TObject);
 begin
   Close;
 end;
+
+procedure TfMain.btnSearchClick(Sender: TObject);
+begin
+  if aFrame <> Nil then
+    aFrame.Free;
+
+  //AI1.Animate := True;
+
+  aFrame := TfrmSearch.Create(pnlMain);
+  aFrame.Parent := pnlMain;
+  aFrame.Align := alClient;
+  TfrmSearch(aFrame).Init;
+end;
+
+
 
 procedure TfMain.btnUpgradeClick(Sender: TObject);
 begin
@@ -129,6 +146,22 @@ end;
 procedure TfMain.DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
 begin
   lOutPut.Add(ANewLine);
+end;
+
+procedure TfMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+var
+  aComponent : TComponent;
+begin
+//
+  if ssAlt in Shift then
+  if key = 80  then
+  begin
+    removekey;
+    ShowMessage(aFrame.classname);
+    if aComponent <> nil then
+      TWinControl(aComponent).SetFocus;
+  end;
+
 end;
 
 procedure TfMain.listTerminated(Sender: TObject);
@@ -183,7 +216,7 @@ begin
   result := tStringList.Create;
   iLine := 0;
   bClean := False;
-  while iLine < lOutPut.Count - 1 do
+  while iLine <= lOutPut.Count - 1 do
   begin
     ANewLine := lOutPut[iLine];
     if TRegEx.IsMatch(ANewLine, '----') then

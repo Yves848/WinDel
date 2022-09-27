@@ -10,7 +10,9 @@ object fMain: TfMain
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  KeyPreview = True
   Position = poScreenCenter
+  OnKeyDown = FormKeyDown
   TextHeight = 15
   object pnlToolbar: TPanel
     Left = 0
@@ -42,6 +44,9 @@ object fMain: TfMain
       Align = alLeft
       Caption = 'Search'
       TabOrder = 1
+      OnClick = btnSearchClick
+      ExplicitLeft = 144
+      ExplicitTop = -6
     end
     object btn1: TBitBtn
       Left = 225

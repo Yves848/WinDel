@@ -3,7 +3,7 @@ unit uConst;
 interface
 
 uses
-  System.Generics.Collections, System.Types, System.strUtils, System.SysUtils, System.classes;
+  System.Generics.Collections, System.Types, System.strUtils, System.SysUtils, System.Classes,   winapi.Windows, winapi.Messages;
 
 const
   aUpgFields: TArray<String> = ['nom', 'id', 'version', 'disponible', 'source'];
@@ -46,8 +46,16 @@ var
   dCommands: TDictionary<string, string>;
 
 procedure makeUpgradeDictonary(sLine: String);
+procedure removekey;
 
 implementation
+
+procedure removekey;
+var
+  Mgs: TMsg;
+begin
+  PeekMessage(Mgs, 0, WM_CHAR, WM_CHAR, PM_REMOVE);
+end;
 
 procedure makeUpgradeDictonary(sLine: String);
 var
