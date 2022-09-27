@@ -12,6 +12,14 @@ object Form1: TForm1
   Font.Style = []
   Position = poScreenCenter
   TextHeight = 15
+  object spl1: TSplitter
+    Left = 865
+    Top = 41
+    Width = 4
+    Height = 630
+    ExplicitLeft = 705
+    ExplicitTop = 35
+  end
   object pnlToolbar: TPanel
     Left = 0
     Top = 0
@@ -51,6 +59,7 @@ object Form1: TForm1
       Align = alLeft
       Caption = 'btn1'
       TabOrder = 2
+      OnClick = btn1Click
     end
     object btnUpgrade: TBitBtn
       Left = 75
@@ -96,40 +105,36 @@ object Form1: TForm1
   object pnlMain: TPanel
     Left = 0
     Top = 41
-    Width = 705
+    Width = 865
     Height = 630
     Align = alLeft
     BevelOuter = bvNone
     Caption = 'pnlMain'
     ShowCaption = False
     TabOrder = 2
-    ExplicitTop = 42
   end
   object pnl1: TPanel
-    Left = 705
+    Left = 869
     Top = 41
-    Width = 297
+    Width = 133
     Height = 630
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnl1'
     ShowCaption = False
     TabOrder = 3
-    ExplicitLeft = 912
-    ExplicitTop = 304
-    ExplicitWidth = 185
-    ExplicitHeight = 41
+    ExplicitLeft = 709
+    ExplicitWidth = 293
     object mmo1: TMemo
       Left = 0
       Top = 0
-      Width = 297
+      Width = 133
       Height = 630
       Align = alClient
       TabOrder = 0
-      ExplicitLeft = 80
-      ExplicitTop = 152
-      ExplicitWidth = 185
-      ExplicitHeight = 89
+      Visible = False
+      ExplicitLeft = 136
+      ExplicitWidth = 157
     end
   end
   object DosCommand1: TDosCommand

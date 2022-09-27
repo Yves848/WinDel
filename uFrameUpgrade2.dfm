@@ -1,4 +1,5 @@
 inherited frmHeritee: TfrmHeritee
+  OnResize = FrameResize
   object ListView1: TListView
     Left = 0
     Top = 0

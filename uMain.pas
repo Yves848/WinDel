@@ -24,12 +24,14 @@ type
     btnUpgrade: TBitBtn;
     btnList: TBitBtn;
     pnl1: TPanel;
+    spl1: TSplitter;
     mmo1: TMemo;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
     procedure btnUpgradeClick(Sender: TObject);
     procedure DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
+    procedure btn1Click(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -47,6 +49,25 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TForm1.btn1Click(Sender: TObject);
+var
+  listeView: TListView;
+  columns : TListColumns;
+  column : TListColumn;
+  i : Integer;
+begin
+  if (aFrame <> Nil) then
+  begin
+    listeView := TfrmHeritee(aFrame).ListView1;
+    mmo1.Lines.Add(format('Width %d',[listeView.Width]));
+    for I := 0 to listeView.Columns.Count -1 do
+    begin
+      column := listeView.Columns[i];
+      mmo1.Lines.Add(format('col %s | width : %d',[column.Caption,column.width]));
+    end;
+  end;
+end;
 
 procedure TForm1.btnQuitClick(Sender: TObject);
 begin
@@ -109,7 +130,6 @@ begin
     if (Item.Data <> Nil) then
     begin
       aWingetPackage := tWingetPackage(Item.Data);
-      mmo1.Lines.AddStrings(aWingetPackage.getAllFields);
     end;
 end;
 
