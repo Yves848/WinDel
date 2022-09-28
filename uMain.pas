@@ -7,7 +7,7 @@ uses
   System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch;
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -20,15 +20,14 @@ type
     pnlMain: TPanel;
     btnQuit: TBitBtn;
     btnSearch: TBitBtn;
-    btn1: TBitBtn;
     btnUpgrade: TBitBtn;
     btnList: TBitBtn;
+    il1: TImageList;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
     procedure btnUpgradeClick(Sender: TObject);
     procedure DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
-    procedure btn1Click(Sender: TObject);
     procedure btnListClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -51,24 +50,6 @@ implementation
 
 {$R *.dfm}
 
-procedure TfMain.btn1Click(Sender: TObject);
-var
-  listeView: TListView;
-  columns: TListColumns;
-  column: TListColumn;
-  i: Integer;
-begin
-  if (aFrame <> Nil) then
-  begin
-    listeView := TfrmHeritee(aFrame).ListView1;
-    for i := 0 to listeView.columns.Count - 1 do
-    begin
-      column := listeView.columns[i];
-      // mmo1.Lines.Add(format('col %s | width : %d',[column.Caption,column.width]));
-    end;
-  end;
-end;
-
 procedure TfMain.btnListClick(Sender: TObject);
 begin
   AI1.Animate := True;
@@ -90,15 +71,13 @@ begin
   if aFrame <> Nil then
     aFrame.Free;
 
-  //AI1.Animate := True;
+  // AI1.Animate := True;
 
   aFrame := TfrmSearch.Create(pnlMain);
   aFrame.Parent := pnlMain;
   aFrame.Align := alClient;
   TfrmSearch(aFrame).Init;
 end;
-
-
 
 procedure TfMain.btnUpgradeClick(Sender: TObject);
 begin
@@ -150,17 +129,21 @@ end;
 
 procedure TfMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
-  aComponent : TComponent;
+  aComponent: TComponent;
 begin
-//
+  //
   if ssAlt in Shift then
-  if key = 80  then
-  begin
-    removekey;
-    ShowMessage(aFrame.classname);
-    if aComponent <> nil then
-      TWinControl(aComponent).SetFocus;
-  end;
+    if Key = 80 then
+    begin
+      removekey;
+      if (aFrame <> Nil) then
+      begin
+        if aFrame is TfrmSearch then
+        begin
+          TfrmSearch(aFrame).edtPackageName.SetFocus;
+        end;
+      end;
+    end;
 
 end;
 
@@ -179,7 +162,7 @@ begin
   aFrame := TfrmList.Create(pnlMain);
   aFrame.Parent := pnlMain;
   aFrame.Align := alClient;
-  TfrmList(aFrame).init;
+  TfrmList(aFrame).Init;
   lOutClean := makeUpgList;
   liste := TfrmList(aFrame).ListView1.Items;
   while i <= lOutClean.Count - 1 do
@@ -245,7 +228,7 @@ begin
   i := 0;
   lOutClean := makeUpgList;
   liste := TfrmHeritee(aFrame).ListView1.Items;
-  while i <= lOutClean.Count - 1 do
+  while i < lOutClean.Count - 1 do
   begin
     sLine := lOutClean[i];
     aWingetPackage := tWingetPackage.Create(sLine, ptUpgrade);

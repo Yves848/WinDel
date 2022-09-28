@@ -31,51 +31,41 @@ object fMain: TfMain
       Width = 91
       Height = 41
       Align = alRight
-      Caption = 'Quit'
+      Caption = 'Esc : Quit'
       TabOrder = 0
       OnClick = btnQuitClick
       ExplicitLeft = 909
     end
     object btnSearch: TBitBtn
-      Left = 150
+      Left = 0
       Top = 0
-      Width = 75
+      Width = 100
       Height = 41
       Align = alLeft
       Caption = 'Search'
+      ImageIndex = 0
+      Images = il1
       TabOrder = 1
       OnClick = btnSearchClick
-      ExplicitLeft = 144
-      ExplicitTop = -6
-    end
-    object btn1: TBitBtn
-      Left = 225
-      Top = 0
-      Width = 75
-      Height = 41
-      Align = alLeft
-      Caption = 'btn1'
-      TabOrder = 2
-      OnClick = btn1Click
     end
     object btnUpgrade: TBitBtn
-      Left = 75
+      Left = 200
       Top = 0
-      Width = 75
+      Width = 100
       Height = 41
       Align = alLeft
-      Caption = 'Upgrade'
+      Caption = 'F3 : Upgrade'
       TabOrder = 3
       OnClick = btnUpgradeClick
     end
     object btnList: TBitBtn
-      Left = 0
+      Left = 100
       Top = 0
-      Width = 75
+      Width = 100
       Height = 41
       Align = alLeft
-      Caption = 'List'
-      TabOrder = 4
+      Caption = 'F2 : List'
+      TabOrder = 2
       OnClick = btnListClick
     end
     object AI1: TActivityIndicator
@@ -121,5 +111,11 @@ object fMain: TfMain
     OnNewLine = DosCommand1NewLine
     Left = 908
     Top = 84
+  end
+  object il1: TImageList
+    Height = 24
+    Width = 24
+    Left = 496
+    Top = 360
   end
 end
