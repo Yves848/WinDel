@@ -4,10 +4,10 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
+  System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Themes,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList;
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList, utestcomponents;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -23,6 +23,7 @@ type
     btnUpgrade: TBitBtn;
     btnList: TBitBtn;
     il1: TImageList;
+    btn1: TButton;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -31,6 +32,7 @@ type
     procedure btnListClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btn1Click(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -49,6 +51,15 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfMain.btn1Click(Sender: TObject);
+var
+  Form1 : TForm1;
+begin
+     Form1 := TForm1.Create(self);
+     Form1.showModal;
+     Form1.Free;
+end;
 
 procedure TfMain.btnListClick(Sender: TObject);
 begin

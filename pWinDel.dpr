@@ -11,7 +11,8 @@ uses
   uFrameUpgrade in 'uFrameUpgrade.pas' {frameUpgrade: TFrame},
   uFrameUpgrade2 in 'uFrameUpgrade2.pas' {frmHeritee: TFrame},
   uFrameList in 'uFrameList.pas' {frmList: TFrame},
-  uFrameSearch in 'uFrameSearch.pas' {frmSearch: TFrame};
+  uFrameSearch in 'uFrameSearch.pas' {frmSearch: TFrame},
+  utestcomponents in 'utestcomponents.pas' {Form1};
 
 {$R *.res}
 

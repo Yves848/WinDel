@@ -71,3 +71,6 @@ Win64/Debug/pWinDel.exe
 Win64/Debug/pWinDel.rsm
 *.dcu
 *.dcu
+Win64/Debug/pWinDel.exe
+Win64/Debug/pWinDel.rsm
+Win64/Debug/uMain.dcu

@@ -74,6 +74,15 @@ object fMain: TfMain
       IndicatorColor = aicWhite
       IndicatorType = aitRotatingSector
     end
+    object btn1: TButton
+      Left = 400
+      Top = 16
+      Width = 75
+      Height = 25
+      Caption = 'btn1'
+      TabOrder = 5
+      OnClick = btn1Click
+    end
   end
   object pnlFooter: TPanel
     Left = 0
@@ -98,8 +107,7 @@ object fMain: TfMain
     Caption = 'pnlMain'
     ShowCaption = False
     TabOrder = 2
-    ExplicitWidth = 1000
-    ExplicitHeight = 626
+    ExplicitTop = 42
   end
   object DosCommand1: TDosCommand
     CommandLine = 'winget upgrade'
