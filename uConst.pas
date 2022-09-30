@@ -7,7 +7,8 @@ uses
 
 const
   aUpgFields: TArray<String> = ['nom', 'id', 'version', 'disponible', 'source'];
-  aLstFields: TArray<String> = ['nom', 'id', 'version', 'source'];
+  aLstFields: TArray<String> = ['nom', 'id', 'version', 'disponible', 'source'];
+  aSearchFields: TArray<String> = ['nom', 'id', 'version', 'corresp.', 'source'];
 
   WM_GETWINGETVERSION = WM_USER + 2001;
   WM_STARTSEARCH = WM_GETWINGETVERSION + 1;
@@ -144,6 +145,7 @@ begin
       end;
     ptSearch:
       begin
+        Fields := aSearchFields;
       end;
     ptList:
       begin

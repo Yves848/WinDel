@@ -29,7 +29,7 @@ object fMain: TfMain
     Padding.Bottom = 2
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 1000
+    ExplicitWidth = 1072
     DesignSize = (
       1074
       41)
@@ -78,9 +78,6 @@ object fMain: TfMain
       State = bsLeave
       onClick = ygBtnSearchClick
       Align = alLeft
-      ExplicitLeft = -11
-      ExplicitTop = 4
-      ExplicitHeight = 41
     end
     object ygBtnQuit: tYGTwinButton
       Left = 960
@@ -111,9 +108,7 @@ object fMain: TfMain
       State = bsLeave
       onClick = ygBtnQuitClick
       Align = alRight
-      ExplicitLeft = 8
-      ExplicitTop = 0
-      ExplicitHeight = 41
+      ExplicitLeft = 958
     end
     object ygBtnList: tYGTwinButton
       Left = 114
@@ -144,9 +139,6 @@ object fMain: TfMain
       State = bsLeave
       onClick = ygBtnListClick
       Align = alLeft
-      ExplicitLeft = 8
-      ExplicitTop = 0
-      ExplicitHeight = 41
     end
     object ygBtnUpgrade: tYGTwinButton
       Left = 223
@@ -177,8 +169,6 @@ object fMain: TfMain
       State = bsLeave
       onClick = ygBtnUpgradeClick
       Align = alLeft
-      ExplicitLeft = 266
-      ExplicitTop = -2
     end
   end
   object pnlFooter: TPanel
@@ -192,7 +182,7 @@ object fMain: TfMain
     ShowCaption = False
     TabOrder = 1
     ExplicitTop = 667
-    ExplicitWidth = 1000
+    ExplicitWidth = 1072
     object lblWingetVersion: TLabel
       Left = 1070
       Top = 0
@@ -207,7 +197,6 @@ object fMain: TfMain
       Font.Style = [fsItalic]
       ParentFont = False
       Layout = tlCenter
-      ExplicitLeft = 998
       ExplicitHeight = 21
     end
   end
@@ -221,9 +210,8 @@ object fMain: TfMain
     Caption = 'pnlMain'
     ShowCaption = False
     TabOrder = 2
-    ExplicitLeft = -8
-    ExplicitTop = 47
-    ExplicitWidth = 1002
+    ExplicitWidth = 1072
+    ExplicitHeight = 626
   end
   object DosCommand1: TDosCommand
     CommandLine = 'winget upgrade'

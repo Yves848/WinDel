@@ -141,7 +141,7 @@ begin
   while i <= lOutClean.Count - 1 do
   begin
     sLine := lOutClean[i];
-    aWingetPackage := tWingetPackage.Create(sLine, ptUpgrade);
+    aWingetPackage := tWingetPackage.Create(sLine, ptSearch);
     Item := liste.Add;
     Item.Data := aWingetPackage;
     iCol := 0;
@@ -149,11 +149,11 @@ begin
     begin
       if (iCol = 0) then
       begin
-        Item.Caption := aWingetPackage.getField(aUpgFields[iCol]);
+        Item.Caption := aWingetPackage.getField(aSearchFields[iCol]);
       end
       else
       begin
-        Item.SubItems.Add(aWingetPackage.getField(aUpgFields[iCol]));
+        Item.SubItems.Add(aWingetPackage.getField(aSearchFields[iCol]));
       end;
       inc(iCol);
     end;

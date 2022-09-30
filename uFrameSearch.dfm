@@ -10,8 +10,6 @@ inherited frmSearch: TfrmSearch
     Caption = 'pnlSearchMain'
     ShowCaption = False
     TabOrder = 0
-    ExplicitTop = 0
-    ExplicitHeight = 480
     object pnlSearchEdit: TPanel
       Left = 0
       Top = 0
@@ -88,7 +86,6 @@ inherited frmSearch: TfrmSearch
       RowSelect = True
       TabOrder = 1
       ViewStyle = vsReport
-      ExplicitHeight = 375
     end
     object pnlUpgSideBar: TPanel
       Left = 513
@@ -100,7 +97,6 @@ inherited frmSearch: TfrmSearch
       Caption = 'pnlUpgSideBar'
       ShowCaption = False
       TabOrder = 2
-      ExplicitHeight = 375
       object pnlUpgTopSide: TPanel
         Left = 0
         Top = 0
@@ -136,9 +132,6 @@ inherited frmSearch: TfrmSearch
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
-    ExplicitLeft = 1
-    ExplicitTop = 1
-    ExplicitWidth = 638
   end
   object dcSearch1: TDosCommand
     InputToOutput = False

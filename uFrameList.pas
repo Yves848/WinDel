@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, uConst, Vcl.StdCtrls;
 
 const
-  aColWidths: array of Integer = [40, 35, 13, 12];
+  aColWidths: array of Integer = [40, 31, 13, 13, 8];
 
 type
   TfrmList = class(TfrmBase)
@@ -68,7 +68,6 @@ begin
 
   for aPack in aItems do
   begin
-    // Ajouter les tests de filtre ici
     bAdd := (cbbSourceFilter.ItemIndex = 0);
     if (cbbSourceFilter.ItemIndex > 0) then
     begin

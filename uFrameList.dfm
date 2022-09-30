@@ -33,14 +33,15 @@ inherited frmList: TfrmList
           Caption = 'Version'
         end
         item
+          Caption = 'Disponible'
+        end
+        item
           AutoSize = True
           Caption = 'Source'
         end>
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitTop = 1
-      ExplicitHeight = 478
     end
     object pnlSideTB: TPanel
       Left = 454
@@ -52,8 +53,6 @@ inherited frmList: TfrmList
       Caption = 'pnlSideTB'
       ShowCaption = False
       TabOrder = 1
-      ExplicitTop = 1
-      ExplicitHeight = 478
       object pnlUpgTopSide: TPanel
         Left = 0
         Top = 0
