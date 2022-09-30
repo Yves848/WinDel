@@ -2,22 +2,20 @@ inherited frmHeritee: TfrmHeritee
   OnResize = FrameResize
   object pnlUpgMain: TPanel
     Left = 0
-    Top = 0
+    Top = 24
     Width = 640
-    Height = 480
+    Height = 456
     Align = alClient
     Caption = 'pnlUpgMain'
     ShowCaption = False
     TabOrder = 0
-    ExplicitLeft = 88
-    ExplicitTop = 136
-    ExplicitWidth = 185
-    ExplicitHeight = 41
+    ExplicitTop = 0
+    ExplicitHeight = 480
     object ListView1: TListView
       Left = 1
       Top = 1
       Width = 511
-      Height = 478
+      Height = 454
       Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
@@ -47,21 +45,19 @@ inherited frmHeritee: TfrmHeritee
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitLeft = 0
-      ExplicitTop = 47
-      ExplicitWidth = 640
-      ExplicitHeight = 439
+      ExplicitHeight = 478
     end
     object pnlUpgSideBar: TPanel
       Left = 512
       Top = 1
       Width = 127
-      Height = 478
+      Height = 454
       Align = alRight
       BevelOuter = bvNone
       Caption = 'pnlUpgSideBar'
       ShowCaption = False
       TabOrder = 1
+      ExplicitHeight = 478
       object pnlUpgTopSide: TPanel
         Left = 0
         Top = 0
@@ -72,9 +68,6 @@ inherited frmHeritee: TfrmHeritee
         Caption = 'pnlUpgTopSide'
         ShowCaption = False
         TabOrder = 0
-        ExplicitLeft = 56
-        ExplicitTop = 248
-        ExplicitWidth = 185
       end
       object btnUgRun: TButton
         Left = 0
@@ -86,5 +79,22 @@ inherited frmHeritee: TfrmHeritee
         TabOrder = 1
       end
     end
+  end
+  object pnlTitleToolBar: TPanel
+    Left = 0
+    Top = 0
+    Width = 640
+    Height = 24
+    Align = alTop
+    Alignment = taLeftJustify
+    BevelOuter = bvNone
+    Caption = 'Upgradable Packages'
+    Color = 12615680
+    ParentBackground = False
+    TabOrder = 1
+    StyleElements = [seFont, seBorder]
+    ExplicitLeft = 2
+    ExplicitTop = 9
+    ExplicitWidth = 638
   end
 end

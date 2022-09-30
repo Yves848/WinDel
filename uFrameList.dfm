@@ -10,9 +10,9 @@ inherited frmList: TfrmList
     TabOrder = 0
     object listView1: TListView
       Left = 1
-      Top = 1
+      Top = 25
       Width = 453
-      Height = 478
+      Height = 454
       Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
@@ -39,17 +39,21 @@ inherited frmList: TfrmList
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
+      ExplicitTop = 1
+      ExplicitHeight = 478
     end
     object pnlSideTB: TPanel
       Left = 454
-      Top = 1
+      Top = 25
       Width = 185
-      Height = 478
+      Height = 454
       Align = alRight
       BevelOuter = bvNone
       Caption = 'pnlSideTB'
       ShowCaption = False
       TabOrder = 1
+      ExplicitTop = 1
+      ExplicitHeight = 478
       object pnlUpgTopSide: TPanel
         Left = 0
         Top = 0
@@ -60,8 +64,6 @@ inherited frmList: TfrmList
         Caption = 'pnlUpgTopSide'
         ShowCaption = False
         TabOrder = 0
-        ExplicitLeft = 72
-        ExplicitTop = 168
       end
       object pnlFilterGroup: TPanel
         Left = 0
@@ -103,8 +105,6 @@ inherited frmList: TfrmList
           Align = alTop
           Alignment = taCenter
           Caption = 'Source'
-          ExplicitLeft = 80
-          ExplicitTop = 40
           ExplicitWidth = 36
         end
         object cbbSourceFilter: TComboBox
@@ -118,6 +118,20 @@ inherited frmList: TfrmList
           OnChange = cbbSourceFilterChange
         end
       end
+    end
+    object pnlTitleToolBar: TPanel
+      Left = 1
+      Top = 1
+      Width = 638
+      Height = 24
+      Align = alTop
+      Alignment = taLeftJustify
+      BevelOuter = bvNone
+      Caption = 'Installed Packages'
+      Color = 12615680
+      ParentBackground = False
+      TabOrder = 2
+      StyleElements = [seFont, seBorder]
     end
   end
 end

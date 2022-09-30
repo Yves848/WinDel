@@ -9,6 +9,9 @@ const
   aUpgFields: TArray<String> = ['nom', 'id', 'version', 'disponible', 'source'];
   aLstFields: TArray<String> = ['nom', 'id', 'version', 'source'];
 
+  WM_GETWINGETVERSION = WM_USER + 2001;
+  WM_STARTSEARCH = WM_GETWINGETVERSION + 1;
+
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList);
 
@@ -17,6 +20,7 @@ type
     class function Upgrade: String;
     class Function List: String;
     class function Search(sText: String): String;
+    class function version : String;
   end;
 
   tColumnClass = class
@@ -173,6 +177,11 @@ begin
   dCommands.TryGetValue('upgrade', result);
 end;
 
+class function tWingetcommand.version: String;
+begin
+  dCommands.TryGetValue('version', result);
+end;
+
 function tWingetPackage.getAllFields: TStrings;
 var
   sField: String;
@@ -218,6 +227,7 @@ dCommands.add('upgrade', 'winget upgrade --include-unknown');
 dCommands.add('search', 'winget search "%s"');
 dCommands.add('install', 'winget install --id "%s"');
 dCommands.add('uninstall', 'winget uninstall --id "%s"');
+dCommands.Add('version','winget --version');
 
 Finalization
 

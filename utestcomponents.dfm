@@ -12,25 +12,40 @@ object Form1: TForm1
   Font.Style = []
   TextHeight = 15
   object ygtwnbtnYGTwinButton1: tYGTwinButton
-    Left = 216
-    Top = 160
-    Width = 153
-    Height = 49
-    Caption = 'Import'
+    Left = 256
+    Top = 136
+    Width = 129
+    Height = 41
+    Caption = 'Search'
     KeyCaption = 'F1'
-    Pen.Color = clBlack
-    Pen.Width = 2
-    Colors.Enter = clSilver
-    Colors.Leave = 2105376
-    Colors.Down = clWhite
-    TextColors.Enter = clBlue
-    TextColors.Leave = clBlack
-    TextColors.Down = clBlack
+    Pen.Color = clBtnHighlight
+    Pen.Width = 3
+    Colors.EnterStart = 6118749
+    Colors.LeaveStart = clWhite
+    Colors.DownStart = clBlack
+    Colors.EnterEnd = clWhite
+    Colors.LeaveEnd = 6118749
+    Colors.DownEnd = clWhite
+    TextColors.EnterStart = clWhite
+    TextColors.LeaveStart = clBlack
+    TextColors.DownStart = clBlack
+    TextColors.EnterEnd = clBlack
+    TextColors.LeaveEnd = clBlack
+    TextColors.DownEnd = clBlack
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clBlack
+    Font.Color = clWindowText
     Font.Height = -16
     Font.Name = 'Segoe UI Light'
     Font.Style = []
     State = bsLeave
+  end
+  object jvhtbtn1: TJvHTButton
+    Left = 224
+    Top = 280
+    Width = 137
+    Height = 73
+    Caption = 'jvhtbtn1'
+    TabOrder = 1
+    SuperSubScriptRatio = 0.666666666666666600
   end
 end

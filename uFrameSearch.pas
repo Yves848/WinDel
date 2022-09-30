@@ -22,6 +22,7 @@ type
     btnLaunch: TButton;
     dcSearch1: TDosCommand;
     AI1: TActivityIndicator;
+    pnlTitleToolBar: TPanel;
     procedure FrameResize(Sender: TObject);
     procedure btnLaunchClick(Sender: TObject);
     function dcSearch1CharDecoding(ASender: TObject; ABuf: TStream): string;

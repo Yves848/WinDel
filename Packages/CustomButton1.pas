@@ -10,32 +10,47 @@ type
   tYGTwinButtonState = (bsLeave, bsEnter, bsDown);
   tYGTwinButtonStateChange = procedure(Sender: tYGTwinButton; State: tYGTwinButtonState) of object;
 
+  tYGGradientColor = class
+  private
+    fStart: tColor;
+    fEnd: tColor;
+  public
+    constructor create(cStart, cEnd: tColor);
+  published
+    property StartColor: tColor read fStart;
+    property EndColor: tColor read fEnd;
+  end;
+
   tYGTwinButtonColors = class(TPersistent)
   private
     fOwner: tComponent;
-    fEnter, fLeave, fDown: TColor;
+    fEnterStart, fLeaveStart, fDownStart: tColor;
+    fEnterEnd, fLeaveEnd, fDownEnd: tColor;
     function Paint: Boolean;
   public
     constructor create(AOwner: tComponent); reintroduce;
     property Owner: tComponent read fOwner write fOwner;
   published
 
-    property Enter: TColor read fEnter write fEnter stored Paint;
-    property Leave: TColor read fLeave write fLeave stored Paint;
-    property Down: TColor read fDown write fDown stored Paint;
+    property EnterStart: tColor read fEnterStart write fEnterStart stored Paint;
+    property LeaveStart: tColor read fLeaveStart write fLeaveStart stored Paint;
+    property DownStart: tColor read fDownStart write fDownStart stored Paint;
+    property EnterEnd: tColor read fEnterEnd write fEnterEnd stored Paint;
+    property LeaveEnd: tColor read fLeaveEnd write fLeaveEnd stored Paint;
+    property DownEnd: tColor read fDownEnd write fDownEnd stored Paint;
   end;
 
   tYGTwinButtonPen = class(TPersistent)
   private
     fOwner: tComponent;
-    fColor: TColor;
+    fColor: tColor;
     fWidth: Integer;
     function Paint: Boolean;
   public
     constructor create(AOwner: tComponent); reintroduce;
     property Owner: tComponent read fOwner write fOwner;
   published
-    property Color: TColor read fColor write fColor stored Paint;
+    property Color: tColor read fColor write fColor stored Paint;
     property Width: Integer read fWidth write fWidth stored Paint;
   end;
 
@@ -61,6 +76,7 @@ type
     procedure CMMouseEnter(var message: tMessage); message CM_MOUSEENTER;
     procedure CMMouseLeave(var message: tMessage); message CM_MOUSELEAVE;
     procedure MouseDown(Button: tMouseButton; Shift: TShiftState; X, Y: Integer); override;
+    procedure MouseUp(Button: tMouseButton; Shift: TShiftState; X, Y: Integer); override;
   public
     { Déclarations publiques }
     constructor create(AOwner: tComponent); override;
@@ -78,6 +94,7 @@ type
     property OnMouseEnter;
     property OnMouseLeave;
     property OnMouseDown;
+    property OnMouseUp;
     property onClick;
     property Align;
     property Anchors;
@@ -128,17 +145,20 @@ begin
 
   with fColors do
   begin
-    Enter := 4736495;
-    Leave := 3881668;
-    Down := clWhite;
+    EnterStart := clWhite;
+    LeaveStart := clYellow;
+    DownStart := clBlack;
+    EnterEnd := clBlack;
+    LeaveEnd := clBlue;
+    DownEnd := clWhite;
   end;
 
   fTextColors := tYGTwinButtonColors.create(Self);
   with fTextColors do
   begin
-    Enter := clWhite;
-    Leave := clWhite;
-    Down := clBlack;
+    EnterStart := clWhite;
+    LeaveStart := clWhite;
+    DownStart := clBlack;
   end;
 end;
 
@@ -154,7 +174,15 @@ end;
 procedure tYGTwinButton.MouseDown(Button: tMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   inherited;
+  fState := bsDown;
+  Paint;
+end;
 
+procedure tYGTwinButton.MouseUp(Button: tMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  inherited;
+  fState := bsEnter;
+  Paint;
 end;
 
 procedure tYGTwinButton.Paint;
@@ -162,55 +190,58 @@ var
   keyrect: tREct;
   InnerHeight, InnerWidth: Integer;
   KeyWidth, keyHeight: Integer;
-  GradientColor: TColor;
+  GradientColor: tYGGradientColor;
 begin
   inherited;
   with Canvas do
   begin
     Brush.Color := fPen.Color;
-    // FillRect(ClipRect);
     Font.Assign(fFont);
 
     if fState = bsLeave then
     begin
-      Brush.Color := fColors.fLeave;
-      Font.Color := fTextColors.fLeave;
-      GradientColor := fColors.fLeave;
+      Brush.Color := fColors.fLeaveStart;
+      Font.Color := fTextColors.fLeaveStart;
+      GradientColor := tYGGradientColor.create(fColors.fLeaveStart, fColors.fLeaveEnd);
     end;
 
     if fState = bsEnter then
     begin
-      Brush.Color := fColors.fEnter;
-      Font.Color := fTextColors.fEnter;
-      GradientColor := fColors.fEnter;
+      Brush.Color := fColors.fEnterStart;
+      Font.Color := fTextColors.fEnterStart;
+      GradientColor := tYGGradientColor.create(fColors.fEnterStart, fColors.fEnterEnd);
     end;
 
     if fState = bsDown then
     begin
-      Brush.Color := fColors.fDown;
-      Font.Color := fTextColors.fDown;
+      Brush.Color := fColors.fDownStart;
+      Font.Color := fTextColors.fDownStart;
+      GradientColor := tYGGradientColor.create(fColors.fDownStart, fColors.fDownEnd);
     end;
 
     InnerHeight := Height - (fPen.Width * 2);
-
-    // FillRect(Rect(fPen.Width, fPen.Width, Width - fPen.Width, Height - fPen.Width));
-
-    // GradientFillCanvas(Canvas, clWhite, fColors.Leave, Rect(fPen.Width, fPen.Width, Width - fPen.Width, Height - fPen.Width), gdVertical);
-    GradientFillCanvas(Canvas, clWhite, GradientColor, Rect(0, 0, Width, Height), gdVertical);
+    GradientFillCanvas(Canvas, GradientColor.StartColor, GradientColor.EndColor, Rect(0, 0, Width, Height), gdVertical);
     Brush.Style := bsClear;
+    if State = bsDown then
+    begin
+      // Draw frame
+       pen.Width := fPen.Width;
+       pen.Color := fPen.fColor;
+       Rectangle(Rect(0, 0, Width, Height));
+    end;
     TextOut((Width - TextWidth(fCaption) - (fPen.fWidth + 10)), (Height div 2) - (TextHeight(fCaption) div 2), fCaption);
 
     keyrect := tREct.create(ClipRect.Left + fPen.Width, ClipRect.Top + fPen.Width, ClipRect.Bottom - fPen.Width, ClipRect.Bottom - fPen.Width);
     InflateRect(keyrect, -4, -4);
     Pen.Color := fPen.fColor;
     Pen.Width := 2;
-    // RoundRect(keyrect, 14, 14);
     Rectangle(keyrect);
     KeyWidth := (keyrect.Right - keyrect.Left) - 1;
     keyHeight := (keyrect.Bottom - keyrect.Top) - 1;
     TextOut(keyrect.Left + ((KeyWidth div 2) - (TextWidth(fKeyCaption) div 2)),
       keyrect.Top + ((keyHeight div 2) - (TextHeight(fKeyCaption) div 2)), fKeyCaption);
   end;
+  FreeAndNil(GradientColor);
 end;
 
 procedure tYGTwinButton.setcaption(const Value: string);
@@ -272,6 +303,14 @@ begin
   end
   else
     Result := False;
+end;
+
+{ tYGGradientColor }
+
+constructor tYGGradientColor.create(cStart, cEnd: tColor);
+begin
+  fStart := cStart;
+  fEnd := cEnd;
 end;
 
 end.

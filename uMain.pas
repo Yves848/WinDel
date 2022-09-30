@@ -7,7 +7,7 @@ uses
   System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Themes,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList, utestcomponents;
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList, utestcomponents, CustomButton1;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -18,29 +18,38 @@ type
     pnlToolbar: TPanel;
     pnlFooter: TPanel;
     pnlMain: TPanel;
-    btnQuit: TBitBtn;
-    btnSearch: TBitBtn;
-    btnUpgrade: TBitBtn;
-    btnList: TBitBtn;
-    il1: TImageList;
     btn1: TButton;
+    lblWingetVersion: TLabel;
+    ygBtnSearch: tYGTwinButton;
+    ygBtnQuit: tYGTwinButton;
+    ygBtnList: tYGTwinButton;
+    ygBtnUpgrade: tYGTwinButton;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
-    procedure btnUpgradeClick(Sender: TObject);
     procedure DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
-    procedure btnListClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btn1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure ygBtnSearchClick(Sender: TObject);
+    procedure ygBtnQuitClick(Sender: TObject);
+    procedure ygBtnListClick(Sender: TObject);
+    procedure ygBtnUpgradeClick(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
+    procedure GetVersion(var m: tMessage); message WM_GETWINGETVERSION;
+    procedure StartSearch(var m: tMessage); message WM_STARTSEARCH;
+    procedure taskSearch(Sender: TObject);
+    procedure taskList(Sender: TObject);
+    procedure taskUpgrade(Sender: TObject);
   public
     { Public declarations }
     lOutPut: tStrings;
     aFrame: TfrmBase;
     procedure upgradeTerminated(Sender: TObject);
+    procedure versionTerminated(Sender: TObject);
     procedure listTerminated(Sender: TObject);
     procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
   end;
@@ -54,22 +63,11 @@ implementation
 
 procedure TfMain.btn1Click(Sender: TObject);
 var
-  Form1 : TForm1;
+  Form1: TForm1;
 begin
-     Form1 := TForm1.Create(self);
-     Form1.showModal;
-     Form1.Free;
-end;
-
-procedure TfMain.btnListClick(Sender: TObject);
-begin
-  AI1.Animate := True;
-  if aFrame <> Nil then
-    aFrame.Free;
-  lOutPut := tStringList.Create;
-  DosCommand1.OnTerminated := listTerminated;
-  DosCommand1.CommandLine := tWingetcommand.List;
-  DosCommand1.Execute;
+  Form1 := TForm1.Create(self);
+  Form1.showModal;
+  Form1.Free;
 end;
 
 procedure TfMain.btnQuitClick(Sender: TObject);
@@ -79,33 +77,7 @@ end;
 
 procedure TfMain.btnSearchClick(Sender: TObject);
 begin
-  if aFrame <> Nil then
-    aFrame.Free;
-
-  // AI1.Animate := True;
-
-  aFrame := TfrmSearch.Create(pnlMain);
-  aFrame.Parent := pnlMain;
-  aFrame.Align := alClient;
-  TfrmSearch(aFrame).Init;
-end;
-
-procedure TfMain.btnUpgradeClick(Sender: TObject);
-begin
-  if aFrame <> Nil then
-    aFrame.Free;
-
-  AI1.Animate := True;
-
-  aFrame := TfrmHeritee.Create(pnlMain);
-  aFrame.Parent := pnlMain;
-  aFrame.Align := alClient;
-  TfrmHeritee(aFrame).ListView1.OnSelectItem := LVSelectItem;
-  lOutPut := tStringList.Create;
-
-  DosCommand1.OnTerminated := upgradeTerminated;
-  DosCommand1.CommandLine := tWingetcommand.Upgrade;
-  DosCommand1.Execute;
+  taskSearch(Sender);
 end;
 
 function TfMain.DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -156,6 +128,19 @@ begin
       end;
     end;
 
+end;
+
+procedure TfMain.FormShow(Sender: TObject);
+begin
+  lOutPut := tStringList.Create;
+  PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
+end;
+
+procedure TfMain.GetVersion(var m: tMessage);
+begin
+  DosCommand1.CommandLine := tWingetcommand.version;
+  DosCommand1.OnTerminated := versionTerminated;
+  DosCommand1.Execute;
 end;
 
 procedure TfMain.listTerminated(Sender: TObject);
@@ -225,6 +210,52 @@ begin
   end;
 end;
 
+procedure TfMain.StartSearch(var m: tMessage);
+begin
+  btnSearchClick(Nil);
+end;
+
+procedure TfMain.taskList(Sender: TObject);
+begin
+  AI1.Animate := True;
+  if aFrame <> Nil then
+    aFrame.Free;
+
+  lOutPut.clear;
+  DosCommand1.OnTerminated := listTerminated;
+  DosCommand1.CommandLine := tWingetcommand.List;
+  DosCommand1.Execute;
+end;
+
+procedure TfMain.taskSearch(Sender: TObject);
+begin
+  if aFrame <> Nil then
+    aFrame.Free;
+
+  aFrame := TfrmSearch.Create(pnlMain);
+  aFrame.Parent := pnlMain;
+  aFrame.Align := alClient;
+  TfrmSearch(aFrame).Init;
+end;
+
+procedure TfMain.taskUpgrade(Sender: TObject);
+begin
+  AI1.Animate := True;
+  if aFrame <> Nil then
+    aFrame.Free;
+
+  lOutPut.clear;
+
+  aFrame := TfrmHeritee.Create(pnlMain);
+  aFrame.Parent := pnlMain;
+  aFrame.Align := alClient;
+  TfrmHeritee(aFrame).ListView1.OnSelectItem := LVSelectItem;
+
+  DosCommand1.OnTerminated := upgradeTerminated;
+  DosCommand1.CommandLine := tWingetcommand.Upgrade;
+  DosCommand1.Execute;
+end;
+
 procedure TfMain.upgradeTerminated(Sender: TObject);
 var
   i, iCol: Integer;
@@ -261,6 +292,32 @@ begin
     inc(i);
   end;
   AI1.Animate := False;
+end;
+
+procedure TfMain.versionTerminated(Sender: TObject);
+begin
+  lblWingetVersion.Caption := Format('Winget version %s', [lOutPut[0]]);
+  PostMessage(handle, WM_STARTSEARCH, 0, 0);
+end;
+
+procedure TfMain.ygBtnListClick(Sender: TObject);
+begin
+  taskList(Sender);
+end;
+
+procedure TfMain.ygBtnQuitClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfMain.ygBtnSearchClick(Sender: TObject);
+begin
+  taskSearch(Sender);
+end;
+
+procedure TfMain.ygBtnUpgradeClick(Sender: TObject);
+begin
+  taskUpgrade(Sender);
 end;
 
 end.

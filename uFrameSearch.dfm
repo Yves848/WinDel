@@ -2,14 +2,16 @@ inherited frmSearch: TfrmSearch
   OnResize = FrameResize
   object pnlSearchMain: TPanel
     Left = 0
-    Top = 0
+    Top = 24
     Width = 640
-    Height = 480
+    Height = 456
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlSearchMain'
     ShowCaption = False
     TabOrder = 0
+    ExplicitTop = 0
+    ExplicitHeight = 480
     object pnlSearchEdit: TPanel
       Left = 0
       Top = 0
@@ -56,7 +58,7 @@ inherited frmSearch: TfrmSearch
       Left = 0
       Top = 105
       Width = 513
-      Height = 375
+      Height = 351
       Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
@@ -86,22 +88,19 @@ inherited frmSearch: TfrmSearch
       RowSelect = True
       TabOrder = 1
       ViewStyle = vsReport
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitWidth = 511
-      ExplicitHeight = 478
+      ExplicitHeight = 375
     end
     object pnlUpgSideBar: TPanel
       Left = 513
       Top = 105
       Width = 127
-      Height = 375
+      Height = 351
       Align = alRight
       BevelOuter = bvNone
       Caption = 'pnlUpgSideBar'
       ShowCaption = False
       TabOrder = 2
-      ExplicitTop = 111
+      ExplicitHeight = 375
       object pnlUpgTopSide: TPanel
         Left = 0
         Top = 0
@@ -123,6 +122,23 @@ inherited frmSearch: TfrmSearch
         TabOrder = 1
       end
     end
+  end
+  object pnlTitleToolBar: TPanel
+    Left = 0
+    Top = 0
+    Width = 640
+    Height = 24
+    Align = alTop
+    Alignment = taLeftJustify
+    BevelOuter = bvNone
+    Caption = 'Search Packages'
+    Color = 12615680
+    ParentBackground = False
+    TabOrder = 1
+    StyleElements = [seFont, seBorder]
+    ExplicitLeft = 1
+    ExplicitTop = 1
+    ExplicitWidth = 638
   end
   object dcSearch1: TDosCommand
     InputToOutput = False

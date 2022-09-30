@@ -16,6 +16,7 @@ type
     pnlUpgSideBar: TPanel;
     pnlUpgTopSide: TPanel;
     btnUgRun: TButton;
+    pnlTitleToolBar: TPanel;
     procedure FrameResize(Sender: TObject);
   private
     { Déclarations privées }

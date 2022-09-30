@@ -19,6 +19,7 @@ type
     lblFilter: TLabel;
     lblfltSource: TLabel;
     cbbSourceFilter: TComboBox;
+    pnlTitleToolBar: TPanel;
     procedure FrameResize(Sender: TObject);
     procedure cbbSourceFilterChange(Sender: TObject);
   private
