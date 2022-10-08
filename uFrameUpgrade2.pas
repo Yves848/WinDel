@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, Winapi.CommCtrl, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, Winapi.CommCtrl, Vcl.StdCtrls, uConst;
 
 const
   aColWidths : array of Integer = [42,29,13,13,8];
@@ -22,6 +22,7 @@ type
     { Déclarations privées }
   public
     { Déclarations publiques }
+    procedure setupColumnHeaders;
   end;
 
 var
@@ -50,6 +51,24 @@ begin
   begin
     column := listeView.columns[i];
     column.Width := listeView.Width div 100 * aColWidths[i];
+  end;
+
+end;
+
+procedure TfrmHeritee.setupColumnHeaders;
+var
+  i: Integer;
+  pColumn: tColumnClass;
+begin
+  if lListColumn <> Nil then
+  begin
+    i := 0;
+    while i <= lListColumn.Count - 1 do
+    begin
+      pColumn := tColumnClass(lListColumn.objects[i]);
+      listView1.Columns[i].Caption := pColumn.sLabel;
+      inc(i);
+    end;
   end;
 
 end;

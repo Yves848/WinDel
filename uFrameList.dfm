@@ -117,6 +117,17 @@ inherited frmList: TfrmList
           OnChange = cbbSourceFilterChange
         end
       end
+      object btnUnInstallRun: TButton
+        Left = 0
+        Top = 113
+        Width = 185
+        Height = 40
+        Align = alTop
+        Caption = 'Uninstall Selected'
+        TabOrder = 2
+        ExplicitLeft = 6
+        ExplicitTop = 119
+      end
     end
     object pnlTitleToolBar: TPanel
       Left = 1

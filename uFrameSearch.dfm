@@ -116,6 +116,7 @@ inherited frmSearch: TfrmSearch
         Align = alTop
         Caption = 'Install Selected'
         TabOrder = 1
+        OnClick = btnInstallRunClick
       end
     end
   end

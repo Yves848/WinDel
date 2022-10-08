@@ -34,7 +34,7 @@ object fMain: TfMain
       1074
       41)
     object AI1: TActivityIndicator
-      Left = 338
+      Left = 412
       Top = 4
       Anchors = [akLeft, akRight]
       IndicatorColor = aicWhite
@@ -47,128 +47,90 @@ object fMain: TfMain
       Height = 25
       Caption = 'btn1'
       TabOrder = 1
+      Visible = False
       OnClick = btn1Click
     end
-    object ygBtnSearch: tYGTwinButton
+    object pnlF1: TPanel
       Left = 5
       Top = 2
-      Width = 109
+      Width = 41
       Height = 37
+      Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'F1  :'
+      TabOrder = 2
+    end
+    object btnSearch: TButton
+      Left = 46
+      Top = 2
+      Width = 91
+      Height = 37
+      Align = alLeft
       Caption = 'Search'
-      KeyCaption = 'F1'
-      Pen.Color = clBlack
-      Pen.Width = 2
-      Colors.EnterStart = 2434341
-      Colors.LeaveStart = 8487297
-      Colors.DownStart = clBlack
-      Colors.EnterEnd = 8487297
-      Colors.LeaveEnd = 2434341
-      Colors.DownEnd = clWhite
-      TextColors.EnterStart = clWhite
-      TextColors.LeaveStart = clWhite
-      TextColors.DownStart = clBlack
-      TextColors.EnterEnd = clBlack
-      TextColors.LeaveEnd = clBlack
-      TextColors.DownEnd = clBlack
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Segoe UI Light'
-      Font.Style = []
-      State = bsLeave
-      onClick = ygBtnSearchClick
+      TabOrder = 3
+      OnClick = btnSearchClick
+    end
+    object pnlf2: TPanel
+      Left = 137
+      Top = 2
+      Width = 41
+      Height = 37
       Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'F2  :'
+      TabOrder = 4
     end
-    object ygBtnQuit: tYGTwinButton
-      Left = 960
+    object btnList: TButton
+      Left = 178
       Top = 2
-      Width = 109
+      Width = 91
       Height = 37
-      Caption = 'Quit'
-      KeyCaption = 'Esc'
-      Pen.Color = clBlack
-      Pen.Width = 2
-      Colors.EnterStart = 2434341
-      Colors.LeaveStart = 8487297
-      Colors.DownStart = clBlack
-      Colors.EnterEnd = 8487297
-      Colors.LeaveEnd = 2434341
-      Colors.DownEnd = clWhite
-      TextColors.EnterStart = clWhite
-      TextColors.LeaveStart = clWhite
-      TextColors.DownStart = clBlack
-      TextColors.EnterEnd = clBlack
-      TextColors.LeaveEnd = clBlack
-      TextColors.DownEnd = clBlack
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Segoe UI Light'
-      Font.Style = []
-      State = bsLeave
-      onClick = ygBtnQuitClick
-      Align = alRight
-      ExplicitLeft = 958
-    end
-    object ygBtnList: tYGTwinButton
-      Left = 114
-      Top = 2
-      Width = 109
-      Height = 37
+      Align = alLeft
       Caption = 'List'
-      KeyCaption = 'F2'
-      Pen.Color = clBlack
-      Pen.Width = 2
-      Colors.EnterStart = 2434341
-      Colors.LeaveStart = 8487297
-      Colors.DownStart = clBlack
-      Colors.EnterEnd = 8487297
-      Colors.LeaveEnd = 2434341
-      Colors.DownEnd = clWhite
-      TextColors.EnterStart = clWhite
-      TextColors.LeaveStart = clWhite
-      TextColors.DownStart = clBlack
-      TextColors.EnterEnd = clBlack
-      TextColors.LeaveEnd = clBlack
-      TextColors.DownEnd = clBlack
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Segoe UI Light'
-      Font.Style = []
-      State = bsLeave
-      onClick = ygBtnListClick
-      Align = alLeft
+      TabOrder = 5
+      OnClick = btnListClick
     end
-    object ygBtnUpgrade: tYGTwinButton
-      Left = 223
+    object pnlF3: TPanel
+      Left = 269
       Top = 2
-      Width = 109
+      Width = 41
       Height = 37
-      Caption = 'Upgrade'
-      KeyCaption = 'F3'
-      Pen.Color = clBlack
-      Pen.Width = 2
-      Colors.EnterStart = 2434341
-      Colors.LeaveStart = 8487297
-      Colors.DownStart = clBlack
-      Colors.EnterEnd = 8487297
-      Colors.LeaveEnd = 2434341
-      Colors.DownEnd = clWhite
-      TextColors.EnterStart = clWhite
-      TextColors.LeaveStart = clWhite
-      TextColors.DownStart = clBlack
-      TextColors.EnterEnd = clBlack
-      TextColors.LeaveEnd = clBlack
-      TextColors.DownEnd = clBlack
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -16
-      Font.Name = 'Segoe UI Light'
-      Font.Style = []
-      State = bsLeave
-      onClick = ygBtnUpgradeClick
       Align = alLeft
+      BevelOuter = bvNone
+      Caption = 'F3  :'
+      TabOrder = 6
+    end
+    object btnUpgrade: TButton
+      Left = 310
+      Top = 2
+      Width = 91
+      Height = 37
+      Align = alLeft
+      Caption = 'Upgrade'
+      TabOrder = 7
+      OnClick = btnUpgradeClick
+    end
+    object btnQuit: TButton
+      Left = 978
+      Top = 2
+      Width = 91
+      Height = 37
+      Align = alRight
+      Caption = 'Quit'
+      TabOrder = 8
+      OnClick = btnQuitClick
+      ExplicitLeft = 976
+    end
+    object pnlEsc: TPanel
+      Left = 937
+      Top = 2
+      Width = 41
+      Height = 37
+      Align = alRight
+      BevelOuter = bvNone
+      Caption = 'Esc  :'
+      TabOrder = 9
+      ExplicitLeft = 935
     end
   end
   object pnlFooter: TPanel
@@ -223,5 +185,28 @@ object fMain: TfMain
     OnNewLine = DosCommand1NewLine
     Left = 908
     Top = 84
+  end
+  object actlst1: TActionList
+    Left = 752
+    Top = 313
+    object actSearch: TAction
+      Caption = 'actSearch'
+      ShortCut = 112
+      OnExecute = actSearchExecute
+    end
+    object actList: TAction
+      Caption = 'actList'
+      ShortCut = 113
+      OnExecute = actListExecute
+    end
+    object actUpgrade: TAction
+      Caption = 'actUpgrade'
+      ShortCut = 114
+      OnExecute = actUpgradeExecute
+    end
+    object actQuit: TAction
+      Caption = 'actQuit'
+      OnExecute = actQuitExecute
+    end
   end
 end

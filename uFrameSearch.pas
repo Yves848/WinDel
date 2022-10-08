@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Winapi.CommCtrl, System.RegularExpressions,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, DosCommand, uConst, Vcl.WinXCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, DosCommand, uConst, Vcl.WinXCtrls, uRunwinget;
 
 const
   aColWidths: array of Integer = [40, 31, 13, 13, 8];
@@ -28,6 +28,7 @@ type
     function dcSearch1CharDecoding(ASender: TObject; ABuf: TStream): string;
     procedure dcSearch1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure edtPackageNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnInstallRunClick(Sender: TObject);
   private
     { Déclarations privées }
     function makeSearchList: tStrings;
@@ -45,6 +46,29 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmSearch.btnInstallRunClick(Sender: TObject);
+var
+  fRunWinget : TfRunWinget;
+  i : Integer;
+  aWingetPackage: tWingetPackage;
+begin
+  inherited;
+  fRunWinget := TfRunWinget.Create(self);
+  i := 0;
+  while i <= ListView1.Items.Count -1 do
+  begin
+    if (ListView1.Items[i].Data <> Nil) and (ListView1.Items[i].Checked) then
+    begin
+       aWingetPackage := tWingetPackage(ListView1.Items[i].Data);
+       fRunWinget.addCommand(aWingetPackage.getField('id'));
+    end;
+    inc(i);
+  end;
+
+  fRunWinget.showModal;
+  fRunWinget.Free;
+end;
 
 procedure TfrmSearch.btnLaunchClick(Sender: TObject);
 begin

@@ -7,7 +7,8 @@ uses
   System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Themes,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList, utestcomponents, CustomButton1;
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList, utestcomponents, CustomButton1, System.Actions,
+  Vcl.ActnList;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -20,10 +21,19 @@ type
     pnlMain: TPanel;
     btn1: TButton;
     lblWingetVersion: TLabel;
-    ygBtnSearch: tYGTwinButton;
-    ygBtnQuit: tYGTwinButton;
-    ygBtnList: tYGTwinButton;
-    ygBtnUpgrade: tYGTwinButton;
+    pnlF1: TPanel;
+    btnSearch: TButton;
+    pnlf2: TPanel;
+    btnList: TButton;
+    pnlF3: TPanel;
+    btnUpgrade: TButton;
+    btnQuit: TButton;
+    pnlEsc: TPanel;
+    actlst1: TActionList;
+    actSearch: TAction;
+    actList: TAction;
+    actUpgrade: TAction;
+    actQuit: TAction;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -36,6 +46,12 @@ type
     procedure ygBtnQuitClick(Sender: TObject);
     procedure ygBtnListClick(Sender: TObject);
     procedure ygBtnUpgradeClick(Sender: TObject);
+    procedure btnListClick(Sender: TObject);
+    procedure btnUpgradeClick(Sender: TObject);
+    procedure actQuitExecute(Sender: TObject);
+    procedure actUpgradeExecute(Sender: TObject);
+    procedure actListExecute(Sender: TObject);
+    procedure actSearchExecute(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -61,6 +77,26 @@ implementation
 
 {$R *.dfm}
 
+procedure TfMain.actListExecute(Sender: TObject);
+begin
+  taskList(Sender);
+end;
+
+procedure TfMain.actQuitExecute(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfMain.actSearchExecute(Sender: TObject);
+begin
+  taskSearch(Sender);
+end;
+
+procedure TfMain.actUpgradeExecute(Sender: TObject);
+begin
+  taskUpgrade(Sender);
+end;
+
 procedure TfMain.btn1Click(Sender: TObject);
 var
   Form1: TForm1;
@@ -68,6 +104,11 @@ begin
   Form1 := TForm1.Create(self);
   Form1.showModal;
   Form1.Free;
+end;
+
+procedure TfMain.btnListClick(Sender: TObject);
+begin
+  taskList(Sender);
 end;
 
 procedure TfMain.btnQuitClick(Sender: TObject);
@@ -78,6 +119,11 @@ end;
 procedure TfMain.btnSearchClick(Sender: TObject);
 begin
   taskSearch(Sender);
+end;
+
+procedure TfMain.btnUpgradeClick(Sender: TObject);
+begin
+  taskUpgrade(Sender);
 end;
 
 function TfMain.DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -127,7 +173,6 @@ begin
         end;
       end;
     end;
-
 end;
 
 procedure TfMain.FormShow(Sender: TObject);
@@ -169,6 +214,7 @@ begin
     TfrmList(aFrame).AddFilterCB(aWingetPackage.getField('source'));
     inc(i);
   end;
+  TfrmList(aFrame).setupColumnHeaders;
   TfrmList(aFrame).ApplyFilter;
   TfrmList(aFrame).ListView1.OnSelectItem := LVSelectItem;
   AI1.Animate := False;
@@ -269,6 +315,7 @@ var
 begin
   i := 0;
   lOutClean := makeUpgList;
+  TfrmHeritee(aFrame).setupColumnHeaders;
   liste := TfrmHeritee(aFrame).ListView1.Items;
   while i < lOutClean.Count - 1 do
   begin

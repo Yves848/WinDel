@@ -87,6 +87,9 @@ begin
       inc(i);
   end;
 
+  if lListColumn <> Nil then
+    FreeAndNil(lListColumn);
+
   lListColumn := tStringList.create;
   i := 0;
   repeat
@@ -97,7 +100,7 @@ begin
       iLenCol := 0;
       pColumn := tColumnClass.create(iPosCol, iLenCol);
       pColumn.sLabel := key;
-      lListColumn.AddObject(key, pColumn)
+      lListColumn.AddObject(key, pColumn);
     end;
     inc(i);
   until i > lsHeaders.Count - 1;

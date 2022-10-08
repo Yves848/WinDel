@@ -12,7 +12,8 @@ uses
   uFrameUpgrade2 in 'uFrameUpgrade2.pas' {frmHeritee: TFrame},
   uFrameList in 'uFrameList.pas' {frmList: TFrame},
   uFrameSearch in 'uFrameSearch.pas' {frmSearch: TFrame},
-  utestcomponents in 'utestcomponents.pas' {Form1};
+  utestcomponents in 'utestcomponents.pas' {Form1},
+  uRunWinget in 'uRunWinget.pas' {fRunWinget};
 
 {$R *.res}
 
@@ -22,5 +23,6 @@ begin
   TStyleManager.TrySetStyle('Glow');
   Application.CreateForm(TfMain, fMain);
   Application.CreateForm(TfrmOptions, frmOptions);
+  Application.CreateForm(TfRunWinget, fRunWinget);
   Application.Run;
 end.

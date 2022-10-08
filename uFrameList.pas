@@ -20,6 +20,7 @@ type
     lblfltSource: TLabel;
     cbbSourceFilter: TComboBox;
     pnlTitleToolBar: TPanel;
+    btnUnInstallRun: TButton;
     procedure FrameResize(Sender: TObject);
     procedure cbbSourceFilterChange(Sender: TObject);
   private
@@ -34,6 +35,7 @@ type
     procedure ApplyFilter;
     procedure AddFilterCB(sFilter: string);
     Procedure InitFilterCB;
+    procedure setupColumnHeaders;
   end;
 
 var
@@ -142,6 +144,24 @@ begin
   cbbSourceFilter.Clear;
   cbbSourceFilter.Items.Add('All');
   cbbSourceFilter.ItemIndex := 0;
+end;
+
+procedure TfrmList.setupColumnHeaders;
+var
+  i: Integer;
+  pColumn: tColumnClass;
+begin
+  if lListColumn <> Nil then
+  begin
+    i := 0;
+    while i <= lListColumn.Count - 1 do
+    begin
+      pColumn := tColumnClass(lListColumn.objects[i]);
+      listView1.Columns[i].Caption := pColumn.sLabel;
+      inc(i);
+    end;
+  end;
+
 end;
 
 end.

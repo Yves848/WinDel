@@ -9,8 +9,6 @@ inherited frmHeritee: TfrmHeritee
     Caption = 'pnlUpgMain'
     ShowCaption = False
     TabOrder = 0
-    ExplicitTop = 0
-    ExplicitHeight = 480
     object ListView1: TListView
       Left = 1
       Top = 1
@@ -45,7 +43,6 @@ inherited frmHeritee: TfrmHeritee
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      ExplicitHeight = 478
     end
     object pnlUpgSideBar: TPanel
       Left = 512
@@ -57,7 +54,6 @@ inherited frmHeritee: TfrmHeritee
       Caption = 'pnlUpgSideBar'
       ShowCaption = False
       TabOrder = 1
-      ExplicitHeight = 478
       object pnlUpgTopSide: TPanel
         Left = 0
         Top = 0
@@ -93,8 +89,5 @@ inherited frmHeritee: TfrmHeritee
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
-    ExplicitLeft = 2
-    ExplicitTop = 9
-    ExplicitWidth = 638
   end
 end
