@@ -3,15 +3,19 @@ unit uConst;
 interface
 
 uses
-  System.Generics.Collections, System.Types, System.strUtils, System.SysUtils, System.Classes,   winapi.Windows, winapi.Messages;
+  System.Generics.Collections, System.Types, System.strUtils, System.SysUtils, System.Classes, winapi.Windows, winapi.Messages;
 
 const
   aUpgFields: TArray<String> = ['nom', 'id', 'version', 'disponible', 'source'];
   aLstFields: TArray<String> = ['nom', 'id', 'version', 'disponible', 'source'];
   aSearchFields: TArray<String> = ['nom', 'id', 'version', 'corresp.', 'source'];
 
+  sRunUpdate = 'winget upgrade --id %s';
+  sRunInstall = 'winget install --id %s --force';
+
   WM_GETWINGETVERSION = WM_USER + 2001;
   WM_STARTSEARCH = WM_GETWINGETVERSION + 1;
+  WM_STARTLIST = WM_STARTSEARCH + 1;
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList);
@@ -21,7 +25,7 @@ type
     class function Upgrade: String;
     class Function List: String;
     class function Search(sText: String): String;
-    class function version : String;
+    class function version: String;
   end;
 
   tColumnClass = class
@@ -34,13 +38,13 @@ type
 
   tWingetPackage = Class
   private
-    fFields : TArray<String>;
+    fFields: TArray<String>;
     fType: tPackageType;
     dFields: TDictionary<string, string>;
     procedure makeFields(sLine: String);
     procedure makeListFields(sLine: String);
   public
-    property Fields : TArray<String> read fFields write fFields;
+    property Fields: TArray<String> read fFields write fFields;
     constructor create(sLine: String; sType: tPackageType);
     function getField(sField: string): String;
     function getAllFields: TStrings;
@@ -69,9 +73,9 @@ var
   lHeaders: TStringDynArray;
   lsHeaders: tStringList;
   i: integer;
-  iPos1, iPos2 : Integer;
-  iPosCol, iLenCol : Integer;
-  key : String;
+  iPos1, iPos2: integer;
+  iPosCol, iLenCol: integer;
+  key: String;
 begin
   lHeaders := SplitString(sLine, ' ');
   i := 0;
@@ -156,6 +160,22 @@ begin
       end;
   end;
   makeFields(sLine);
+  case sType of
+    ptInstall:
+      ;
+    ptUpgrade:
+      ;
+    ptSearch:
+      begin
+        dFields.Remove('source');
+        dFields.Add('source', 'Winget');
+      end;
+
+    ptList:
+      begin
+        
+      end;
+  end;
 end;
 
 { tCommandClass }
@@ -194,7 +214,7 @@ begin
   result := tStringList.create;
   for sField in aUpgFields do
   begin
-    result.add(getField(sField));
+    result.Add(getField(sField));
   end;
 end;
 
@@ -214,7 +234,7 @@ begin
   while iCol <= lListColumn.Count - 1 do
   begin
     aColumn := tColumnClass(lListColumn.Objects[iCol]);
-    dFields.add(Fields[iCol], copy(sLine, aColumn.iPos, aColumn.iLen));
+    dFields.Add(Fields[iCol], copy(sLine, aColumn.iPos, aColumn.iLen));
     inc(iCol);
   end;
 end;
@@ -227,12 +247,12 @@ end;
 initialization
 
 dCommands := TDictionary<string, string>.create();
-dCommands.add('list', 'winget list');
-dCommands.add('upgrade', 'winget upgrade --include-unknown');
-dCommands.add('search', 'winget search "%s"');
-dCommands.add('install', 'winget install --id "%s"');
-dCommands.add('uninstall', 'winget uninstall --id "%s"');
-dCommands.Add('version','winget --version');
+dCommands.Add('list', 'winget list --accept-source-agreements');
+dCommands.Add('upgrade', 'winget upgrade --include-unknown');
+dCommands.Add('search', 'winget search "%s" --source winget');
+dCommands.Add('install', 'winget install --id "%s"');
+dCommands.Add('uninstall', 'winget uninstall --id "%s"');
+dCommands.Add('version', 'winget --version');
 
 Finalization
 

@@ -77,7 +77,7 @@ inherited frmSearch: TfrmSearch
         end
         item
           AutoSize = True
-          Caption = 'Available'
+          Caption = 'Correspondance'
         end
         item
           AutoSize = True

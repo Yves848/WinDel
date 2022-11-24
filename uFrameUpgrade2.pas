@@ -4,7 +4,8 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, Winapi.CommCtrl, Vcl.StdCtrls, uConst;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, Winapi.CommCtrl, Vcl.StdCtrls, uConst, System.Actions, Vcl.ActnList,
+  uRunWinget;
 
 const
   aColWidths : array of Integer = [42,29,13,13,8];
@@ -17,7 +18,13 @@ type
     pnlUpgTopSide: TPanel;
     btnUgRun: TButton;
     pnlTitleToolBar: TPanel;
+    btnSelectAll: TButton;
+    actlstUpgrade: TActionList;
+    actSelectAll: TAction;
+    actUpgrade: TAction;
     procedure FrameResize(Sender: TObject);
+    procedure actSelectAllExecute(Sender: TObject);
+    procedure actUpgradeExecute(Sender: TObject);
   private
     { Déclarations privées }
   public
@@ -31,6 +38,44 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmHeritee.actSelectAllExecute(Sender: TObject);
+var
+  bSelected : boolean;
+  i : Integer;
+begin
+  inherited;
+  bSelected := btnSelectAll.Tag = 0;
+  if (btnSelectAll.tag = 0) then
+  begin
+     btnSelectAll.Tag := 1;
+     btnSelectAll.Caption := 'Unselect &All';
+  end
+  else
+  begin
+     btnSelectAll.Tag := 0;
+     btnSelectAll.Caption := 'Select &All';
+  end;
+
+  i := 0;
+
+  while i <= ListView1.Items.Count -1 do
+  begin
+      ListView1.Items[i].Checked := bSelected;
+      inc(i);
+  end;
+
+end;
+
+procedure TfrmHeritee.actUpgradeExecute(Sender: TObject);
+var
+  frunWinget : TfRunWinget;
+begin
+  inherited;
+  fRunWinget := TfRunWinget.Create(self);
+  fRunWinget.showModal;
+  fRunWinget.Free;
+end;
 
 procedure TfrmHeritee.FrameResize(Sender: TObject);
 var

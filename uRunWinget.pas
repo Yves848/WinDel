@@ -3,7 +3,7 @@ unit uRunWinget;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, system.StrUtils,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DosCommand, SynEdit, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.WinXCtrls, uconst;
 
 type
@@ -14,11 +14,14 @@ type
     AI1: TActivityIndicator;
     mmo1: TMemo;
     function dcRunCharDecoding(ASender: TObject; ABuf: TStream): string;
+    procedure dcRunNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
+    procedure dcRunTerminated(Sender: TObject);
   private
     { Déclarations privées }
+    lIDs : TStrings;
   public
     { Déclarations publiques }
-    Procedure addCommand(DosCommand : String);
+    Procedure addCommand(sID : String);
   end;
 
 var
@@ -28,9 +31,11 @@ implementation
 
 {$R *.dfm}
 
-procedure TfRunWinget.addCommand(DosCommand: String);
+procedure TfRunWinget.addCommand(sID: String);
 begin
-    mmo1.Lines.Add(DosCommand);
+    //mmo1.Lines.Add(DosCommand);
+    dcRun.CommandLine := Format(sRunInstall,[sId]);
+    dcRun.Execute;
 end;
 
 function TfRunWinget.dcRunCharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -51,6 +56,25 @@ begin
   end
   else
     result := '';
+end;
+
+procedure TfRunWinget.dcRunNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
+begin
+  if ANewLine.IndexOf(Chr(08)) = -1 then
+
+  mmo1.Lines.Add(aNewLine);
+end;
+
+procedure TfRunWinget.dcRunTerminated(Sender: TObject);
+begin
+  if dcRun.ExitCode = 0 then
+  begin
+    mmo1.Lines.Add('réussi');
+  end
+  else
+  begin
+    mmo1.Lines.Add('raté');
+  end;
 end;
 
 end.

@@ -19,9 +19,8 @@ object fRunWinget: TfRunWinget
     Height = 17
     Align = alBottom
     TabOrder = 0
-    ExplicitLeft = 208
-    ExplicitTop = 232
-    ExplicitWidth = 150
+    ExplicitTop = 233
+    ExplicitWidth = 695
   end
   object pnltop: TPanel
     Left = 0
@@ -33,9 +32,7 @@ object fRunWinget: TfRunWinget
     Caption = 'pnltop'
     ShowCaption = False
     TabOrder = 1
-    ExplicitLeft = 216
-    ExplicitTop = 64
-    ExplicitWidth = 185
+    ExplicitWidth = 695
     object AI1: TActivityIndicator
       Left = 665
       Top = 3
@@ -58,12 +55,16 @@ object fRunWinget: TfRunWinget
     ParentFont = False
     TabOrder = 2
     StyleElements = [seClient, seBorder]
+    ExplicitWidth = 695
+    ExplicitHeight = 192
   end
   object dcRun: TDosCommand
     InputToOutput = False
     MaxTimeAfterBeginning = 0
     MaxTimeAfterLastOutput = 0
     OnCharDecoding = dcRunCharDecoding
+    OnNewLine = dcRunNewLine
+    OnTerminated = dcRunTerminated
     Left = 496
     Top = 104
   end

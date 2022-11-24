@@ -67,12 +67,24 @@ inherited frmHeritee: TfrmHeritee
       end
       object btnUgRun: TButton
         Left = 0
+        Top = 81
+        Width = 127
+        Height = 40
+        Align = alTop
+        Caption = '&Upgrade Selected'
+        TabOrder = 1
+        OnClick = actUpgradeExecute
+        ExplicitTop = 41
+      end
+      object btnSelectAll: TButton
+        Left = 0
         Top = 41
         Width = 127
         Height = 40
         Align = alTop
-        Caption = 'Upgrade Selected'
-        TabOrder = 1
+        Caption = 'Select &All'
+        TabOrder = 2
+        OnClick = actSelectAllExecute
       end
     end
   end
@@ -89,5 +101,17 @@ inherited frmHeritee: TfrmHeritee
     ParentBackground = False
     TabOrder = 1
     StyleElements = [seFont, seBorder]
+  end
+  object actlstUpgrade: TActionList
+    Left = 568
+    Top = 233
+    object actSelectAll: TAction
+      Caption = 'actSelectAll'
+      OnExecute = actSelectAllExecute
+    end
+    object actUpgrade: TAction
+      Caption = 'actUpgrade'
+      OnExecute = actUpgradeExecute
+    end
   end
 end

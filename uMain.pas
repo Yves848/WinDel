@@ -57,6 +57,7 @@ type
     function makeUpgList: tStrings;
     procedure GetVersion(var m: tMessage); message WM_GETWINGETVERSION;
     procedure StartSearch(var m: tMessage); message WM_STARTSEARCH;
+    procedure StartList(var m : TMessage); message WM_STARTLIST;
     procedure taskSearch(Sender: TObject);
     procedure taskList(Sender: TObject);
     procedure taskUpgrade(Sender: TObject);
@@ -137,7 +138,7 @@ begin
     SetLength(pBytes, iLength);
     ABuf.Read(pBytes, iLength);
     try
-      result := tEncoding.UTF8.GetString(pBytes)
+      result := tEncoding.UTF8.GetString(pBytes);
     except
       result := '';
     end;
@@ -256,6 +257,11 @@ begin
   end;
 end;
 
+procedure TfMain.StartList(var m: TMessage);
+begin
+  taskList(Nil);
+end;
+
 procedure TfMain.StartSearch(var m: tMessage);
 begin
   btnSearchClick(Nil);
@@ -344,7 +350,7 @@ end;
 procedure TfMain.versionTerminated(Sender: TObject);
 begin
   lblWingetVersion.Caption := Format('Winget version %s', [lOutPut[0]]);
-  PostMessage(handle, WM_STARTSEARCH, 0, 0);
+  PostMessage(handle, WM_STARTLIST, 0, 0);
 end;
 
 procedure TfMain.ygBtnListClick(Sender: TObject);
