@@ -16,9 +16,10 @@ const
   WM_GETWINGETVERSION = WM_USER + 2001;
   WM_STARTSEARCH = WM_GETWINGETVERSION + 1;
   WM_STARTLIST = WM_STARTSEARCH + 1;
+  WM_RUNNEXT = WM_STARTLIST + 1;
 
 type
-  tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList);
+  tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList, ptUninstall);
 
   tWingetcommand = class
     class function Install(sId: String): String;
@@ -26,6 +27,7 @@ type
     class Function List: String;
     class function Search(sText: String): String;
     class function version: String;
+    class function UnInstall(sId: String): String;
   end;
 
   tColumnClass = class
@@ -52,7 +54,7 @@ type
 
 var
   lListColumn: TStrings;
-  dCommands: TDictionary<string, string>;
+  wgCommands: TDictionary<string, string>;
 
 procedure makeUpgradeDictonary(sLine: String);
 procedure removekey;
@@ -182,29 +184,35 @@ end;
 
 class function tWingetcommand.Install(sId: String): String;
 begin
-  dCommands.TryGetValue('install', result);
+  wgCommands.TryGetValue('install', result);
   result := format(result, [sId]);
 end;
 
 class function tWingetcommand.List: String;
 begin
-  dCommands.TryGetValue('list', result);
+  wgCommands.TryGetValue('list', result);
 end;
 
 class function tWingetcommand.Search(sText: String): String;
 begin
-  dCommands.TryGetValue('search', result);
+  wgCommands.TryGetValue('search', result);
   result := format(result, [sText]);
+end;
+
+class function tWingetcommand.UnInstall(sId: String): String;
+begin
+   wgCommands.TryGetValue('uninstall', result);
+  result := format(result, [sId]);
 end;
 
 class function tWingetcommand.Upgrade: String;
 begin
-  dCommands.TryGetValue('upgrade', result);
+  wgCommands.TryGetValue('upgrade', result);
 end;
 
 class function tWingetcommand.version: String;
 begin
-  dCommands.TryGetValue('version', result);
+  wgCommands.TryGetValue('version', result);
 end;
 
 function tWingetPackage.getAllFields: TStrings;
@@ -246,17 +254,17 @@ end;
 
 initialization
 
-dCommands := TDictionary<string, string>.create();
-dCommands.Add('list', 'winget list --accept-source-agreements');
-dCommands.Add('upgrade', 'winget upgrade --include-unknown');
-dCommands.Add('search', 'winget search "%s" --source winget');
-dCommands.Add('install', 'winget install --id "%s"');
-dCommands.Add('uninstall', 'winget uninstall --id "%s"');
-dCommands.Add('version', 'winget --version');
+wgCommands := TDictionary<string, string>.create();
+wgCommands.Add('list', 'winget list --accept-source-agreements');
+wgCommands.Add('upgrade', 'winget upgrade --include-unknown');
+wgCommands.Add('search', 'winget search "%s" --source winget');
+wgCommands.Add('install', 'winget install --id "%s"');
+wgCommands.Add('uninstall', 'winget uninstall --id "%s"');
+wgCommands.Add('version', 'winget --version');
 
 Finalization
 
-dCommands.Clear;
-dCommands.Free;
+wgCommands.Clear;
+wgCommands.Free;
 
 end.

@@ -19,7 +19,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.ShowMainForm := True;
   Application.CreateForm(TfMain, fMain);
-  Application.CreateForm(TfrmOptions, frmOptions);
-  Application.CreateForm(TfRunWinget, fRunWinget);
   Application.Run;
 end.

@@ -4,24 +4,27 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, system.StrUtils,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DosCommand, SynEdit, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.WinXCtrls, uconst;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, DosCommand, SynEdit, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.WinXCtrls, uconst, sMemo;
 
 type
   TfRunWinget = class(TForm)
     dcRun: TDosCommand;
-    pb1: TProgressBar;
     pnltop: TPanel;
     AI1: TActivityIndicator;
-    mmo1: TMemo;
+    mmo1: TsMemo;
     function dcRunCharDecoding(ASender: TObject; ABuf: TStream): string;
     procedure dcRunNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure dcRunTerminated(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Déclarations privées }
     lIDs : TStrings;
+    procedure runNext(var msg : tMessage); message WM_RUNNEXT;
   public
     { Déclarations publiques }
-    Procedure addCommand(sID : String);
+    typeRun : tPackagetype;
+    Procedure addId(sID : String);
   end;
 
 var
@@ -31,11 +34,10 @@ implementation
 
 {$R *.dfm}
 
-procedure TfRunWinget.addCommand(sID: String);
+procedure TfRunWinget.addId(sID: String);
 begin
     //mmo1.Lines.Add(DosCommand);
-    dcRun.CommandLine := Format(sRunInstall,[sId]);
-    dcRun.Execute;
+   lIDs.add(Trim(sID));
 end;
 
 function TfRunWinget.dcRunCharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -74,6 +76,35 @@ begin
   begin
     mmo1.Lines.Add('raté');
   end;
+    PostMessage(Self.Handle, WM_RUNNEXT,0,0);
+end;
+
+procedure TfRunWinget.FormCreate(Sender: TObject);
+begin
+  lIDs := tStringList.Create;
+end;
+
+procedure TfRunWinget.FormShow(Sender: TObject);
+begin
+  PostMessage(Self.Handle, WM_RUNNEXT,0,0);
+end;
+
+procedure TfRunWinget.runNext(var msg: tMessage);
+begin
+  if lIds.Count > 0 then
+  begin
+      case typeRun of
+        ptInstall: begin
+          dcRun.CommandLine := tWingetcommand.Install(lIDs[lIds.count -1]);
+        end;
+        ptUninstall : begin
+          dcRun.CommandLine := tWingetcommand.unInstall(lIDs[lIds.count -1]);
+        end;
+      end;
+      lIds.delete(lIds.count -1);
+    dcRun.Execute;
+  end;
+
 end;
 
 end.

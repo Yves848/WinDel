@@ -11,17 +11,9 @@ object fRunWinget: TfRunWinget
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnCreate = FormCreate
+  OnShow = FormShow
   TextHeight = 15
-  object pb1: TProgressBar
-    Left = 0
-    Top = 237
-    Width = 697
-    Height = 17
-    Align = alBottom
-    TabOrder = 0
-    ExplicitTop = 233
-    ExplicitWidth = 695
-  end
   object pnltop: TPanel
     Left = 0
     Top = 0
@@ -31,8 +23,8 @@ object fRunWinget: TfRunWinget
     BevelOuter = bvNone
     Caption = 'pnltop'
     ShowCaption = False
-    TabOrder = 1
-    ExplicitWidth = 695
+    TabOrder = 0
+    ExplicitWidth = 693
     object AI1: TActivityIndicator
       Left = 665
       Top = 3
@@ -40,23 +32,17 @@ object fRunWinget: TfRunWinget
       IndicatorType = aitSectorRing
     end
   end
-  object mmo1: TMemo
+  object mmo1: TsMemo
     Left = 0
     Top = 41
     Width = 697
-    Height = 196
+    Height = 213
     Align = alClient
-    Color = clGreen
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clGreen
-    Font.Height = -12
-    Font.Name = 'Courier New'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 2
-    StyleElements = [seClient, seBorder]
-    ExplicitWidth = 695
-    ExplicitHeight = 192
+    TabOrder = 1
+    ExplicitLeft = 144
+    ExplicitTop = 144
+    ExplicitWidth = 185
+    ExplicitHeight = 89
   end
   object dcRun: TDosCommand
     InputToOutput = False

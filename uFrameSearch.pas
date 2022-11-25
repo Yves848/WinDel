@@ -61,11 +61,10 @@ begin
     if (ListView1.Items[i].Data <> Nil) and (ListView1.Items[i].Checked) then
     begin
        aWingetPackage := tWingetPackage(ListView1.Items[i].Data);
-       fRunWinget.addCommand(aWingetPackage.getField('id'));
+       fRunWinget.addId(aWingetPackage.getField('id'));
     end;
     inc(i);
   end;
-
   fRunWinget.showModal;
   fRunWinget.Free;
 end;

@@ -9,7 +9,7 @@ uses
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList,
   System.Actions,
-  Vcl.ActnList;
+  Vcl.ActnList, sSkinProvider, sSkinManager;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -35,13 +35,14 @@ type
     actList: TAction;
     actUpgrade: TAction;
     actQuit: TAction;
+    sSkinManager1: TsSkinManager;
+    sSkinProvider1: TsSkinProvider;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
     procedure DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
     procedure btnSearchClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormShow(Sender: TObject);
     procedure ygBtnSearchClick(Sender: TObject);
     procedure ygBtnQuitClick(Sender: TObject);
     procedure ygBtnListClick(Sender: TObject);
@@ -52,6 +53,8 @@ type
     procedure actUpgradeExecute(Sender: TObject);
     procedure actListExecute(Sender: TObject);
     procedure actSearchExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -149,6 +152,12 @@ begin
     lOutPut.Add(ANewLine);
 end;
 
+procedure TfMain.FormCreate(Sender: TObject);
+begin
+  lOutPut := tStringList.Create;
+
+end;
+
 procedure TfMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   aComponent: TComponent;
@@ -170,15 +179,17 @@ end;
 
 procedure TfMain.FormShow(Sender: TObject);
 begin
-  lOutPut := tStringList.Create;
   PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
 end;
 
 procedure TfMain.GetVersion(var m: tMessage);
 begin
-  DosCommand1.CommandLine := tWingetcommand.version;
-  DosCommand1.OnTerminated := versionTerminated;
-  DosCommand1.Execute;
+  if not DosCommand1.IsRunning then
+  begin
+    DosCommand1.CommandLine := tWingetcommand.version;
+    DosCommand1.OnTerminated := versionTerminated;
+    DosCommand1.Execute;
+  end;
 end;
 
 procedure TfMain.listTerminated(Sender: TObject);
@@ -342,7 +353,7 @@ end;
 procedure TfMain.versionTerminated(Sender: TObject);
 begin
   lblWingetVersion.Caption := Format('Winget version %s', [lOutPut[0]]);
-  PostMessage(handle, WM_STARTLIST, 0, 0);
+  //PostMessage(handle, WM_STARTLIST, 0, 0);
 end;
 
 procedure TfMain.ygBtnListClick(Sender: TObject);

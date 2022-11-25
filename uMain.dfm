@@ -12,6 +12,7 @@ object fMain: TfMain
   Font.Style = []
   KeyPreview = True
   Position = poScreenCenter
+  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   TextHeight = 15
@@ -174,7 +175,6 @@ object fMain: TfMain
     ExplicitHeight = 629
   end
   object DosCommand1: TDosCommand
-    CommandLine = 'winget upgrade'
     InputToOutput = False
     MaxTimeAfterBeginning = 0
     MaxTimeAfterLastOutput = 0
@@ -206,5 +206,53 @@ object fMain: TfMain
       Caption = 'actQuit'
       OnExecute = actQuitExecute
     end
+  end
+  object sSkinManager1: TsSkinManager
+    ButtonsOptions.OldGlyphsMode = True
+    InternalSkins = <>
+    MenuSupport.Font.Charset = DEFAULT_CHARSET
+    MenuSupport.Font.Color = clWindowText
+    MenuSupport.Font.Height = -11
+    MenuSupport.Font.Name = 'Segoe UI'
+    MenuSupport.Font.Style = []
+    SkinDirectory = 'C:\skins\Skins'
+    SkinName = 'Windows 11 dark'
+    SkinInfo = '16.13'
+    ThirdParty.ThirdEdits = ' '
+    ThirdParty.ThirdButtons = 'TButton'
+    ThirdParty.ThirdBitBtns = ' '
+    ThirdParty.ThirdCheckBoxes = ' '
+    ThirdParty.ThirdGroupBoxes = ' '
+    ThirdParty.ThirdListViews = ' '
+    ThirdParty.ThirdPanels = ' '
+    ThirdParty.ThirdGrids = ' '
+    ThirdParty.ThirdTreeViews = ' '
+    ThirdParty.ThirdComboBoxes = ' '
+    ThirdParty.ThirdWWEdits = ' '
+    ThirdParty.ThirdVirtualTrees = ' '
+    ThirdParty.ThirdGridEh = ' '
+    ThirdParty.ThirdPageControl = ' '
+    ThirdParty.ThirdTabControl = ' '
+    ThirdParty.ThirdToolBar = ' '
+    ThirdParty.ThirdStatusBar = ' '
+    ThirdParty.ThirdSpeedButton = ' '
+    ThirdParty.ThirdScrollControl = ' '
+    ThirdParty.ThirdUpDown = ' '
+    ThirdParty.ThirdScrollBar = ' '
+    ThirdParty.ThirdStaticText = ' '
+    ThirdParty.ThirdNativePaint = ' '
+    Left = 784
+    Top = 409
+  end
+  object sSkinProvider1: TsSkinProvider
+    AddedTitle.Font.Charset = DEFAULT_CHARSET
+    AddedTitle.Font.Color = clNone
+    AddedTitle.Font.Height = -12
+    AddedTitle.Font.Name = 'Segoe UI'
+    AddedTitle.Font.Style = []
+    SkinData.SkinSection = 'FORM'
+    TitleButtons = <>
+    Left = 744
+    Top = 513
   end
 end
