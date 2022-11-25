@@ -21,9 +21,11 @@ type
     { Déclarations privées }
     lIDs : TStrings;
     procedure runNext(var msg : tMessage); message WM_RUNNEXT;
+    procedure CloseRunExt(var msg : tMEssage); message WM_CLOSERUNEXT;
   public
     { Déclarations publiques }
     typeRun : tPackagetype;
+    removeItem : tRemoveItem;
     Procedure addId(sID : String);
   end;
 
@@ -38,6 +40,11 @@ procedure TfRunWinget.addId(sID: String);
 begin
     //mmo1.Lines.Add(DosCommand);
    lIDs.add(Trim(sID));
+end;
+
+procedure TfRunWinget.CloseRunExt(var msg: tMEssage);
+begin
+  ModalResult := mrOk;
 end;
 
 function TfRunWinget.dcRunCharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -67,14 +74,21 @@ begin
 end;
 
 procedure TfRunWinget.dcRunTerminated(Sender: TObject);
+var
+  sId : String;
 begin
   if dcRun.ExitCode = 0 then
   begin
-    mmo1.Lines.Add('réussi');
+    if Assigned(removeItem) then
+    begin
+       sId := lIds[lIds.count -1];
+       removeItem(sId);
+    end;
+     lIds.delete(lIds.count -1);
   end
   else
   begin
-    mmo1.Lines.Add('raté');
+    //mmo1.Lines.Add('raté');
   end;
     PostMessage(Self.Handle, WM_RUNNEXT,0,0);
 end;
@@ -101,8 +115,11 @@ begin
           dcRun.CommandLine := tWingetcommand.unInstall(lIDs[lIds.count -1]);
         end;
       end;
-      lIds.delete(lIds.count -1);
     dcRun.Execute;
+  end
+  else
+  begin
+    PostMessage(Self.handle, WM_CLOSERUNEXT, 0, 0);
   end;
 
 end;

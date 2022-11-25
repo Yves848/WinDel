@@ -39,10 +39,8 @@ object fRunWinget: TfRunWinget
     Height = 213
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 144
-    ExplicitTop = 144
-    ExplicitWidth = 185
-    ExplicitHeight = 89
+    ExplicitWidth = 693
+    ExplicitHeight = 212
   end
   object dcRun: TDosCommand
     InputToOutput = False

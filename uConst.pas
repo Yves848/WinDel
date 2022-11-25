@@ -17,10 +17,12 @@ const
   WM_STARTSEARCH = WM_GETWINGETVERSION + 1;
   WM_STARTLIST = WM_STARTSEARCH + 1;
   WM_RUNNEXT = WM_STARTLIST + 1;
+  WM_CLOSERUNEXT = WM_RUNNEXT + 1;
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList, ptUninstall);
   tActivitySet = procedure (bActive : Boolean) of object;
+  tRemoveItem = procedure (sID : string) of object;
 
   tWingetcommand = class
     class function Install(sId: String): String;
@@ -51,6 +53,7 @@ type
     constructor create(sLine: String; sType: tPackageType);
     function getField(sField: string): String;
     function getAllFields: TStrings;
+
   End;
 
 var
@@ -252,6 +255,8 @@ procedure tWingetPackage.makeListFields(sLine: String);
 begin
 
 end;
+
+
 
 initialization
 

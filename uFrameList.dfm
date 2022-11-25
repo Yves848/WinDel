@@ -89,7 +89,7 @@ inherited frmList: TfrmList
         Caption = 'pnlFilterGroup'
         ShowCaption = False
         TabOrder = 1
-        object lblfltSource: TLabel
+        object lblfltSource: TsLabel
           Left = 0
           Top = 0
           Width = 177
@@ -99,15 +99,15 @@ inherited frmList: TfrmList
           Caption = 'Source'
           ExplicitWidth = 36
         end
-        object cbbSourceFilter: TComboBox
+        object cbbSourceFilter: TsComboBox
           Left = 0
           Top = 15
           Width = 177
           Height = 23
           Align = alTop
-          Style = csDropDownList
           TabOrder = 0
           OnChange = cbbSourceFilterChange
+          Style = csDropDownList
         end
       end
     end

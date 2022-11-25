@@ -71,7 +71,10 @@ begin
     inc(i);
   end;
   fRunWinget.typeRun := ptInstall;
-  fRunWinget.showModal;
+  if fRunWinget.showModal = mrOk then
+  begin
+     ListView1.Clear;
+  end;
   fRunWinget.Free;
 
 end;

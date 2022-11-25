@@ -5,7 +5,8 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, Winapi.CommCtrl, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, System.Generics.Collections,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, uConst, Vcl.StdCtrls, sListView, uRunWinget, sFrameAdapter, sPanel,
-  Vcl.Buttons, sSpeedButton, System.ImageList, Vcl.ImgList, acAlphaImageList, System.Actions, Vcl.ActnList;
+  Vcl.Buttons, sSpeedButton, System.ImageList, Vcl.ImgList, acAlphaImageList, System.Actions, Vcl.ActnList, sLabel, Vcl.Mask, sMaskEdit,
+  sCustomComboEdit, sComboBox;
 
 const
   aColWidths: array of Integer = [40, 31, 13, 13, 8];
@@ -17,8 +18,8 @@ type
     pnlSideTB: TsPanel;
     pnlUpgTopSide: TsPanel;
     pnlFilterGroup: TsPanel;
-    lblfltSource: TLabel;
-    cbbSourceFilter: TComboBox;
+    lblfltSource: TsLabel;
+    cbbSourceFilter: TsComboBox;
     pnlTitleToolBar: TsPanel;
     sFrameAdapter1: TsFrameAdapter;
     btnUnInstallRun: TsSpeedButton;
@@ -43,6 +44,7 @@ type
     Procedure InitFilterCB;
     procedure setupColumnHeaders;
     procedure filterWinget;
+     procedure removeItem(sId : String);
   end;
 
 var
@@ -165,6 +167,24 @@ begin
   cbbSourceFilter.ItemIndex := 0;
 end;
 
+procedure TfrmList.removeItem(sId: String);
+var
+  i : Integer;
+  aWingetPackage: tWingetPackage;
+begin
+    i := 0;
+  while i <= ListView1.Items.Count -1 do
+  begin
+    if (ListView1.Items[i].Data <> Nil) and (ListView1.Items[i].Checked) then
+    begin
+       aWingetPackage := tWingetPackage(ListView1.Items[i].Data);
+       if trim(aWingetPackage.getField('id')) = sId then
+          listView1.Items.Delete(i);
+    end;
+    inc(i);
+  end;
+end;
+
 procedure TfrmList.setupColumnHeaders;
 var
   i: Integer;
@@ -202,7 +222,11 @@ begin
     inc(i);
   end;
   fRunWinget.typeRun := ptuninstall;
-  fRunWinget.showModal;
+  fRunWinget.removeItem := removeitem;
+  if fRunWinget.showModal = mrOk then
+  begin
+
+  end;
   fRunWinget.Free;
 end;
 
