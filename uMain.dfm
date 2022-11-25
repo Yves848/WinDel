@@ -29,7 +29,6 @@ object fMain: TfMain
     Padding.Bottom = 2
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 1072
     DesignSize = (
       1074
       41)
@@ -41,13 +40,12 @@ object fMain: TfMain
       IndicatorType = aitRotatingSector
     end
     object btn1: TButton
-      Left = 712
-      Top = 0
+      Left = 680
+      Top = 10
       Width = 75
       Height = 25
       Caption = 'btn1'
       TabOrder = 1
-      Visible = False
       OnClick = btn1Click
     end
     object pnlF1: TPanel
@@ -119,7 +117,7 @@ object fMain: TfMain
       Caption = 'Quit'
       TabOrder = 8
       OnClick = btnQuitClick
-      ExplicitLeft = 976
+      ExplicitLeft = 974
     end
     object pnlEsc: TPanel
       Left = 937
@@ -130,7 +128,7 @@ object fMain: TfMain
       BevelOuter = bvNone
       Caption = 'Esc  :'
       TabOrder = 9
-      ExplicitLeft = 935
+      ExplicitLeft = 933
     end
   end
   object pnlFooter: TPanel
@@ -143,8 +141,8 @@ object fMain: TfMain
     Caption = 'pnlFooter'
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 667
-    ExplicitWidth = 1072
+    ExplicitTop = 670
+    ExplicitWidth = 1070
     object lblWingetVersion: TLabel
       Left = 1070
       Top = 0
@@ -172,8 +170,8 @@ object fMain: TfMain
     Caption = 'pnlMain'
     ShowCaption = False
     TabOrder = 2
-    ExplicitWidth = 1072
-    ExplicitHeight = 626
+    ExplicitWidth = 1070
+    ExplicitHeight = 629
   end
   object DosCommand1: TDosCommand
     CommandLine = 'winget upgrade'

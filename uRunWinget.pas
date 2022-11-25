@@ -61,7 +61,6 @@ end;
 procedure TfRunWinget.dcRunNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
 begin
   if ANewLine.IndexOf(Chr(08)) = -1 then
-
   mmo1.Lines.Add(aNewLine);
 end;
 

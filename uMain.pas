@@ -7,7 +7,8 @@ uses
   System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Themes,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList, utestcomponents, CustomButton1, System.Actions,
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList, utestcomponents, CustomButton1,
+  System.Actions,
   Vcl.ActnList;
 
 type
@@ -57,7 +58,7 @@ type
     function makeUpgList: tStrings;
     procedure GetVersion(var m: tMessage); message WM_GETWINGETVERSION;
     procedure StartSearch(var m: tMessage); message WM_STARTSEARCH;
-    procedure StartList(var m : TMessage); message WM_STARTLIST;
+    procedure StartList(var m: tMessage); message WM_STARTLIST;
     procedure taskSearch(Sender: TObject);
     procedure taskList(Sender: TObject);
     procedure taskUpgrade(Sender: TObject);
@@ -99,12 +100,8 @@ begin
 end;
 
 procedure TfMain.btn1Click(Sender: TObject);
-var
-  Form1: TForm1;
 begin
-  Form1 := TForm1.Create(self);
-  Form1.showModal;
-  Form1.Free;
+  TStyleManager.TrySetStyle('Windows');
 end;
 
 procedure TfMain.btnListClick(Sender: TObject);
@@ -154,7 +151,8 @@ end;
 
 procedure TfMain.DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
 begin
-  lOutPut.Add(ANewLine);
+  if ANewLine.IndexOf(Chr(08)) = -1 then
+    lOutPut.Add(ANewLine);
 end;
 
 procedure TfMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -257,7 +255,7 @@ begin
   end;
 end;
 
-procedure TfMain.StartList(var m: TMessage);
+procedure TfMain.StartList(var m: tMessage);
 begin
   taskList(Nil);
 end;

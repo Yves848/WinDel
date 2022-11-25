@@ -20,6 +20,7 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
+  Application.ShowMainForm := True;
   TStyleManager.TrySetStyle('Glow');
   Application.CreateForm(TfMain, fMain);
   Application.CreateForm(TfrmOptions, frmOptions);
