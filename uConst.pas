@@ -20,6 +20,7 @@ const
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList, ptUninstall);
+  tActivitySet = procedure (bActive : Boolean) of object;
 
   tWingetcommand = class
     class function Install(sId: String): String;

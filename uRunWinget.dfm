@@ -1,7 +1,7 @@
 object fRunWinget: TfRunWinget
   Left = 0
   Top = 0
-  Caption = 'fRunWinget'
+  Caption = 'Monitor'
   ClientHeight = 254
   ClientWidth = 697
   Color = clBtnFace

@@ -16,11 +16,11 @@ object fMain: TfMain
   OnKeyDown = FormKeyDown
   OnShow = FormShow
   TextHeight = 15
-  object pnlToolbar: TPanel
+  object pnlToolbar: TsPanel
     Left = 0
     Top = 0
     Width = 1074
-    Height = 41
+    Height = 54
     Align = alTop
     BevelOuter = bvNone
     Caption = 'pnlToolbar'
@@ -31,105 +31,44 @@ object fMain: TfMain
     ShowCaption = False
     TabOrder = 0
     ExplicitWidth = 1070
-    DesignSize = (
-      1074
-      41)
-    object AI1: TActivityIndicator
-      Left = 412
-      Top = 4
-      Anchors = [akLeft, akRight]
-      IndicatorColor = aicWhite
-      IndicatorType = aitRotatingSector
+    object sSpeedButton1: TsSpeedButton
+      Left = 209
+      Top = 2
+      Width = 204
+      Height = 50
+      Align = alLeft
+      Caption = 'List Packages'#13#10'(F2)'
+      ImageIndex = 1
+      Images = sCharImageList1
+      Spacing = 30
+      Reflected = True
     end
-    object btn1: TButton
-      Left = 680
-      Top = 10
-      Width = 75
-      Height = 25
-      Caption = 'btn1'
-      TabOrder = 1
-    end
-    object pnlF1: TPanel
+    object sSpeedButton2: TsSpeedButton
       Left = 5
       Top = 2
-      Width = 41
-      Height = 37
+      Width = 204
+      Height = 50
       Align = alLeft
-      BevelOuter = bvNone
-      Caption = 'F1  :'
-      TabOrder = 2
+      Caption = 'Search Package'#13#10'(F1)'
+      ImageIndex = 0
+      Images = sCharImageList1
+      Spacing = 30
+      ButtonStyle = tbsTextButton
+      Reflected = True
     end
-    object btnSearch: TButton
-      Left = 46
+    object sSpeedButton3: TsSpeedButton
+      Left = 865
       Top = 2
-      Width = 91
-      Height = 37
-      Align = alLeft
-      Caption = 'Search'
-      TabOrder = 3
-      OnClick = btnSearchClick
-    end
-    object pnlf2: TPanel
-      Left = 137
-      Top = 2
-      Width = 41
-      Height = 37
-      Align = alLeft
-      BevelOuter = bvNone
-      Caption = 'F2  :'
-      TabOrder = 4
-    end
-    object btnList: TButton
-      Left = 178
-      Top = 2
-      Width = 91
-      Height = 37
-      Align = alLeft
-      Caption = 'List'
-      TabOrder = 5
-      OnClick = btnListClick
-    end
-    object pnlF3: TPanel
-      Left = 269
-      Top = 2
-      Width = 41
-      Height = 37
-      Align = alLeft
-      BevelOuter = bvNone
-      Caption = 'F3  :'
-      TabOrder = 6
-    end
-    object btnUpgrade: TButton
-      Left = 310
-      Top = 2
-      Width = 91
-      Height = 37
-      Align = alLeft
-      Caption = 'Upgrade'
-      TabOrder = 7
-      OnClick = btnUpgradeClick
-    end
-    object btnQuit: TButton
-      Left = 978
-      Top = 2
-      Width = 91
-      Height = 37
+      Width = 204
+      Height = 50
       Align = alRight
-      Caption = 'Quit'
-      TabOrder = 8
-      OnClick = btnQuitClick
-      ExplicitLeft = 974
-    end
-    object pnlEsc: TPanel
-      Left = 937
-      Top = 2
-      Width = 41
-      Height = 37
-      Align = alRight
-      BevelOuter = bvNone
-      Caption = 'Esc  :'
-      TabOrder = 9
-      ExplicitLeft = 933
+      Caption = 'Quit'#13#10'(Esc)'
+      ImageIndex = 2
+      Images = sCharImageList1
+      Spacing = 30
+      OnClick = sSpeedButton3Click
+      Reflected = True
+      ExplicitLeft = 209
     end
   end
   object pnlFooter: TPanel
@@ -144,35 +83,52 @@ object fMain: TfMain
     TabOrder = 1
     ExplicitTop = 670
     ExplicitWidth = 1070
-    object lblWingetVersion: TLabel
-      Left = 1070
+    DesignSize = (
+      1074
+      41)
+    object lblWingetVersion: TsLabelFX
+      Left = 1068
       Top = 0
-      Width = 4
+      Width = 6
       Height = 41
       Align = alRight
-      Alignment = taRightJustify
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clSilver
-      Font.Height = -16
-      Font.Name = 'Segoe UI'
-      Font.Style = [fsItalic]
+      Alignment = taCenter
       ParentFont = False
       Layout = tlCenter
-      ExplicitHeight = 21
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      Angle = 0
+      Shadow.OffsetKeeper.LeftTop = 0
+      Shadow.OffsetKeeper.RightBottom = 2
+      ExplicitHeight = 23
+    end
+    object AI1: TActivityIndicator
+      Left = 5
+      Top = 6
+      Anchors = [akLeft, akRight]
+      IndicatorColor = aicWhite
+      IndicatorType = aitRotatingSector
     end
   end
-  object pnlMain: TPanel
+  object pnlMain: TsPanel
     Left = 0
-    Top = 41
+    Top = 54
     Width = 1074
-    Height = 630
+    Height = 617
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlMain'
+    Padding.Left = 3
+    Padding.Top = 3
+    Padding.Right = 3
+    Padding.Bottom = 3
     ShowCaption = False
     TabOrder = 2
     ExplicitWidth = 1070
-    ExplicitHeight = 629
+    ExplicitHeight = 616
   end
   object DosCommand1: TDosCommand
     InputToOutput = False
@@ -194,6 +150,7 @@ object fMain: TfMain
     end
     object actList: TAction
       Caption = 'actList'
+      ImageIndex = 0
       ShortCut = 113
       OnExecute = actListExecute
     end
@@ -204,6 +161,7 @@ object fMain: TfMain
     end
     object actQuit: TAction
       Caption = 'actQuit'
+      ShortCut = 32795
       OnExecute = actQuitExecute
     end
   end
@@ -254,5 +212,31 @@ object fMain: TfMain
     TitleButtons = <>
     Left = 744
     Top = 513
+  end
+  object sCharImageList1: TsCharImageList
+    EmbeddedFonts = <
+      item
+        FontName = 'FontAwesome'
+        FontData = {}
+      end>
+    Items = <
+      item
+        AddedSize = 60
+        Char = 61442
+        Color = -5344256
+        AddedColor = -6381825
+      end
+      item
+        Char = 61451
+        Color = -16740864
+      end
+      item
+        Char = 61457
+        Color = clRed
+        SecondColor = clYellow
+      end>
+    Left = 880
+    Top = 481
+    Bitmap = {}
   end
 end

@@ -9,7 +9,7 @@ uses
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList,
   System.Actions,
-  Vcl.ActnList, sSkinProvider, sSkinManager;
+  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -17,19 +17,9 @@ type
   TfMain = class(TForm)
     AI1: TActivityIndicator;
     DosCommand1: TDosCommand;
-    pnlToolbar: TPanel;
+    pnlToolbar: TsPanel;
     pnlFooter: TPanel;
-    pnlMain: TPanel;
-    btn1: TButton;
-    lblWingetVersion: TLabel;
-    pnlF1: TPanel;
-    btnSearch: TButton;
-    pnlf2: TPanel;
-    btnList: TButton;
-    pnlF3: TPanel;
-    btnUpgrade: TButton;
-    btnQuit: TButton;
-    pnlEsc: TPanel;
+    pnlMain: TsPanel;
     actlst1: TActionList;
     actSearch: TAction;
     actList: TAction;
@@ -37,6 +27,11 @@ type
     actQuit: TAction;
     sSkinManager1: TsSkinManager;
     sSkinProvider1: TsSkinProvider;
+    sCharImageList1: TsCharImageList;
+    sSpeedButton1: TsSpeedButton;
+    sSpeedButton2: TsSpeedButton;
+    sSpeedButton3: TsSpeedButton;
+    lblWingetVersion: TsLabelFX;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -55,6 +50,7 @@ type
     procedure actSearchExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure sSpeedButton3Click(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -72,6 +68,7 @@ type
     procedure versionTerminated(Sender: TObject);
     procedure listTerminated(Sender: TObject);
     procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+    Procedure ActivitySet(bActive : Boolean);
   end;
 
 var
@@ -80,6 +77,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfMain.ActivitySet(bActive: Boolean);
+begin
+  AI1.Animate := bActive;
+end;
 
 procedure TfMain.actListExecute(Sender: TObject);
 begin
@@ -219,9 +221,10 @@ begin
     inc(i);
   end;
   TfrmList(aFrame).setupColumnHeaders;
+  tfrmList(aFrame).filterWinget;
   TfrmList(aFrame).ApplyFilter;
   TfrmList(aFrame).ListView1.OnSelectItem := LVSelectItem;
-  AI1.Animate := False;
+  ActivitySet(False);
 end;
 
 procedure TfMain.LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
@@ -260,6 +263,11 @@ begin
   end;
 end;
 
+procedure TfMain.sSpeedButton3Click(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TfMain.StartList(var m: tMessage);
 begin
   taskList(Nil);
@@ -272,7 +280,7 @@ end;
 
 procedure TfMain.taskList(Sender: TObject);
 begin
-  AI1.Animate := True;
+  ActivitySet(True);
   if aFrame <> Nil then
     aFrame.Free;
 
@@ -288,14 +296,16 @@ begin
     aFrame.Free;
 
   aFrame := TfrmSearch.Create(pnlMain);
+
   aFrame.Parent := pnlMain;
   aFrame.Align := alClient;
   TfrmSearch(aFrame).Init;
+  TfrmSearch(aFrame).activityset := ActivitySet;
 end;
 
 procedure TfMain.taskUpgrade(Sender: TObject);
 begin
-  AI1.Animate := True;
+  ActivitySet(True);
   if aFrame <> Nil then
     aFrame.Free;
 
@@ -347,7 +357,7 @@ begin
     end;
     inc(i);
   end;
-  AI1.Animate := False;
+  ActivitySet(False);
 end;
 
 procedure TfMain.versionTerminated(Sender: TObject);

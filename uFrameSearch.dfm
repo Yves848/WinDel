@@ -1,6 +1,6 @@
 inherited frmSearch: TfrmSearch
   OnResize = FrameResize
-  object pnlSearchMain: TPanel
+  object pnlSearchMain: TsPanel
     Left = 0
     Top = 24
     Width = 640
@@ -10,7 +10,7 @@ inherited frmSearch: TfrmSearch
     Caption = 'pnlSearchMain'
     ShowCaption = False
     TabOrder = 0
-    object pnlSearchEdit: TPanel
+    object pnlSearchEdit: TsPanel
       Left = 0
       Top = 0
       Width = 640
@@ -18,109 +18,111 @@ inherited frmSearch: TfrmSearch
       Align = alTop
       BevelOuter = bvNone
       Caption = 'pnlSearchEdit'
+      Color = clBackground
       ShowCaption = False
+      ParentBackground = False
       TabOrder = 0
-      object lblSearch: TLabel
-        Left = 16
-        Top = 16
-        Width = 85
-        Height = 15
-        Caption = '&Package Name :'
-      end
-      object edtPackageName: TEdit
-        Left = 120
-        Top = 13
-        Width = 393
-        Height = 23
-        TabOrder = 0
-        OnKeyDown = edtPackageNameKeyDown
-      end
       object btnLaunch: TButton
-        Left = 519
-        Top = 12
+        Left = 520
+        Top = 28
         Width = 75
         Height = 25
         Caption = 'Launch'
-        TabOrder = 1
+        TabOrder = 0
         OnClick = btnLaunchClick
       end
-      object AI1: TActivityIndicator
-        Left = 601
-        Top = 12
-        IndicatorColor = aicWhite
-        IndicatorSize = aisSmall
-        IndicatorType = aitSectorRing
+      object edtPackageName: TsEdit
+        Left = 16
+        Top = 29
+        Width = 489
+        Height = 23
+        TabOrder = 1
+        TextHint = 'Package to search'
+        OnKeyDown = edtPackageNameKeyDown
+        BoundLabel.Active = True
+        BoundLabel.Caption = 'Package to search'
+        BoundLabel.Layout = sclTopLeft
+        LabelFromTextHint = True
       end
     end
-    object ListView1: TListView
+    object ListView1: TsListView
       Left = 0
       Top = 105
-      Width = 513
+      Width = 455
       Height = 351
-      Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
+      Align = alClient
       Checkboxes = True
       Columns = <
         item
-          AutoSize = True
           Caption = 'Description'
           MinWidth = 200
+          Width = 200
         end
         item
-          AutoSize = True
           Caption = 'ID'
+          Width = 78
         end
         item
-          AutoSize = True
           Caption = 'Version'
+          Width = 77
         end
         item
-          AutoSize = True
           Caption = 'Correspondance'
+          Width = 77
         end
         item
-          AutoSize = True
           Caption = 'Source'
+          Width = 77
         end>
       RowSelect = True
       TabOrder = 1
       ViewStyle = vsReport
+      ExplicitWidth = 513
     end
-    object pnlUpgSideBar: TPanel
-      Left = 513
+    object pnlUpgSideBar: TsPanel
+      Left = 455
       Top = 105
-      Width = 127
+      Width = 185
       Height = 351
       Align = alRight
       BevelOuter = bvNone
       Caption = 'pnlUpgSideBar'
+      Padding.Left = 4
+      Padding.Right = 4
       ShowCaption = False
       TabOrder = 2
-      object pnlUpgTopSide: TPanel
-        Left = 0
+      ExplicitLeft = 447
+      ExplicitTop = 111
+      object btnInstallRun: TsSpeedButton
+        Left = 4
+        Top = 41
+        Width = 177
+        Height = 48
+        Align = alTop
+        Caption = 'Install Selected'#13#10'(F8)'
+        ImageIndex = 0
+        Images = sCharImageList1
+        OnClick = btnInstallRunClick
+        Reflected = True
+        ExplicitWidth = 119
+      end
+      object pnlUpgTopSide: TsPanel
+        Left = 4
         Top = 0
-        Width = 127
+        Width = 177
         Height = 41
         Align = alTop
         BevelOuter = bvNone
         Caption = 'pnlUpgTopSide'
         ShowCaption = False
         TabOrder = 0
-      end
-      object btnInstallRun: TButton
-        Left = 0
-        Top = 41
-        Width = 127
-        Height = 40
-        Align = alTop
-        Caption = 'Install Selected'
-        TabOrder = 1
-        OnClick = btnInstallRunClick
+        ExplicitWidth = 119
       end
     end
   end
-  object pnlTitleToolBar: TPanel
+  object pnlTitleToolBar: TsPanel
     Left = 0
     Top = 0
     Width = 640
@@ -130,9 +132,9 @@ inherited frmSearch: TfrmSearch
     BevelOuter = bvNone
     Caption = 'Search Packages'
     Color = 12615680
+    StyleElements = [seFont, seBorder]
     ParentBackground = False
     TabOrder = 1
-    StyleElements = [seFont, seBorder]
   end
   object dcSearch1: TDosCommand
     InputToOutput = False
@@ -142,5 +144,33 @@ inherited frmSearch: TfrmSearch
     OnNewLine = dcSearch1NewLine
     Left = 320
     Top = 272
+  end
+  object sFrameAdapter1: TsFrameAdapter
+    Left = 577
+    Top = 385
+  end
+  object sCharImageList1: TsCharImageList
+    EmbeddedFonts = <
+      item
+        FontName = 'FontAwesome'
+        FontData = {}
+      end>
+    Items = <
+      item
+        Char = 61465
+        Color = -5344256
+      end>
+    Left = 553
+    Top = 361
+    Bitmap = {}
+  end
+  object ActionList1: TActionList
+    Left = 551
+    Top = 313
+    object InstallSelected: TAction
+      Caption = 'Install Selected'
+      ShortCut = 119
+      OnExecute = InstallSelectedExecute
+    end
   end
 end

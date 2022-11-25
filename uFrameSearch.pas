@@ -4,30 +4,34 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Winapi.CommCtrl, System.RegularExpressions,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, DosCommand, uConst, Vcl.WinXCtrls, uRunwinget;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.StdCtrls, DosCommand, uConst, Vcl.WinXCtrls, uRunwinget, sListView,
+  sEdit, sPanel, sFrameAdapter, Vcl.Buttons, sSpeedButton, System.ImageList, Vcl.ImgList, acAlphaImageList, System.Actions, Vcl.ActnList;
 
 const
   aColWidths: array of Integer = [40, 31, 13, 13, 8];
 
 type
   TfrmSearch = class(TfrmBase)
-    pnlSearchMain: TPanel;
-    pnlSearchEdit: TPanel;
-    ListView1: TListView;
-    pnlUpgSideBar: TPanel;
-    pnlUpgTopSide: TPanel;
-    btnInstallRun: TButton;
-    lblSearch: TLabel;
-    edtPackageName: TEdit;
+    pnlSearchMain: TsPanel;
+    pnlSearchEdit: TsPanel;
+    ListView1: TsListView;
+    pnlUpgSideBar: TsPanel;
+    pnlUpgTopSide: TsPanel;
     btnLaunch: TButton;
     dcSearch1: TDosCommand;
-    AI1: TActivityIndicator;
-    pnlTitleToolBar: TPanel;
+    pnlTitleToolBar: TsPanel;
+    edtPackageName: TsEdit;
+    sFrameAdapter1: TsFrameAdapter;
+    btnInstallRun: TsSpeedButton;
+    sCharImageList1: TsCharImageList;
+    ActionList1: TActionList;
+    InstallSelected: TAction;
     procedure FrameResize(Sender: TObject);
     procedure btnLaunchClick(Sender: TObject);
     function dcSearch1CharDecoding(ASender: TObject; ABuf: TStream): string;
     procedure dcSearch1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure edtPackageNameKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure InstallSelectedExecute(Sender: TObject);
     procedure btnInstallRunClick(Sender: TObject);
   private
     { Déclarations privées }
@@ -35,6 +39,7 @@ type
   public
     { Déclarations publiques }
     lOutPut: tStrings;
+    ActivitySet : tActivitySet;
     procedure init;
     procedure searchTerminated(Sender: TObject);
 
@@ -47,7 +52,7 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmSearch.btnInstallRunClick(Sender: TObject);
+procedure TfrmSearch.InstallSelectedExecute(Sender: TObject);
 var
   fRunWinget : TfRunWinget;
   i : Integer;
@@ -65,14 +70,22 @@ begin
     end;
     inc(i);
   end;
+  fRunWinget.typeRun := ptInstall;
   fRunWinget.showModal;
   fRunWinget.Free;
+
+end;
+
+procedure TfrmSearch.btnInstallRunClick(Sender: TObject);
+begin
+  inherited;
+   InstallSelectedExecute(Sender);
 end;
 
 procedure TfrmSearch.btnLaunchClick(Sender: TObject);
 begin
   // Launch Search
-  AI1.Animate := true;
+  ActivitySet(True);
   lOutPut.Clear;
   dcSearch1.CommandLine := tWingetcommand.Search(edtPackageName.text);
   dcSearch1.OnTerminated := searchTerminated;
@@ -119,7 +132,7 @@ end;
 
 procedure TfrmSearch.FrameResize(Sender: TObject);
 var
-  listeView: TListView;
+  listeView: TsListView;
   columns: TListColumns;
   column: TListColumn;
   i: Integer;
@@ -183,7 +196,7 @@ begin
     inc(i);
   end;
   liste.EndUpdate;
-  AI1.Animate := False;
+  ActivitySet(False);
   ListView1.ItemIndex := 0;
   ListView1.SetFocus;
 end;
