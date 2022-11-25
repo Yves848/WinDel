@@ -4,10 +4,10 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Themes,
+  System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList, utestcomponents, CustomButton1,
+  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList,
   System.Actions,
   Vcl.ActnList;
 
@@ -41,7 +41,6 @@ type
     procedure DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
     procedure btnSearchClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure btn1Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ygBtnSearchClick(Sender: TObject);
     procedure ygBtnQuitClick(Sender: TObject);
@@ -97,11 +96,6 @@ end;
 procedure TfMain.actUpgradeExecute(Sender: TObject);
 begin
   taskUpgrade(Sender);
-end;
-
-procedure TfMain.btn1Click(Sender: TObject);
-begin
-  TStyleManager.TrySetStyle('Windows');
 end;
 
 procedure TfMain.btnListClick(Sender: TObject);

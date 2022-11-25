@@ -29,6 +29,7 @@ object fMain: TfMain
     Padding.Bottom = 2
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 1070
     DesignSize = (
       1074
       41)
@@ -46,7 +47,6 @@ object fMain: TfMain
       Height = 25
       Caption = 'btn1'
       TabOrder = 1
-      OnClick = btn1Click
     end
     object pnlF1: TPanel
       Left = 5
