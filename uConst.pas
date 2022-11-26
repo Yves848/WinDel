@@ -21,16 +21,16 @@ const
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList, ptUninstall);
-  tActivitySet = procedure (bActive : Boolean) of object;
-  tRemoveItem = procedure (sID : string) of object;
+  tActivitySet = procedure(bActive: Boolean) of object;
+  tRemoveItem = procedure(sID: string) of object;
 
   tWingetcommand = class
-    class function Install(sId: String): String;
+    class function Install(sID: String): String;
     class function Upgrade: String;
     class Function List: String;
     class function Search(sText: String): String;
     class function version: String;
-    class function UnInstall(sId: String): String;
+    class function UnInstall(sID: String): String;
   end;
 
   tColumnClass = class
@@ -45,12 +45,17 @@ type
   private
     fFields: TArray<String>;
     fType: tPackageType;
+    fLine: string;
     dFields: TDictionary<string, string>;
     procedure makeFields(sLine: String);
     procedure makeListFields(sLine: String);
+  published
+    property Line: String read fLine;
+    property PackageType : tPackageType read fType;
   public
     property Fields: TArray<String> read fFields write fFields;
-    constructor create(sLine: String; sType: tPackageType);
+    constructor create(sLine: String; sType: tPackageType); overload;
+    constructor create(pWingetPackage: tWingetPackage); overload;
     function getField(sField: string): String;
     function getAllFields: TStrings;
 
@@ -147,6 +152,7 @@ var
   aColumn: tColumnClass;
 begin
   fType := sType;
+  fLine := sLine;
   dFields := TDictionary<String, String>.create();
   case sType of
     ptInstall:
@@ -179,17 +185,17 @@ begin
 
     ptList:
       begin
-        
+
       end;
   end;
 end;
 
 { tCommandClass }
 
-class function tWingetcommand.Install(sId: String): String;
+class function tWingetcommand.Install(sID: String): String;
 begin
   wgCommands.TryGetValue('install', result);
-  result := format(result, [sId]);
+  result := format(result, [sID]);
 end;
 
 class function tWingetcommand.List: String;
@@ -203,10 +209,10 @@ begin
   result := format(result, [sText]);
 end;
 
-class function tWingetcommand.UnInstall(sId: String): String;
+class function tWingetcommand.UnInstall(sID: String): String;
 begin
-   wgCommands.TryGetValue('uninstall', result);
-  result := format(result, [sId]);
+  wgCommands.TryGetValue('uninstall', result);
+  result := format(result, [sID]);
 end;
 
 class function tWingetcommand.Upgrade: String;
@@ -217,6 +223,12 @@ end;
 class function tWingetcommand.version: String;
 begin
   wgCommands.TryGetValue('version', result);
+end;
+
+constructor tWingetPackage.create(pWingetPackage: tWingetPackage);
+begin
+  //
+  create(pWingetPackage.Line, pWingetPackage.PackageType);
 end;
 
 function tWingetPackage.getAllFields: TStrings;
@@ -255,8 +267,6 @@ procedure tWingetPackage.makeListFields(sLine: String);
 begin
 
 end;
-
-
 
 initialization
 

@@ -51,6 +51,8 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure sSpeedButton3Click(Sender: TObject);
+    procedure sSpeedButton2Click(Sender: TObject);
+    procedure sSpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -261,6 +263,16 @@ begin
       result.Add(ANewLine);
     inc(iLine);
   end;
+end;
+
+procedure TfMain.sSpeedButton1Click(Sender: TObject);
+begin
+  taskList(Sender);
+end;
+
+procedure TfMain.sSpeedButton2Click(Sender: TObject);
+begin
+  taskSearch(Sender);
 end;
 
 procedure TfMain.sSpeedButton3Click(Sender: TObject);

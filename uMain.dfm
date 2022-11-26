@@ -1,6 +1,8 @@
 object fMain: TfMain
   Left = 0
   Top = 0
+  AlphaBlend = True
+  AlphaBlendValue = 235
   Caption = 'Winget Helper'
   ClientHeight = 712
   ClientWidth = 1074
@@ -32,43 +34,45 @@ object fMain: TfMain
     TabOrder = 0
     ExplicitWidth = 1070
     object sSpeedButton1: TsSpeedButton
-      Left = 209
+      Left = 145
       Top = 2
-      Width = 204
+      Width = 140
       Height = 50
       Align = alLeft
       Caption = 'List Packages'#13#10'(F2)'
       ImageIndex = 1
       Images = sCharImageList1
-      Spacing = 30
+      Spacing = 15
+      OnClick = sSpeedButton1Click
       Reflected = True
     end
     object sSpeedButton2: TsSpeedButton
       Left = 5
       Top = 2
-      Width = 204
+      Width = 140
       Height = 50
       Align = alLeft
       Caption = 'Search Package'#13#10'(F1)'
       ImageIndex = 0
       Images = sCharImageList1
-      Spacing = 30
+      Spacing = 15
+      OnClick = sSpeedButton2Click
       ButtonStyle = tbsTextButton
       Reflected = True
     end
     object sSpeedButton3: TsSpeedButton
-      Left = 865
+      Left = 929
       Top = 2
-      Width = 204
+      Width = 140
       Height = 50
       Align = alRight
       Caption = 'Quit'#13#10'(Esc)'
       ImageIndex = 2
       Images = sCharImageList1
-      Spacing = 30
+      Spacing = 15
       OnClick = sSpeedButton3Click
       Reflected = True
-      ExplicitLeft = 209
+      ExplicitLeft = 936
     end
   end
   object pnlFooter: TPanel
@@ -166,6 +170,7 @@ object fMain: TfMain
     end
   end
   object sSkinManager1: TsSkinManager
+    AnimEffects.BlendOnMoving.Active = True
     ButtonsOptions.OldGlyphsMode = True
     InternalSkins = <>
     MenuSupport.Font.Charset = DEFAULT_CHARSET
