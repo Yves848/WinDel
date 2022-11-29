@@ -86,8 +86,20 @@ var
 
 procedure makeUpgradeDictonary(sLine: String);
 procedure removekey;
+function CurrentUserName:String;
 
 implementation
+
+function CurrentUserName:String;
+var
+  u: array[0..127] of Char;
+  sz:DWord;
+begin
+  sz:=SizeOf(u);
+  GetUserName(u,sz);
+  Result:=u;
+end;
+
 
 procedure removekey;
 var

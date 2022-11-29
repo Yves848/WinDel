@@ -3,7 +3,7 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,System.IOUtils,
   System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
@@ -34,6 +34,7 @@ type
     lblWingetVersion: TsLabelFX;
     sbConfig: TsSpeedButton;
     actConfig: TAction;
+    lblScoopVersion: TsLabelFX;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -222,7 +223,6 @@ begin
   TfrmList(aFrame).Init;
   lOutClean := makeUpgList;
 
-  //Make Columns
   tGridConfig.MakeColumns(TfrmList(aFrame).ListView1);
   PostMessage(aFrame.handle,WM_FRAMERESIZE,0,0);
 
@@ -389,7 +389,15 @@ end;
 procedure TfMain.versionTerminated(Sender: TObject);
 begin
   lblWingetVersion.Caption := Format('Winget version %s', [lOutPut[0]]);
-  //PostMessage(handle, WM_STARTLIST, 0, 0);
+  // Chack if scoop is installed
+  if TDirectory.Exists(Format('c:\users\%s\scoop',[CurrentUserName])) then
+  begin
+    lblScoopVersion.Caption := 'Scoop Installed     '+'💈';
+  end
+  else
+  begin
+    lblScoopVersion.Caption := 'Scoop not installed    '+'💈';
+  end;
 end;
 
 procedure TfMain.ygBtnListClick(Sender: TObject);

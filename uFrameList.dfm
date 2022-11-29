@@ -40,6 +40,7 @@ inherited frmList: TfrmList
           Caption = 'Source'
           Width = 58
         end>
+      Items.ItemData = {}
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
@@ -67,6 +68,7 @@ inherited frmList: TfrmList
         ImageIndex = 0
         Images = sCharImageList1
         OnClick = btnUnInstallRunClick
+        ExplicitLeft = 356
       end
       object pnlUpgTopSide: TsPanel
         Left = 4
@@ -78,6 +80,7 @@ inherited frmList: TfrmList
         Caption = 'pnlUpgTopSide'
         ShowCaption = False
         TabOrder = 0
+        ExplicitLeft = 0
       end
       object pnlFilterGroup: TsPanel
         Left = 4
@@ -89,6 +92,7 @@ inherited frmList: TfrmList
         Caption = 'pnlFilterGroup'
         ShowCaption = False
         TabOrder = 1
+        ExplicitLeft = 178
         object lblfltSource: TsLabel
           Left = 0
           Top = 0
@@ -97,7 +101,6 @@ inherited frmList: TfrmList
           Align = alTop
           Alignment = taCenter
           Caption = 'Source'
-          ExplicitWidth = 36
         end
         object cbbSourceFilter: TsComboBox
           Left = 0
@@ -108,6 +111,7 @@ inherited frmList: TfrmList
           TabOrder = 0
           OnChange = cbbSourceFilterChange
           Style = csDropDownList
+          ExplicitLeft = 178
         end
       end
     end
@@ -124,6 +128,7 @@ inherited frmList: TfrmList
       ParentBackground = False
       ParentColor = True
       TabOrder = 2
+      ExplicitLeft = 0
     end
   end
   object sFrameAdapter1: TsFrameAdapter

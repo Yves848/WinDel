@@ -123,6 +123,27 @@ object fMain: TfMain
       Shadow.OffsetKeeper.RightBottom = 2
       ExplicitHeight = 23
     end
+    object lblScoopVersion: TsLabelFX
+      Left = 1054
+      Top = 0
+      Width = 6
+      Height = 41
+      Margins.Right = 15
+      Align = alRight
+      Alignment = taCenter
+      ParentFont = False
+      Layout = tlCenter
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -16
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      Angle = 0
+      Shadow.OffsetKeeper.LeftTop = 0
+      Shadow.OffsetKeeper.RightBottom = 2
+      ExplicitLeft = 1055
+      ExplicitHeight = 23
+    end
     object AI1: TActivityIndicator
       Left = 5
       Top = 6
