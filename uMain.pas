@@ -30,8 +30,10 @@ type
     sCharImageList1: TsCharImageList;
     sSpeedButton1: TsSpeedButton;
     sSpeedButton2: TsSpeedButton;
-    sSpeedButton3: TsSpeedButton;
+    sbQuit: TsSpeedButton;
     lblWingetVersion: TsLabelFX;
+    sbConfig: TsSpeedButton;
+    actConfig: TAction;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -50,9 +52,10 @@ type
     procedure actSearchExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure sSpeedButton3Click(Sender: TObject);
+    procedure sbQuitClick(Sender: TObject);
     procedure sSpeedButton2Click(Sender: TObject);
     procedure sSpeedButton1Click(Sender: TObject);
+    procedure actConfigExecute(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -79,6 +82,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfMain.actConfigExecute(Sender: TObject);
+begin
+  ShowMessage('Config');
+end;
 
 procedure TfMain.ActivitySet(bActive: Boolean);
 begin
@@ -213,6 +221,11 @@ begin
   aFrame.Align := alClient;
   TfrmList(aFrame).Init;
   lOutClean := makeUpgList;
+
+  //Make Columns
+  tGridConfig.MakeColumns(TfrmList(aFrame).ListView1);
+  PostMessage(aFrame.handle,WM_FRAMERESIZE,0,0);
+
   liste := TfrmList(aFrame).ListView1.Items;
   while i <= lOutClean.Count - 1 do
   begin
@@ -222,6 +235,7 @@ begin
     TfrmList(aFrame).AddFilterCB(aWingetPackage.getField('source'));
     inc(i);
   end;
+
   TfrmList(aFrame).setupColumnHeaders;
   tfrmList(aFrame).filterWinget;
   TfrmList(aFrame).ApplyFilter;
@@ -275,7 +289,7 @@ begin
   taskSearch(Sender);
 end;
 
-procedure TfMain.sSpeedButton3Click(Sender: TObject);
+procedure TfMain.sbQuitClick(Sender: TObject);
 begin
   Close;
 end;
@@ -295,8 +309,8 @@ begin
   ActivitySet(True);
   if aFrame <> Nil then
     aFrame.Free;
-
   lOutPut.clear;
+
   DosCommand1.OnTerminated := listTerminated;
   DosCommand1.CommandLine := tWingetcommand.List;
   DosCommand1.Execute;

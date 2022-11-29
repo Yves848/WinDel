@@ -8,9 +8,6 @@ uses
   Vcl.Buttons, sSpeedButton, System.ImageList, Vcl.ImgList, acAlphaImageList, System.Actions, Vcl.ActnList, sLabel, Vcl.Mask, sMaskEdit,
   sCustomComboEdit, sComboBox;
 
-const
-  aColWidths: array of Integer = [40, 31, 13, 13, 8];
-
 type
   TfrmList = class(TfrmBase)
     listView1: TsListView;
@@ -44,7 +41,8 @@ type
     Procedure InitFilterCB;
     procedure setupColumnHeaders;
     procedure filterWinget;
-     procedure removeItem(sId : String);
+    procedure removeItem(sId : String);
+    procedure resizeFrame(var msg : TMessage);message  WM_FRAMERESIZE;
   end;
 
 var
@@ -71,12 +69,20 @@ var
   aItem: TListItem;
   iCol: Integer;
   bAdd: boolean;
+  Fields: TArray<String>;
 begin
   listView1.Items.BeginUpdate;
 
   listView1.Clear;
   aFilterItems.Clear;
-
+  if lListColumn.Count = 4 then
+  begin
+     Fields := aLstFields;
+  end
+  else
+  begin
+     Fields := aUpgFields;
+  end;
   for aPack in aItems do
   begin
     bAdd := (cbbSourceFilter.ItemIndex = 0);
@@ -90,21 +96,20 @@ begin
       aItem := listView1.Items.Add;
       aItem.data := aPack;
       iCol := 0;
-      while iCol <= length(aLstFields) - 1 do
+      while iCol <= length(Fields) - 1 do
       begin
         if (iCol = 0) then
         begin
-          aItem.Caption := aPack.getField(aLstFields[iCol]);
+          aItem.Caption := aPack.getField(Fields[iCol]);
         end
         else
         begin
-          aItem.SubItems.Add(aPack.getField(aLstFields[iCol]));
+          aItem.SubItems.Add(aPack.getField(Fields[iCol]));
         end;
         inc(iCol);
       end;
     end;
   end;
-
   listView1.Items.EndUpdate;
   listView1.SetFocus;
 end;
@@ -139,7 +144,20 @@ var
 
   h: THandle;
   r: TRect;
+  aColWidths : TArray<Integer>;
 begin
+
+  if lListColumn <> Nil then
+  begin
+    if lListColumn.Count = 4 then
+      aColWidths := aLstWidths
+    else
+      aColWidths := aUpdWidths;
+  end
+  else
+  begin
+    aColWidths := aUpdWidths;
+  end;
 
   listeView := listView1;
   h := ListView_GetHeader(listeView.Handle);
@@ -183,6 +201,11 @@ begin
     end;
     inc(i);
   end;
+end;
+
+procedure TfrmList.resizeFrame(var msg: TMessage);
+begin
+  FrameResize(Nil);
 end;
 
 procedure TfrmList.setupColumnHeaders;
