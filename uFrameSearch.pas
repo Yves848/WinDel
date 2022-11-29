@@ -221,6 +221,7 @@ procedure TfrmSearch.sbAddtoSelectionClick(Sender: TObject);
 begin
   inherited;
   // Add checked items to selection
+  AddCheckedExecute(Sender);
 end;
 
 procedure TfrmSearch.searchTerminated(Sender: TObject);

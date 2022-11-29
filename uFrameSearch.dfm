@@ -41,7 +41,7 @@ inherited frmSearch: TfrmSearch
         Left = 25
         Top = 29
         Width = 673
-        Height = 23
+        Height = 28
         TabOrder = 0
         TextHint = 'Package to search'
         OnKeyDown = edtPackageNameKeyDown
