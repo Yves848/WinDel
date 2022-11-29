@@ -1,138 +1,226 @@
 inherited frmSearch: TfrmSearch
+  Width = 856
+  Height = 646
   OnResize = FrameResize
-  object pnlSearchMain: TPanel
+  ExplicitWidth = 856
+  ExplicitHeight = 646
+  object pnlSearchMain: TsPanel
     Left = 0
     Top = 24
-    Width = 640
-    Height = 456
+    Width = 856
+    Height = 622
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlSearchMain'
     ShowCaption = False
     TabOrder = 0
-    object pnlSearchEdit: TPanel
+    object pnlSearchEdit: TsPanel
       Left = 0
       Top = 0
-      Width = 640
+      Width = 856
       Height = 105
       Align = alTop
       BevelOuter = bvNone
       Caption = 'pnlSearchEdit'
+      Color = clBackground
       ShowCaption = False
+      ParentBackground = False
       TabOrder = 0
-      object lblSearch: TLabel
-        Left = 16
+      object btnLaunch: TsSpeedButton
+        Left = 704
         Top = 16
-        Width = 85
-        Height = 15
-        Caption = '&Package Name :'
-      end
-      object edtPackageName: TEdit
-        Left = 120
-        Top = 13
-        Width = 393
-        Height = 23
-        TabOrder = 0
-        OnKeyDown = edtPackageNameKeyDown
-      end
-      object btnLaunch: TButton
-        Left = 519
-        Top = 12
-        Width = 75
-        Height = 25
-        Caption = 'Launch'
-        TabOrder = 1
+        Width = 147
+        Height = 49
+        Caption = 'Search'#13#10'(Enter)'
+        ImageIndex = 3
+        Images = sCharImageList1
+        Spacing = 15
         OnClick = btnLaunchClick
       end
-      object AI1: TActivityIndicator
-        Left = 601
-        Top = 12
-        IndicatorColor = aicWhite
-        IndicatorSize = aisSmall
-        IndicatorType = aitSectorRing
+      object edtPackageName: TsEdit
+        Left = 25
+        Top = 29
+        Width = 673
+        Height = 28
+        TabOrder = 0
+        TextHint = 'Package to search'
+        OnKeyDown = edtPackageNameKeyDown
+        BoundLabel.Active = True
+        BoundLabel.Caption = 'Package to search'
+        BoundLabel.Layout = sclTopLeft
+        LabelFromTextHint = True
       end
     end
-    object ListView1: TListView
+    object sPanel1: TsPanel
       Left = 0
       Top = 105
-      Width = 513
-      Height = 351
-      Align = alClient
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      Checkboxes = True
-      Columns = <
-        item
-          AutoSize = True
-          Caption = 'Description'
-          MinWidth = 200
-        end
-        item
-          AutoSize = True
-          Caption = 'ID'
-        end
-        item
-          AutoSize = True
-          Caption = 'Version'
-        end
-        item
-          AutoSize = True
-          Caption = 'Correspondance'
-        end
-        item
-          AutoSize = True
-          Caption = 'Source'
-        end>
-      RowSelect = True
+      Width = 856
+      Height = 248
+      Align = alTop
+      Caption = 'sPanel1'
       TabOrder = 1
-      ViewStyle = vsReport
-    end
-    object pnlUpgSideBar: TPanel
-      Left = 513
-      Top = 105
-      Width = 127
-      Height = 351
-      Align = alRight
-      BevelOuter = bvNone
-      Caption = 'pnlUpgSideBar'
-      ShowCaption = False
-      TabOrder = 2
-      object pnlUpgTopSide: TPanel
-        Left = 0
-        Top = 0
-        Width = 127
-        Height = 41
-        Align = alTop
+      object ListView1: TsListView
+        Left = 1
+        Top = 1
+        Width = 669
+        Height = 246
+        BevelInner = bvNone
         BevelOuter = bvNone
-        Caption = 'pnlUpgTopSide'
-        ShowCaption = False
+        Align = alClient
+        Checkboxes = True
+        Columns = <
+          item
+            Caption = 'Description'
+            MinWidth = 200
+            Width = 200
+          end
+          item
+            Caption = 'ID'
+            Width = 78
+          end
+          item
+            Caption = 'Version'
+            Width = 77
+          end
+          item
+            Caption = 'Correspondance'
+            Width = 77
+          end
+          item
+            Caption = 'Source'
+            Width = 77
+          end>
+        RowSelect = True
         TabOrder = 0
+        ViewStyle = vsReport
       end
-      object btnInstallRun: TButton
-        Left = 0
-        Top = 41
-        Width = 127
-        Height = 40
-        Align = alTop
-        Caption = 'Install Selected'
+      object pnlUpgSideBar: TsPanel
+        Left = 670
+        Top = 1
+        Width = 185
+        Height = 246
+        Align = alRight
+        BevelOuter = bvNone
+        Caption = 'pnlUpgSideBar'
+        Padding.Left = 4
+        Padding.Right = 4
+        ShowCaption = False
         TabOrder = 1
-        OnClick = btnInstallRunClick
+        object sbAddtoSelection: TsSpeedButton
+          Left = 4
+          Top = 0
+          Width = 177
+          Height = 48
+          Align = alTop
+          Caption = 'Add to Selection'#13#10'(Ctrl-A)'
+          ImageIndex = 1
+          Images = sCharImageList1
+          OnClick = sbAddtoSelectionClick
+          Reflected = True
+          ExplicitLeft = 8
+          ExplicitTop = 49
+        end
+      end
+    end
+    object sPanel2: TsPanel
+      Left = 0
+      Top = 353
+      Width = 856
+      Height = 269
+      Align = alClient
+      Caption = 'sPanel2'
+      TabOrder = 2
+      object lvInstall: TsListView
+        Left = 1
+        Top = 1
+        Width = 669
+        Height = 267
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        Align = alClient
+        Checkboxes = True
+        Columns = <
+          item
+            Caption = 'Description'
+            MinWidth = 200
+            Width = 200
+          end
+          item
+            Caption = 'ID'
+            Width = 78
+          end
+          item
+            Caption = 'Version'
+            Width = 77
+          end
+          item
+            Caption = 'Correspondance'
+            Width = 77
+          end
+          item
+            Caption = 'Source'
+            Width = 77
+          end>
+        RowSelect = True
+        TabOrder = 0
+        ViewStyle = vsReport
+      end
+      object sPanel3: TsPanel
+        Left = 670
+        Top = 1
+        Width = 185
+        Height = 267
+        Align = alRight
+        BevelOuter = bvNone
+        Caption = 'pnlUpgSideBar'
+        Padding.Left = 4
+        Padding.Right = 4
+        ShowCaption = False
+        TabOrder = 1
+        object sbInstallRun: TsSpeedButton
+          Left = 4
+          Top = 48
+          Width = 177
+          Height = 48
+          Align = alTop
+          Caption = 'Install Selected'#13#10'(F8)'
+          ImageIndex = 0
+          Images = sCharImageList1
+          Spacing = 15
+          OnClick = btnInstallRunClick
+          Reflected = True
+          ExplicitLeft = 178
+          ExplicitTop = 41
+        end
+        object sbRemovefromSelection: TsSpeedButton
+          Left = 4
+          Top = 0
+          Width = 177
+          Height = 48
+          Align = alTop
+          Caption = 'Remove Selected'#13#10'(Ctrl-R)'
+          ImageIndex = 2
+          Images = sCharImageList1
+          Reflected = True
+          ExplicitLeft = 8
+          ExplicitTop = 8
+        end
       end
     end
   end
-  object pnlTitleToolBar: TPanel
+  object pnlTitleToolBar: TsPanel
     Left = 0
     Top = 0
-    Width = 640
+    Width = 856
     Height = 24
     Align = alTop
     Alignment = taLeftJustify
     BevelOuter = bvNone
     Caption = 'Search Packages'
     Color = 12615680
+    StyleElements = [seFont, seBorder]
     ParentBackground = False
     TabOrder = 1
-    StyleElements = [seFont, seBorder]
   end
   object dcSearch1: TDosCommand
     InputToOutput = False
@@ -142,5 +230,50 @@ inherited frmSearch: TfrmSearch
     OnNewLine = dcSearch1NewLine
     Left = 320
     Top = 272
+  end
+  object sFrameAdapter1: TsFrameAdapter
+    Left = 577
+    Top = 385
+  end
+  object sCharImageList1: TsCharImageList
+    EmbeddedFonts = <
+      item
+        FontName = 'FontAwesome'
+        FontData = {}
+      end>
+    Items = <
+      item
+        Char = 61465
+        Color = -5344256
+      end
+      item
+        Char = 61543
+        Color = -14121702
+      end
+      item
+        Char = 61544
+        Color = -16777054
+      end
+      item
+        Char = 61671
+        Color = -16757684
+      end>
+    Left = 513
+    Top = 393
+    Bitmap = {}
+  end
+  object ActionList1: TActionList
+    Left = 551
+    Top = 313
+    object InstallSelected: TAction
+      Caption = 'Install Selected'
+      ShortCut = 119
+      OnExecute = InstallSelectedExecute
+    end
+    object AddChecked: TAction
+      Caption = 'AddChecked'
+      ShortCut = 16449
+      OnExecute = AddCheckedExecute
+    end
   end
 end

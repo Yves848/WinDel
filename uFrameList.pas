@@ -4,25 +4,29 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, Winapi.CommCtrl, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, System.Generics.Collections,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, uConst, Vcl.StdCtrls;
-
-const
-  aColWidths: array of Integer = [40, 31, 13, 13, 8];
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, uConst, Vcl.StdCtrls, sListView, uRunWinget, sFrameAdapter, sPanel,
+  Vcl.Buttons, sSpeedButton, System.ImageList, Vcl.ImgList, acAlphaImageList, System.Actions, Vcl.ActnList, sLabel, Vcl.Mask, sMaskEdit,
+  sCustomComboEdit, sComboBox;
 
 type
-  TfrmList = class(TfrmBase)
-    listView1: TListView;
-    pnlListMain: TPanel;
-    pnlSideTB: TPanel;
-    pnlUpgTopSide: TPanel;
-    pnlFilterGroup: TPanel;
-    lblFilter: TLabel;
-    lblfltSource: TLabel;
-    cbbSourceFilter: TComboBox;
-    pnlTitleToolBar: TPanel;
-    btnUnInstallRun: TButton;
+  TfrmList = class(TFrmbase)
+    listView1: TsListView;
+    pnlListMain: TsPanel;
+    pnlSideTB: TsPanel;
+    pnlUpgTopSide: TsPanel;
+    pnlFilterGroup: TsPanel;
+    lblfltSource: TsLabel;
+    cbbSourceFilter: TsComboBox;
+    pnlTitleToolBar: TsPanel;
+    sFrameAdapter1: TsFrameAdapter;
+    btnUnInstallRun: TsSpeedButton;
+    sCharImageList1: TsCharImageList;
+    ActionList1: TActionList;
+    UninstallSelected: TAction;
     procedure FrameResize(Sender: TObject);
     procedure cbbSourceFilterChange(Sender: TObject);
+    procedure btnUnInstallRunClick(Sender: TObject);
+    procedure UninstallSelectedExecute(Sender: TObject);
   private
     procedure BuildFilter;
     { Déclarations privées }
@@ -36,6 +40,9 @@ type
     procedure AddFilterCB(sFilter: string);
     Procedure InitFilterCB;
     procedure setupColumnHeaders;
+    procedure filterWinget;
+    procedure removeItem(sId : String);
+    procedure resizeFrame(var msg : TMessage);message  WM_FRAMERESIZE;
   end;
 
 var
@@ -62,12 +69,20 @@ var
   aItem: TListItem;
   iCol: Integer;
   bAdd: boolean;
+  Fields: TArray<String>;
 begin
   listView1.Items.BeginUpdate;
 
   listView1.Clear;
   aFilterItems.Clear;
-
+  if lListColumn.Count = 4 then
+  begin
+     Fields := aLstFields;
+  end
+  else
+  begin
+     Fields := aUpgFields;
+  end;
   for aPack in aItems do
   begin
     bAdd := (cbbSourceFilter.ItemIndex = 0);
@@ -79,23 +94,29 @@ begin
     if bAdd then
     begin
       aItem := listView1.Items.Add;
+      aItem.data := aPack;
       iCol := 0;
-      while iCol <= length(aLstFields) - 1 do
+      while iCol <= length(Fields) - 1 do
       begin
         if (iCol = 0) then
         begin
-          aItem.Caption := aPack.getField(aLstFields[iCol]);
+          aItem.Caption := aPack.getField(Fields[iCol]);
         end
         else
         begin
-          aItem.SubItems.Add(aPack.getField(aLstFields[iCol]));
+          aItem.SubItems.Add(aPack.getField(Fields[iCol]));
         end;
         inc(iCol);
       end;
     end;
   end;
-
   listView1.Items.EndUpdate;
+  listView1.SetFocus;
+end;
+
+procedure TfrmList.btnUnInstallRunClick(Sender: TObject);
+begin
+  UninstallSelectedExecute(Sender);
 end;
 
 procedure TfrmList.BuildFilter;
@@ -109,16 +130,34 @@ begin
   ApplyFilter;
 end;
 
+procedure TfrmList.filterWinget;
+begin
+  cbbSourceFilter.ItemIndex := cbbSourceFilter.Items.IndexOf('winget');
+end;
+
 procedure TfrmList.FrameResize(Sender: TObject);
 var
-  listeView: TListView;
+  listeView: TsListView;
   columns: TListColumns;
   column: TListColumn;
   i: Integer;
 
   h: THandle;
   r: TRect;
+  aColWidths : TArray<Integer>;
 begin
+
+  if lListColumn <> Nil then
+  begin
+    if lListColumn.Count = 4 then
+      aColWidths := aLstWidths
+    else
+      aColWidths := aUpdWidths;
+  end
+  else
+  begin
+    aColWidths := aUpdWidths;
+  end;
 
   listeView := listView1;
   h := ListView_GetHeader(listeView.Handle);
@@ -146,6 +185,29 @@ begin
   cbbSourceFilter.ItemIndex := 0;
 end;
 
+procedure TfrmList.removeItem(sId: String);
+var
+  i : Integer;
+  aWingetPackage: tWingetPackage;
+begin
+    i := 0;
+  while i <= ListView1.Items.Count -1 do
+  begin
+    if (ListView1.Items[i].Data <> Nil) and (ListView1.Items[i].Checked) then
+    begin
+       aWingetPackage := tWingetPackage(ListView1.Items[i].Data);
+       if trim(aWingetPackage.getField('id')) = sId then
+          listView1.Items.Delete(i);
+    end;
+    inc(i);
+  end;
+end;
+
+procedure TfrmList.resizeFrame(var msg: TMessage);
+begin
+  FrameResize(Nil);
+end;
+
 procedure TfrmList.setupColumnHeaders;
 var
   i: Integer;
@@ -162,6 +224,33 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmList.UninstallSelectedExecute(Sender: TObject);
+var
+  fRunWinget : TfRunWinget;
+  i : Integer;
+  aWingetPackage: tWingetPackage;
+begin
+  inherited;
+  fRunWinget := TfRunWinget.Create(self);
+  i := 0;
+  while i <= ListView1.Items.Count -1 do
+  begin
+    if (ListView1.Items[i].Data <> Nil) and (ListView1.Items[i].Checked) then
+    begin
+       aWingetPackage := tWingetPackage(ListView1.Items[i].Data);
+       fRunWinget.addId(aWingetPackage.getField('id'));
+    end;
+    inc(i);
+  end;
+  fRunWinget.typeRun := ptuninstall;
+  fRunWinget.removeItem := removeitem;
+  if fRunWinget.showModal = mrOk then
+  begin
+
+  end;
+  fRunWinget.Free;
 end;
 
 end.

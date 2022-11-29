@@ -1,6 +1,6 @@
 inherited frmList: TfrmList
   OnResize = FrameResize
-  object pnlListMain: TPanel
+  object pnlListMain: TsPanel
     Left = 0
     Top = 0
     Width = 640
@@ -8,42 +8,43 @@ inherited frmList: TfrmList
     Align = alClient
     Caption = 'pnlListMain'
     TabOrder = 0
-    object listView1: TListView
+    object listView1: TsListView
       Left = 1
       Top = 25
       Width = 453
       Height = 454
-      Align = alClient
       BevelInner = bvNone
-      BevelOuter = bvNone
       BevelKind = bkFlat
+      BevelOuter = bvNone
+      Align = alClient
       Checkboxes = True
       Columns = <
         item
-          AutoSize = True
           Caption = 'Description'
           MinWidth = 200
+          Width = 200
         end
         item
-          AutoSize = True
           Caption = 'ID'
+          Width = 67
         end
         item
-          AutoSize = True
           Caption = 'Version'
+          Width = 66
         end
         item
           Caption = 'Disponible'
+          Width = 58
         end
         item
-          AutoSize = True
           Caption = 'Source'
+          Width = 58
         end>
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
     end
-    object pnlSideTB: TPanel
+    object pnlSideTB: TsPanel
       Left = 454
       Top = 25
       Width = 185
@@ -51,12 +52,27 @@ inherited frmList: TfrmList
       Align = alRight
       BevelOuter = bvNone
       Caption = 'pnlSideTB'
+      Padding.Left = 4
+      Padding.Right = 4
+      Padding.Bottom = 4
       ShowCaption = False
       TabOrder = 1
-      object pnlUpgTopSide: TPanel
-        Left = 0
+      object btnUnInstallRun: TsSpeedButton
+        Left = 4
+        Top = 113
+        Width = 177
+        Height = 56
+        Align = alTop
+        Caption = 'Uninstall Selected'#13#10'(F8)'
+        ImageIndex = 0
+        Images = sCharImageList1
+        OnClick = btnUnInstallRunClick
+        ExplicitLeft = 356
+      end
+      object pnlUpgTopSide: TsPanel
+        Left = 4
         Top = 0
-        Width = 185
+        Width = 177
         Height = 41
         Align = alTop
         BevelOuter = bvNone
@@ -64,72 +80,39 @@ inherited frmList: TfrmList
         ShowCaption = False
         TabOrder = 0
       end
-      object pnlFilterGroup: TPanel
-        Left = 0
+      object pnlFilterGroup: TsPanel
+        Left = 4
         Top = 41
-        Width = 185
+        Width = 177
         Height = 72
         Align = alTop
-        BevelKind = bkFlat
         BevelOuter = bvNone
         Caption = 'pnlFilterGroup'
         ShowCaption = False
         TabOrder = 1
-        object lblFilter: TLabel
+        object lblfltSource: TsLabel
           Left = 0
           Top = 0
-          Width = 181
+          Width = 177
           Height = 20
           Align = alTop
           Alignment = taCenter
-          Caption = 'Filter'
-          Color = 13031935
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBlack
-          Font.Height = -15
-          Font.Name = 'Segoe UI'
-          Font.Style = [fsBold]
-          ParentColor = False
-          ParentFont = False
-          Transparent = False
-          Layout = tlCenter
-          StyleElements = [seClient, seBorder]
-          ExplicitWidth = 36
+          Caption = 'Source'
+          ExplicitWidth = 45
         end
-        object lblfltSource: TLabel
+        object cbbSourceFilter: TsComboBox
           Left = 0
           Top = 20
-          Width = 181
-          Height = 15
+          Width = 177
+          Height = 28
           Align = alTop
-          Alignment = taCenter
-          Caption = 'Source'
-          ExplicitWidth = 36
-        end
-        object cbbSourceFilter: TComboBox
-          Left = 0
-          Top = 35
-          Width = 181
-          Height = 23
-          Align = alTop
-          Style = csDropDownList
           TabOrder = 0
           OnChange = cbbSourceFilterChange
+          Style = csDropDownList
         end
       end
-      object btnUnInstallRun: TButton
-        Left = 0
-        Top = 113
-        Width = 185
-        Height = 40
-        Align = alTop
-        Caption = 'Uninstall Selected'
-        TabOrder = 2
-        ExplicitLeft = 6
-        ExplicitTop = 119
-      end
     end
-    object pnlTitleToolBar: TPanel
+    object pnlTitleToolBar: TsPanel
       Left = 1
       Top = 1
       Width = 638
@@ -138,10 +121,38 @@ inherited frmList: TfrmList
       Alignment = taLeftJustify
       BevelOuter = bvNone
       Caption = 'Installed Packages'
-      Color = 12615680
+      StyleElements = [seFont]
       ParentBackground = False
+      ParentColor = True
       TabOrder = 2
-      StyleElements = [seFont, seBorder]
+    end
+  end
+  object sFrameAdapter1: TsFrameAdapter
+    Left = 502
+    Top = 297
+  end
+  object sCharImageList1: TsCharImageList
+    EmbeddedFonts = <
+      item
+        FontName = 'FontAwesome'
+        FontData = {}
+      end>
+    Items = <
+      item
+        Char = 61809
+        Color = clRed
+      end>
+    Left = 534
+    Top = 401
+    Bitmap = {}
+  end
+  object ActionList1: TActionList
+    Left = 526
+    Top = 249
+    object UninstallSelected: TAction
+      Caption = 'Uninstall Selected'
+      ShortCut = 119
+      OnExecute = UninstallSelectedExecute
     end
   end
 end

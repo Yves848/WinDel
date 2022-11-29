@@ -3,13 +3,13 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,System.IOUtils,
   System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
   Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList,
   System.Actions,
-  Vcl.ActnList;
+  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -17,31 +17,30 @@ type
   TfMain = class(TForm)
     AI1: TActivityIndicator;
     DosCommand1: TDosCommand;
-    pnlToolbar: TPanel;
+    pnlToolbar: TsPanel;
     pnlFooter: TPanel;
-    pnlMain: TPanel;
-    btn1: TButton;
-    lblWingetVersion: TLabel;
-    pnlF1: TPanel;
-    btnSearch: TButton;
-    pnlf2: TPanel;
-    btnList: TButton;
-    pnlF3: TPanel;
-    btnUpgrade: TButton;
-    btnQuit: TButton;
-    pnlEsc: TPanel;
+    pnlMain: TsPanel;
     actlst1: TActionList;
     actSearch: TAction;
     actList: TAction;
     actUpgrade: TAction;
     actQuit: TAction;
+    sSkinManager1: TsSkinManager;
+    sSkinProvider1: TsSkinProvider;
+    sCharImageList1: TsCharImageList;
+    sSpeedButton1: TsSpeedButton;
+    sSpeedButton2: TsSpeedButton;
+    sbQuit: TsSpeedButton;
+    lblWingetVersion: TsLabelFX;
+    sbConfig: TsSpeedButton;
+    actConfig: TAction;
+    lblScoopVersion: TsLabelFX;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
     procedure DosCommand1ExecuteError(ASender: TObject; AE: Exception; var AHandled: Boolean);
     procedure btnSearchClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormShow(Sender: TObject);
     procedure ygBtnSearchClick(Sender: TObject);
     procedure ygBtnQuitClick(Sender: TObject);
     procedure ygBtnListClick(Sender: TObject);
@@ -52,6 +51,12 @@ type
     procedure actUpgradeExecute(Sender: TObject);
     procedure actListExecute(Sender: TObject);
     procedure actSearchExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure sbQuitClick(Sender: TObject);
+    procedure sSpeedButton2Click(Sender: TObject);
+    procedure sSpeedButton1Click(Sender: TObject);
+    procedure actConfigExecute(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -69,6 +74,7 @@ type
     procedure versionTerminated(Sender: TObject);
     procedure listTerminated(Sender: TObject);
     procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
+    Procedure ActivitySet(bActive : Boolean);
   end;
 
 var
@@ -77,6 +83,16 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfMain.actConfigExecute(Sender: TObject);
+begin
+  ShowMessage('Config');
+end;
+
+procedure TfMain.ActivitySet(bActive: Boolean);
+begin
+  AI1.Animate := bActive;
+end;
 
 procedure TfMain.actListExecute(Sender: TObject);
 begin
@@ -149,6 +165,12 @@ begin
     lOutPut.Add(ANewLine);
 end;
 
+procedure TfMain.FormCreate(Sender: TObject);
+begin
+  lOutPut := tStringList.Create;
+
+end;
+
 procedure TfMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
 var
   aComponent: TComponent;
@@ -170,15 +192,17 @@ end;
 
 procedure TfMain.FormShow(Sender: TObject);
 begin
-  lOutPut := tStringList.Create;
   PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
 end;
 
 procedure TfMain.GetVersion(var m: tMessage);
 begin
-  DosCommand1.CommandLine := tWingetcommand.version;
-  DosCommand1.OnTerminated := versionTerminated;
-  DosCommand1.Execute;
+  if not DosCommand1.IsRunning then
+  begin
+    DosCommand1.CommandLine := tWingetcommand.version;
+    DosCommand1.OnTerminated := versionTerminated;
+    DosCommand1.Execute;
+  end;
 end;
 
 procedure TfMain.listTerminated(Sender: TObject);
@@ -198,6 +222,10 @@ begin
   aFrame.Align := alClient;
   TfrmList(aFrame).Init;
   lOutClean := makeUpgList;
+
+  tGridConfig.MakeColumns(TfrmList(aFrame).ListView1);
+  PostMessage(aFrame.handle,WM_FRAMERESIZE,0,0);
+
   liste := TfrmList(aFrame).ListView1.Items;
   while i <= lOutClean.Count - 1 do
   begin
@@ -207,10 +235,12 @@ begin
     TfrmList(aFrame).AddFilterCB(aWingetPackage.getField('source'));
     inc(i);
   end;
+
   TfrmList(aFrame).setupColumnHeaders;
+  tfrmList(aFrame).filterWinget;
   TfrmList(aFrame).ApplyFilter;
   TfrmList(aFrame).ListView1.OnSelectItem := LVSelectItem;
-  AI1.Animate := False;
+  ActivitySet(False);
 end;
 
 procedure TfMain.LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
@@ -249,6 +279,21 @@ begin
   end;
 end;
 
+procedure TfMain.sSpeedButton1Click(Sender: TObject);
+begin
+  taskList(Sender);
+end;
+
+procedure TfMain.sSpeedButton2Click(Sender: TObject);
+begin
+  taskSearch(Sender);
+end;
+
+procedure TfMain.sbQuitClick(Sender: TObject);
+begin
+  Close;
+end;
+
 procedure TfMain.StartList(var m: tMessage);
 begin
   taskList(Nil);
@@ -261,11 +306,11 @@ end;
 
 procedure TfMain.taskList(Sender: TObject);
 begin
-  AI1.Animate := True;
+  ActivitySet(True);
   if aFrame <> Nil then
     aFrame.Free;
-
   lOutPut.clear;
+
   DosCommand1.OnTerminated := listTerminated;
   DosCommand1.CommandLine := tWingetcommand.List;
   DosCommand1.Execute;
@@ -277,14 +322,16 @@ begin
     aFrame.Free;
 
   aFrame := TfrmSearch.Create(pnlMain);
+
   aFrame.Parent := pnlMain;
   aFrame.Align := alClient;
   TfrmSearch(aFrame).Init;
+  TfrmSearch(aFrame).activityset := ActivitySet;
 end;
 
 procedure TfMain.taskUpgrade(Sender: TObject);
 begin
-  AI1.Animate := True;
+  ActivitySet(True);
   if aFrame <> Nil then
     aFrame.Free;
 
@@ -336,13 +383,21 @@ begin
     end;
     inc(i);
   end;
-  AI1.Animate := False;
+  ActivitySet(False);
 end;
 
 procedure TfMain.versionTerminated(Sender: TObject);
 begin
   lblWingetVersion.Caption := Format('Winget version %s', [lOutPut[0]]);
-  PostMessage(handle, WM_STARTLIST, 0, 0);
+  // Chack if scoop is installed
+  if TDirectory.Exists(Format('c:\users\%s\scoop',[CurrentUserName])) then
+  begin
+    lblScoopVersion.Caption := 'Scoop Installed     '+'💈';
+  end
+  else
+  begin
+    lblScoopVersion.Caption := 'Scoop not installed    '+'💈';
+  end;
 end;
 
 procedure TfMain.ygBtnListClick(Sender: TObject);
