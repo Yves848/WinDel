@@ -9,7 +9,7 @@ uses
   sCustomComboEdit, sComboBox;
 
 type
-  TfrmList = class(TfrmBase)
+  TfrmList = class(TFrmbase)
     listView1: TsListView;
     pnlListMain: TsPanel;
     pnlSideTB: TsPanel;
