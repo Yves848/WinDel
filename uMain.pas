@@ -66,8 +66,13 @@ type
     procedure sSpeedButton1Click(Sender: TObject);
     procedure actConfigExecute(Sender: TObject);
     procedure sbConfigClick(Sender: TObject);
+    procedure N2Click(Sender: TObject);
+    procedure TrayIcon1DblClick(Sender: TObject);
+    procedure S1Click(Sender: TObject);
+    procedure SearchPackages1Click(Sender: TObject);
   private
     { Private declarations }
+    procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
     function makeUpgList: tStrings;
     procedure GetVersion(var m: tMessage); message WM_GETWINGETVERSION;
     procedure StartSearch(var m: tMessage); message WM_STARTSEARCH;
@@ -235,11 +240,6 @@ begin
   aFrame.Align := alClient;
   TfrmList(aFrame).Init;
   lOutClean := makeUpgList;
-
-  tGridConfig.MakeColumns(TfrmList(aFrame).ListView1);
-  PostMessage(aFrame.handle,WM_FRAMERESIZE,0,0);
-
-  liste := TfrmList(aFrame).ListView1.Items;
   while i <= lOutClean.Count - 1 do
   begin
     sLine := lOutClean[i];
@@ -249,10 +249,15 @@ begin
     inc(i);
   end;
 
+  liste := TfrmList(aFrame).ListView1.Items;
+
+  tGridConfig.MakeColumns(TfrmList(aFrame).ListView1);
+
   TfrmList(aFrame).setupColumnHeaders;
   tfrmList(aFrame).filterWinget;
   TfrmList(aFrame).ApplyFilter;
   TfrmList(aFrame).ListView1.OnSelectItem := LVSelectItem;
+  PostMessage(aFrame.handle,WM_FRAMERESIZE,0,0);
   ActivitySet(False);
 end;
 
@@ -292,6 +297,17 @@ begin
   end;
 end;
 
+procedure TfMain.N2Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfMain.S1Click(Sender: TObject);
+begin
+  Show;
+  taskSearch(Sender);
+end;
+
 procedure TfMain.sSpeedButton1Click(Sender: TObject);
 begin
   taskList(Sender);
@@ -310,6 +326,12 @@ end;
 procedure TfMain.sbQuitClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfMain.SearchPackages1Click(Sender: TObject);
+begin
+    taskList(Sender);
+    Show;
 end;
 
 procedure TfMain.StartList(var m: tMessage);
@@ -365,6 +387,11 @@ begin
   DosCommand1.Execute;
 end;
 
+procedure TfMain.TrayIcon1DblClick(Sender: TObject);
+begin
+  Show;
+end;
+
 procedure TfMain.upgradeTerminated(Sender: TObject);
 var
   i, iCol: Integer;
@@ -416,6 +443,14 @@ begin
   begin
     lblScoopVersion.Caption := 'Scoop not installed    '+'💈';
   end;
+end;
+
+procedure TfMain.WMSysCommand(var Msg: TWMSysCommand);
+begin
+  if Msg.CmdType = SC_MINIMIZE then
+    Hide
+  else
+    inherited;
 end;
 
 procedure TfMain.ygBtnListClick(Sender: TObject);

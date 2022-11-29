@@ -366,7 +366,7 @@ end;
 
 function tParams.getParamb(sParam: string): Boolean;
 begin
-
+    fJSON.TryGetValue<Boolean>(sParam,result);
 end;
 
 function tParams.getParams(sParam: string): String;
@@ -375,15 +375,27 @@ begin
 end;
 
 procedure tParams.initParams;
+var
+  sConfigFile: String;
 begin
+  sConfigFile := TPath.Combine(fConfigPath, 'params.json');
+  fJson := TJSONObject.Create;
+  fJSON.AddPair('StartMinimized',False);
+  TFile.WriteAllText(sConfigFile,fJSON.ToJSON);
 end;
 
 procedure tParams.loadParams;
+var
+  sConfigFile: String;
 begin
   if ConfigExists then
   begin
-
-  end;
+     sConfigFile := TPath.Combine(fConfigPath, 'params.json');
+     fJSON := TJSONObject.Create;
+     fJson := TJSONObject(fJson.ParseJSONValue(tFile.ReadAllText(sConfigFile,TEncoding.UTF8)));
+  end
+  else
+    initParams;
 end;
 
 procedure tParams.makeConfigPath;
@@ -397,7 +409,6 @@ begin
   if not tDirectory.Exists(sPAth) then
     ForceDirectories(sPAth);
   fConfigPath := sPAth;
-
 end;
 
 procedure tParams.saveParams;

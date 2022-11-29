@@ -32,6 +32,7 @@ object fMain: TfMain
     Padding.Bottom = 2
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 1062
     object sSpeedButton1: TsSpeedButton
       Left = 145
       Top = 2
@@ -2070,6 +2071,7 @@ object fMain: TfMain
     BalloonTitle = 'Winget Helper'
     PopupMenu = pmTray
     Visible = True
+    OnDblClick = TrayIcon1DblClick
     Left = 528
     Top = 360
   end
@@ -2084,15 +2086,18 @@ object fMain: TfMain
     end
     object S1: TMenuItem
       Caption = 'Search Packages'
+      OnClick = S1Click
     end
     object SearchPackages1: TMenuItem
       Caption = 'List Installed Packages'
+      OnClick = SearchPackages1Click
     end
     object N1: TMenuItem
       Caption = '-'
     end
     object N2: TMenuItem
       Caption = 'Quit'
+      OnClick = N2Click
     end
   end
 end
