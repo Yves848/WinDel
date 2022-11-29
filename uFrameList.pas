@@ -158,8 +158,8 @@ begin
   begin
     aColWidths := aUpdWidths;
   end;
-
   listeView := listView1;
+  listeView.Items.BeginUpdate;
   h := ListView_GetHeader(listeView.Handle);
   GetWindowRect(h, r);
   pnlUpgTopSide.Height := (r.Bottom - r.Top);
@@ -168,7 +168,7 @@ begin
     column := listeView.columns[i];
     column.Width := listeView.Width div 100 * aColWidths[i];
   end;
-
+  listeView.Items.EndUpdate;
 end;
 
 procedure TfrmList.init;
@@ -206,6 +206,7 @@ end;
 procedure TfrmList.resizeFrame(var msg: TMessage);
 begin
   FrameResize(Nil);
+  Self.OnResize := FrameResize;
 end;
 
 procedure TfrmList.setupColumnHeaders;

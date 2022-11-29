@@ -9,7 +9,7 @@ uses
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList,
   System.Actions,
-  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel;
+  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel, uOptions, Vcl.Menus;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -35,6 +35,14 @@ type
     sbConfig: TsSpeedButton;
     actConfig: TAction;
     lblScoopVersion: TsLabelFX;
+    TrayIcon1: TTrayIcon;
+    pmTray: TPopupMenu;
+    W1: TMenuItem;
+    WingetHelper1: TMenuItem;
+    S1: TMenuItem;
+    SearchPackages1: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -57,8 +65,14 @@ type
     procedure sSpeedButton2Click(Sender: TObject);
     procedure sSpeedButton1Click(Sender: TObject);
     procedure actConfigExecute(Sender: TObject);
+    procedure sbConfigClick(Sender: TObject);
+    procedure N2Click(Sender: TObject);
+    procedure TrayIcon1DblClick(Sender: TObject);
+    procedure S1Click(Sender: TObject);
+    procedure SearchPackages1Click(Sender: TObject);
   private
     { Private declarations }
+    procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
     function makeUpgList: tStrings;
     procedure GetVersion(var m: tMessage); message WM_GETWINGETVERSION;
     procedure StartSearch(var m: tMessage); message WM_STARTSEARCH;
@@ -85,8 +99,12 @@ implementation
 {$R *.dfm}
 
 procedure TfMain.actConfigExecute(Sender: TObject);
+var
+  frmOptions : TfrmOptions;
 begin
-  ShowMessage('Config');
+   frmOptions := TfrmOptions.Create(Self);
+   frmOptions.ShowModal;
+   frmOptions.Free;
 end;
 
 procedure TfMain.ActivitySet(bActive: Boolean);
@@ -222,11 +240,6 @@ begin
   aFrame.Align := alClient;
   TfrmList(aFrame).Init;
   lOutClean := makeUpgList;
-
-  tGridConfig.MakeColumns(TfrmList(aFrame).ListView1);
-  PostMessage(aFrame.handle,WM_FRAMERESIZE,0,0);
-
-  liste := TfrmList(aFrame).ListView1.Items;
   while i <= lOutClean.Count - 1 do
   begin
     sLine := lOutClean[i];
@@ -236,10 +249,15 @@ begin
     inc(i);
   end;
 
+  liste := TfrmList(aFrame).ListView1.Items;
+
+  tGridConfig.MakeColumns(TfrmList(aFrame).ListView1);
+
   TfrmList(aFrame).setupColumnHeaders;
   tfrmList(aFrame).filterWinget;
   TfrmList(aFrame).ApplyFilter;
   TfrmList(aFrame).ListView1.OnSelectItem := LVSelectItem;
+  PostMessage(aFrame.handle,WM_FRAMERESIZE,0,0);
   ActivitySet(False);
 end;
 
@@ -279,6 +297,17 @@ begin
   end;
 end;
 
+procedure TfMain.N2Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfMain.S1Click(Sender: TObject);
+begin
+  Show;
+  taskSearch(Sender);
+end;
+
 procedure TfMain.sSpeedButton1Click(Sender: TObject);
 begin
   taskList(Sender);
@@ -289,9 +318,20 @@ begin
   taskSearch(Sender);
 end;
 
+procedure TfMain.sbConfigClick(Sender: TObject);
+begin
+  actConfigExecute(Sender);
+end;
+
 procedure TfMain.sbQuitClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfMain.SearchPackages1Click(Sender: TObject);
+begin
+    taskList(Sender);
+    Show;
 end;
 
 procedure TfMain.StartList(var m: tMessage);
@@ -347,6 +387,11 @@ begin
   DosCommand1.Execute;
 end;
 
+procedure TfMain.TrayIcon1DblClick(Sender: TObject);
+begin
+  Show;
+end;
+
 procedure TfMain.upgradeTerminated(Sender: TObject);
 var
   i, iCol: Integer;
@@ -398,6 +443,14 @@ begin
   begin
     lblScoopVersion.Caption := 'Scoop not installed    '+'💈';
   end;
+end;
+
+procedure TfMain.WMSysCommand(var Msg: TWMSysCommand);
+begin
+  if Msg.CmdType = SC_MINIMIZE then
+    Hide
+  else
+    inherited;
 end;
 
 procedure TfMain.ygBtnListClick(Sender: TObject);

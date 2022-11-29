@@ -32,7 +32,7 @@ object fMain: TfMain
     Padding.Bottom = 2
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 1060
+    ExplicitWidth = 1062
     object sSpeedButton1: TsSpeedButton
       Left = 145
       Top = 2
@@ -84,7 +84,7 @@ object fMain: TfMain
       ImageIndex = 3
       Images = sCharImageList1
       Spacing = 15
-      OnClick = sbQuitClick
+      OnClick = sbConfigClick
       Reflected = True
       ExplicitLeft = 936
     end
@@ -99,8 +99,8 @@ object fMain: TfMain
     Caption = 'pnlFooter'
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 660
-    ExplicitWidth = 1060
+    ExplicitTop = 668
+    ExplicitWidth = 1062
     DesignSize = (
       1066
       41)
@@ -165,8 +165,8 @@ object fMain: TfMain
     Padding.Bottom = 3
     ShowCaption = False
     TabOrder = 2
-    ExplicitWidth = 1060
-    ExplicitHeight = 606
+    ExplicitWidth = 1062
+    ExplicitHeight = 614
   end
   object DosCommand1: TDosCommand
     InputToOutput = False
@@ -1996,7 +1996,6 @@ object fMain: TfMain
     MenuSupport.Font.Height = -11
     MenuSupport.Font.Name = 'Segoe UI'
     MenuSupport.Font.Style = []
-    Options.PixelsPerInch = 120
     SkinDirectory = 'C:\skins\Skins'
     SkinName = 'Windows 11 dark (internal)'
     SkinInfo = '16.13'
@@ -2065,5 +2064,40 @@ object fMain: TfMain
     Left = 880
     Top = 481
     Bitmap = {}
+  end
+  object TrayIcon1: TTrayIcon
+    Animate = True
+    Hint = 'Winget Helper'
+    BalloonTitle = 'Winget Helper'
+    PopupMenu = pmTray
+    Visible = True
+    OnDblClick = TrayIcon1DblClick
+    Left = 528
+    Top = 360
+  end
+  object pmTray: TPopupMenu
+    Left = 528
+    Top = 478
+    object W1: TMenuItem
+      Caption = 'Winget Helper'
+    end
+    object WingetHelper1: TMenuItem
+      Caption = '-'
+    end
+    object S1: TMenuItem
+      Caption = 'Search Packages'
+      OnClick = S1Click
+    end
+    object SearchPackages1: TMenuItem
+      Caption = 'List Installed Packages'
+      OnClick = SearchPackages1Click
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object N2: TMenuItem
+      Caption = 'Quit'
+      OnClick = N2Click
+    end
   end
 end

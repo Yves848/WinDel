@@ -4,10 +4,12 @@ interface
 
 uses
   System.Generics.Collections,
+  System.JSON,
   System.Types,
   System.strUtils,
   System.SysUtils,
   System.Classes,
+  System.IOUtils,
   winapi.Windows,
   winapi.Messages,
   vcl.ComCtrls,
@@ -17,12 +19,12 @@ const
 
   aLstWidths: TArray<Integer> = [46, 38, 13, 8];
   aLstFields: TArray<String> = ['nom', 'id', 'version', 'source'];
-  aUpdWidths : TArray<Integer> = [40, 31, 13, 13, 8] ;
+  aUpdWidths: TArray<Integer> = [40, 31, 13, 13, 8];
   aUpgFields: TArray<String> = ['nom', 'id', 'version', 'disponible', 'source'];
   aSearchFields: TArray<String> = ['nom', 'id', 'version', 'corresp.', 'source'];
 
-  aColListLibs : TArray<string> = ['Description', 'Id', 'Version', 'Source'];
-  aColUpdLibs : TArray<string> = ['Description', 'Id', 'Version', 'Available','Source'];
+  aColListLibs: TArray<string> = ['Description', 'Id', 'Version', 'Source'];
+  aColUpdLibs: TArray<string> = ['Description', 'Id', 'Version', 'Available', 'Source'];
 
   sRunUpdate = 'winget upgrade --id %s';
   sRunInstall = 'winget install --id %s --force';
@@ -32,7 +34,7 @@ const
   WM_STARTLIST = WM_STARTSEARCH + 1;
   WM_RUNNEXT = WM_STARTLIST + 1;
   WM_CLOSERUNEXT = WM_RUNNEXT + 1;
-  WM_FRAMERESIZE = WM_CLOSERUNEXT +1;
+  WM_FRAMERESIZE = WM_CLOSERUNEXT + 1;
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList, ptUninstall);
@@ -40,7 +42,7 @@ type
   tRemoveItem = procedure(sID: string) of object;
 
   tGridConfig = class
-    class procedure MakeColumns(psLV : tsListView);
+    class procedure MakeColumns(psLV: tsListView);
   end;
 
   tWingetcommand = class
@@ -55,9 +57,24 @@ type
   tColumnClass = class
   public
     sLabel: String;
-    iPos: integer;
-    iLen: integer;
-    constructor create(aPos1, aLen: integer);
+    iPos: Integer;
+    iLen: Integer;
+    constructor create(aPos1, aLen: Integer);
+  end;
+
+  tParams = class
+  private
+    fJSON: TJSONObject;
+    fConfigPath: string;
+    procedure initParams;
+    procedure makeConfigPath;
+    function ConfigExists: Boolean;
+  public
+    procedure loadParams;
+    procedure saveParams;
+
+    function getParamb(sParam: string): Boolean;
+    function getParams(sParam: string): String;
   end;
 
   tWingetPackage = Class
@@ -70,7 +87,7 @@ type
     procedure makeListFields(sLine: String);
   published
     property Line: String read fLine;
-    property PackageType : tPackageType read fType;
+    property PackageType: tPackageType read fType;
   public
     property Fields: TArray<String> read fFields write fFields;
     constructor create(sLine: String; sType: tPackageType); overload;
@@ -83,23 +100,23 @@ type
 var
   lListColumn: TStrings;
   wgCommands: TDictionary<string, string>;
+  pParams: tParams;
 
 procedure makeUpgradeDictonary(sLine: String);
 procedure removekey;
-function CurrentUserName:String;
+function CurrentUserName: String;
 
 implementation
 
-function CurrentUserName:String;
+function CurrentUserName: String;
 var
-  u: array[0..127] of Char;
-  sz:DWord;
+  u: array [0 .. 127] of Char;
+  sz: DWord;
 begin
-  sz:=SizeOf(u);
-  GetUserName(u,sz);
-  Result:=u;
+  sz := SizeOf(u);
+  GetUserName(u, sz);
+  Result := u;
 end;
-
 
 procedure removekey;
 var
@@ -110,13 +127,13 @@ end;
 
 procedure makeUpgradeDictonary(sLine: String);
 var
-  iLen: integer;
+  iLen: Integer;
   pColumn: tColumnClass;
   lHeaders: TStringDynArray;
   lsHeaders: tStringList;
-  i: integer;
-  iPos1, iPos2: integer;
-  iPosCol, iLenCol: integer;
+  i: Integer;
+  iPos1, iPos2: Integer;
+  iPosCol, iLenCol: Integer;
   key: String;
 begin
   lHeaders := SplitString(sLine, ' ');
@@ -170,7 +187,7 @@ end;
 
 { tColumnClass }
 
-constructor tColumnClass.create(aPos1, aLen: integer);
+constructor tColumnClass.create(aPos1, aLen: Integer);
 begin
   iPos := aPos1;
   iLen := aLen;
@@ -200,9 +217,9 @@ begin
     ptList:
       begin
         if lListColumn.Count = 4 then
-           Fields := aLstFields
+          Fields := aLstFields
         else
-           Fields := aUpgFields;
+          Fields := aUpgFields;
       end;
   end;
   makeFields(sLine);
@@ -228,35 +245,35 @@ end;
 
 class function tWingetcommand.Install(sID: String): String;
 begin
-  wgCommands.TryGetValue('install', result);
-  result := format(result, [sID]);
+  wgCommands.TryGetValue('install', Result);
+  Result := format(Result, [sID]);
 end;
 
 class function tWingetcommand.List: String;
 begin
-  wgCommands.TryGetValue('list', result);
+  wgCommands.TryGetValue('list', Result);
 end;
 
 class function tWingetcommand.Search(sText: String): String;
 begin
-  wgCommands.TryGetValue('search', result);
-  result := format(result, [sText]);
+  wgCommands.TryGetValue('search', Result);
+  Result := format(Result, [sText]);
 end;
 
 class function tWingetcommand.UnInstall(sID: String): String;
 begin
-  wgCommands.TryGetValue('uninstall', result);
-  result := format(result, [sID]);
+  wgCommands.TryGetValue('uninstall', Result);
+  Result := format(Result, [sID]);
 end;
 
 class function tWingetcommand.Upgrade: String;
 begin
-  wgCommands.TryGetValue('upgrade', result);
+  wgCommands.TryGetValue('upgrade', Result);
 end;
 
 class function tWingetcommand.version: String;
 begin
-  wgCommands.TryGetValue('version', result);
+  wgCommands.TryGetValue('version', Result);
 end;
 
 constructor tWingetPackage.create(pWingetPackage: tWingetPackage);
@@ -269,24 +286,24 @@ function tWingetPackage.getAllFields: TStrings;
 var
   sField: String;
 begin
-  result := tStringList.create;
+  Result := tStringList.create;
   for sField in aUpgFields do
   begin
-    result.Add(getField(sField));
+    Result.Add(getField(sField));
   end;
 end;
 
 function tWingetPackage.getField(sField: string): String;
 begin
-  if not dFields.TryGetValue(sField, result) then
-    result := 'N/A';
+  if not dFields.TryGetValue(sField, Result) then
+    Result := 'N/A';
 
 end;
 
 procedure tWingetPackage.makeFields(sLine: String);
 var
   aColumn: tColumnClass;
-  iCol: integer;
+  iCol: Integer;
 begin
   iCol := 0;
   while iCol <= lListColumn.Count - 1 do
@@ -304,35 +321,99 @@ end;
 
 { tGridConfig }
 
-class procedure tGridConfig.MakeColumns(psLV : tsListView);
+class procedure tGridConfig.MakeColumns(psLV: tsListView);
 var
-  aColumn : TListColumn;
-  i : Integer;
-  aTitles : TArray<String>;
-  Procedure cc(sTitle : String; iWidth : Integer);
+  aColumn: TListColumn;
+  i: Integer;
+  aTitles: TArray<String>;
+  Procedure cc(sTitle: String; iWidth: Integer);
   begin
-      aColumn := psLV.Columns.Add;
-      aColumn.Caption := sTitle;
-      aColumn.Width := iWidth;
-      aColumn.AutoSize := False;
+    aColumn := psLV.Columns.Add;
+    aColumn.Caption := sTitle;
+    aColumn.Width := iWidth;
+    aColumn.AutoSize := False;
   end;
-begin
-   psLV.Columns.Clear;
-   if lListColumn.Count = 4 then
-   begin
-      for I := 0 to length(aLstWidths) -1 do
-      begin
-          cc(aColListLibs[i], aLstWidths[i]);
-      end;
 
-   end
-   else
-   begin
-      for I := 0 to length(aUpdWidths) -1 do
-      begin
-          cc(aColUpdLibs[i],aUpdWidths[i]);
-      end;
-   end;
+begin
+  psLV.Columns.Clear;
+  if lListColumn.Count = 4 then
+  begin
+    for i := 0 to length(aLstWidths) - 1 do
+    begin
+      cc(aColListLibs[i], aLstWidths[i]);
+    end;
+
+  end
+  else
+  begin
+    for i := 0 to length(aUpdWidths) - 1 do
+    begin
+      cc(aColUpdLibs[i], aUpdWidths[i]);
+    end;
+  end;
+end;
+
+{ tParams }
+
+function tParams.ConfigExists: Boolean;
+var
+  sConfigFile: String;
+begin
+  makeConfigPath;
+  sConfigFile := TPath.Combine(fConfigPath, 'params.json');
+  Result := FileExists(sConfigFile);
+end;
+
+function tParams.getParamb(sParam: string): Boolean;
+begin
+    fJSON.TryGetValue<Boolean>(sParam,result);
+end;
+
+function tParams.getParams(sParam: string): String;
+begin
+
+end;
+
+procedure tParams.initParams;
+var
+  sConfigFile: String;
+begin
+  sConfigFile := TPath.Combine(fConfigPath, 'params.json');
+  fJson := TJSONObject.Create;
+  fJSON.AddPair('StartMinimized',False);
+  TFile.WriteAllText(sConfigFile,fJSON.ToJSON);
+end;
+
+procedure tParams.loadParams;
+var
+  sConfigFile: String;
+begin
+  if ConfigExists then
+  begin
+     sConfigFile := TPath.Combine(fConfigPath, 'params.json');
+     fJSON := TJSONObject.Create;
+     fJson := TJSONObject(fJson.ParseJSONValue(tFile.ReadAllText(sConfigFile,TEncoding.UTF8)));
+  end
+  else
+    initParams;
+end;
+
+procedure tParams.makeConfigPath;
+var
+  sUser: string;
+  sPAth: String;
+begin
+  sUser := CurrentUserName;
+  sPAth := TPath.Combine('c:\users\', sUser);
+  sPAth := TPath.Combine(sPAth, '.config\WingetHelper');
+  if not tDirectory.Exists(sPAth) then
+    ForceDirectories(sPAth);
+  fConfigPath := sPAth;
+end;
+
+procedure tParams.saveParams;
+begin
+
 end;
 
 initialization
@@ -344,10 +425,12 @@ wgCommands.Add('search', 'winget search "%s" --source winget');
 wgCommands.Add('install', 'winget install --id "%s"');
 wgCommands.Add('uninstall', 'winget uninstall --id "%s"');
 wgCommands.Add('version', 'winget --version');
+pParams := tParams.create;
 
 Finalization
 
 wgCommands.Clear;
 wgCommands.Free;
+pParams.Free;
 
 end.

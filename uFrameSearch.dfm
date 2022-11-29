@@ -41,7 +41,7 @@ inherited frmSearch: TfrmSearch
         Left = 25
         Top = 29
         Width = 673
-        Height = 28
+        Height = 23
         TabOrder = 0
         TextHint = 'Package to search'
         OnKeyDown = edtPackageNameKeyDown
@@ -274,6 +274,11 @@ inherited frmSearch: TfrmSearch
       Caption = 'AddChecked'
       ShortCut = 16449
       OnExecute = AddCheckedExecute
+    end
+    object RemoveSelected: TAction
+      Caption = 'RemoveSelected'
+      ShortCut = 16466
+      OnExecute = RemoveSelectedExecute
     end
   end
 end

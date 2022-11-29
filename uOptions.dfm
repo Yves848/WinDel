@@ -1,6 +1,9 @@
 object frmOptions: TfrmOptions
   Left = 0
   Top = 0
+  AlphaBlend = True
+  AlphaBlendValue = 235
+  BorderStyle = bsSingle
   Caption = 'frmOptions'
   ClientHeight = 424
   ClientWidth = 618
@@ -10,5 +13,62 @@ object frmOptions: TfrmOptions
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  GlassFrame.Enabled = True
+  GlassFrame.SheetOfGlass = True
+  Position = poMainFormCenter
   TextHeight = 15
+  object sPanel1: TsPanel
+    Left = 0
+    Top = 383
+    Width = 618
+    Height = 41
+    Align = alBottom
+    Caption = 'sPanel1'
+    ShowCaption = False
+    TabOrder = 0
+    ExplicitTop = 382
+    ExplicitWidth = 614
+    object btnClose: TsBitBtn
+      Left = 504
+      Top = 1
+      Width = 113
+      Height = 39
+      Align = alRight
+      Caption = 'Close'
+      ImageIndex = 0
+      Images = sCharImageList1
+      TabOrder = 0
+      OnClick = btnCloseClick
+      ExplicitLeft = 500
+    end
+  end
+  object sTabControl1: TsTabControl
+    Left = 0
+    Top = 0
+    Width = 618
+    Height = 383
+    Align = alClient
+    TabOrder = 1
+    Tabs.Strings = (
+      'General'
+      'Winget')
+    TabIndex = 0
+    ExplicitWidth = 614
+    ExplicitHeight = 382
+  end
+  object sCharImageList1: TsCharImageList
+    EmbeddedFonts = <
+      item
+        FontName = 'FontAwesome'
+        FontData = {}
+      end>
+    Items = <
+      item
+        Char = 61452
+        Color = -7249920
+      end>
+    Left = 408
+    Top = 224
+    Bitmap = {}
+  end
 end

@@ -1,5 +1,4 @@
 inherited frmList: TfrmList
-  OnResize = FrameResize
   object pnlListMain: TsPanel
     Left = 0
     Top = 0
@@ -94,17 +93,17 @@ inherited frmList: TfrmList
           Left = 0
           Top = 0
           Width = 177
-          Height = 20
+          Height = 15
           Align = alTop
           Alignment = taCenter
           Caption = 'Source'
-          ExplicitWidth = 45
+          ExplicitWidth = 36
         end
         object cbbSourceFilter: TsComboBox
           Left = 0
-          Top = 20
+          Top = 15
           Width = 177
-          Height = 28
+          Height = 23
           Align = alTop
           TabOrder = 0
           OnChange = cbbSourceFilterChange

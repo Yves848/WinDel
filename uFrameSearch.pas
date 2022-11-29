@@ -33,6 +33,7 @@ type
     sbRemovefromSelection: TsSpeedButton;
     btnLaunch: TsSpeedButton;
     AddChecked: TAction;
+    RemoveSelected: TAction;
     procedure FrameResize(Sender: TObject);
     procedure btnLaunchClick(Sender: TObject);
     function dcSearch1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -42,6 +43,7 @@ type
     procedure btnInstallRunClick(Sender: TObject);
     procedure sbAddtoSelectionClick(Sender: TObject);
     procedure AddCheckedExecute(Sender: TObject);
+    procedure RemoveSelectedExecute(Sender: TObject);
   private
     { Déclarations privées }
     function makeSearchList: tStrings;
@@ -310,6 +312,15 @@ begin
           lvinstall.Items.Delete(i);
     end;
     inc(i);
+  end;
+end;
+
+procedure TfrmSearch.RemoveSelectedExecute(Sender: TObject);
+begin
+  inherited;
+  if lvInstall.Focused then
+  begin
+    lvInstall.DeleteSelected; 
   end;
 end;
 
