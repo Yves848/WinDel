@@ -15,7 +15,9 @@ uses
 {$R *.res}
 
 begin
+
   Application.Initialize;
+  pPArams.loadParams;
   Application.MainFormOnTaskbar := True;
   Application.ShowMainForm := True;
   Application.CreateForm(TfMain, fMain);

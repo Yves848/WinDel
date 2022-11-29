@@ -9,7 +9,7 @@ uses
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList,
   System.Actions,
-  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel;
+  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel, uOptions, Vcl.Menus;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -35,6 +35,14 @@ type
     sbConfig: TsSpeedButton;
     actConfig: TAction;
     lblScoopVersion: TsLabelFX;
+    TrayIcon1: TTrayIcon;
+    pmTray: TPopupMenu;
+    W1: TMenuItem;
+    WingetHelper1: TMenuItem;
+    S1: TMenuItem;
+    SearchPackages1: TMenuItem;
+    N1: TMenuItem;
+    N2: TMenuItem;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -57,6 +65,7 @@ type
     procedure sSpeedButton2Click(Sender: TObject);
     procedure sSpeedButton1Click(Sender: TObject);
     procedure actConfigExecute(Sender: TObject);
+    procedure sbConfigClick(Sender: TObject);
   private
     { Private declarations }
     function makeUpgList: tStrings;
@@ -85,8 +94,12 @@ implementation
 {$R *.dfm}
 
 procedure TfMain.actConfigExecute(Sender: TObject);
+var
+  frmOptions : TfrmOptions;
 begin
-  ShowMessage('Config');
+   frmOptions := TfrmOptions.Create(Self);
+   frmOptions.ShowModal;
+   frmOptions.Free;
 end;
 
 procedure TfMain.ActivitySet(bActive: Boolean);
@@ -287,6 +300,11 @@ end;
 procedure TfMain.sSpeedButton2Click(Sender: TObject);
 begin
   taskSearch(Sender);
+end;
+
+procedure TfMain.sbConfigClick(Sender: TObject);
+begin
+  actConfigExecute(Sender);
 end;
 
 procedure TfMain.sbQuitClick(Sender: TObject);
