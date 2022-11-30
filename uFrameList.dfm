@@ -140,6 +140,10 @@ inherited frmList: TfrmList
       item
         Char = 61809
         Color = clRed
+      end
+      item
+        Char = 61561
+        Color = clBlue
       end>
     Left = 534
     Top = 401

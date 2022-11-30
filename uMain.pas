@@ -43,6 +43,7 @@ type
     SearchPackages1: TMenuItem;
     N1: TMenuItem;
     N2: TMenuItem;
+    sbUpgrade: TsSpeedButton;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;

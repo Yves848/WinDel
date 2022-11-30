@@ -88,6 +88,21 @@ object fMain: TfMain
       Reflected = True
       ExplicitLeft = 936
     end
+    object sbUpgrade: TsSpeedButton
+      Left = 285
+      Top = 2
+      Width = 140
+      Height = 50
+      Align = alLeft
+      Caption = 'Update Packages'#13#10'(F3)'
+      ImageIndex = 4
+      Images = sCharImageList1
+      Spacing = 15
+      OnClick = sSpeedButton1Click
+      Reflected = True
+      ExplicitLeft = 377
+      ExplicitTop = -2
+    end
   end
   object pnlFooter: TPanel
     Left = 0
@@ -2060,6 +2075,10 @@ object fMain: TfMain
       end
       item
         Char = 61459
+      end
+      item
+        Char = 61561
+        Color = 33023
       end>
     Left = 880
     Top = 481
