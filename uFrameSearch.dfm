@@ -124,9 +124,9 @@ inherited frmSearch: TfrmSearch
     end
     object sPanel2: TsPanel
       Left = 0
-      Top = 353
+      Top = 394
       Width = 856
-      Height = 269
+      Height = 228
       Align = alClient
       Caption = 'sPanel2'
       TabOrder = 2
@@ -134,7 +134,7 @@ inherited frmSearch: TfrmSearch
         Left = 1
         Top = 1
         Width = 669
-        Height = 267
+        Height = 226
         BevelInner = bvNone
         BevelOuter = bvNone
         Align = alClient
@@ -164,12 +164,13 @@ inherited frmSearch: TfrmSearch
         RowSelect = True
         TabOrder = 0
         ViewStyle = vsReport
+        ExplicitHeight = 267
       end
       object sPanel3: TsPanel
         Left = 670
         Top = 1
         Width = 185
-        Height = 267
+        Height = 226
         Align = alRight
         BevelOuter = bvNone
         Caption = 'pnlUpgSideBar'
@@ -201,10 +202,35 @@ inherited frmSearch: TfrmSearch
           Caption = 'Remove Selected'#13#10'(Ctrl-R)'
           ImageIndex = 2
           Images = sCharImageList1
+          OnClick = sbRemovefromSelectionClick
           Reflected = True
           ExplicitLeft = 8
           ExplicitTop = 8
         end
+      end
+    end
+    object spnl1: TsPanel
+      Left = 0
+      Top = 353
+      Width = 856
+      Height = 41
+      Align = alTop
+      Caption = 'spnl1'
+      ShowCaption = False
+      TabOrder = 3
+      object spdbtn1: TsSpeedButton
+        Left = 1
+        Top = 1
+        Width = 854
+        Height = 39
+        Align = alClient
+        ImageIndex = 4
+        Images = sCharImageList1
+        OnClick = spdbtn1Click
+        ExplicitLeft = 392
+        ExplicitTop = 16
+        ExplicitWidth = 23
+        ExplicitHeight = 22
       end
     end
   end
@@ -257,6 +283,15 @@ inherited frmSearch: TfrmSearch
       item
         Char = 61671
         Color = -16757684
+      end
+      item
+        ScalingFactor = 1.160000000000000000
+        AddedSize = 58
+        Char = 61539
+        AddedChar = 61538
+        AddedFontName = 'FontAwesome'
+        Color = 65344
+        AddedColor = clRed
       end>
     Left = 513
     Top = 393

@@ -34,6 +34,8 @@ type
     btnLaunch: TsSpeedButton;
     AddChecked: TAction;
     RemoveSelected: TAction;
+    spnl1: TsPanel;
+    spdbtn1: TsSpeedButton;
     procedure FrameResize(Sender: TObject);
     procedure btnLaunchClick(Sender: TObject);
     function dcSearch1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -44,6 +46,8 @@ type
     procedure sbAddtoSelectionClick(Sender: TObject);
     procedure AddCheckedExecute(Sender: TObject);
     procedure RemoveSelectedExecute(Sender: TObject);
+    procedure spdbtn1Click(Sender: TObject);
+    procedure sbRemovefromSelectionClick(Sender: TObject);
   private
     { Déclarations privées }
     function makeSearchList: tStrings;
@@ -226,6 +230,12 @@ begin
   AddCheckedExecute(Sender);
 end;
 
+procedure TfrmSearch.sbRemovefromSelectionClick(Sender: TObject);
+begin
+  inherited;
+  RemoveSelectedExecute(Sender);
+end;
+
 procedure TfrmSearch.searchTerminated(Sender: TObject);
 var
   i, iCol: Integer;
@@ -267,6 +277,17 @@ begin
   ActivitySet(False);
   ListView1.ItemIndex := 0;
   ListView1.SetFocus;
+end;
+
+procedure TfrmSearch.spdbtn1Click(Sender: TObject);
+begin
+  inherited;
+  if ListView1.Focused then
+      AddCheckedExecute(Sender)
+  else
+  if lvInstall.Focused then
+     RemoveSelectedExecute(Sender);
+
 end;
 
 function TfrmSearch.makeSearchList: tStrings;
