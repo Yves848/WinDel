@@ -1,6 +1,6 @@
 inherited frmHeritee: TfrmHeritee
   OnResize = FrameResize
-  object pnlUpgMain: TPanel
+  object pnlUpgMain: TsPanel
     Left = 0
     Top = 24
     Width = 640
@@ -9,42 +9,42 @@ inherited frmHeritee: TfrmHeritee
     Caption = 'pnlUpgMain'
     ShowCaption = False
     TabOrder = 0
-    object ListView1: TListView
+    object ListView1: TsListView
       Left = 1
       Top = 1
       Width = 511
       Height = 454
-      Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
+      Align = alClient
       Checkboxes = True
       Columns = <
         item
-          AutoSize = True
           Caption = 'Description'
           MinWidth = 200
+          Width = 200
         end
         item
-          AutoSize = True
           Caption = 'ID'
+          Width = 79
         end
         item
-          AutoSize = True
           Caption = 'Version'
+          Width = 76
         end
         item
-          AutoSize = True
           Caption = 'Available'
+          Width = 76
         end
         item
-          AutoSize = True
           Caption = 'Source'
+          Width = 76
         end>
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
     end
-    object pnlUpgSideBar: TPanel
+    object pnlUpgSideBar: TsPanel
       Left = 512
       Top = 1
       Width = 127
@@ -54,7 +54,7 @@ inherited frmHeritee: TfrmHeritee
       Caption = 'pnlUpgSideBar'
       ShowCaption = False
       TabOrder = 1
-      object pnlUpgTopSide: TPanel
+      object pnlUpgTopSide: TsPanel
         Left = 0
         Top = 0
         Width = 127
@@ -74,7 +74,6 @@ inherited frmHeritee: TfrmHeritee
         Caption = '&Upgrade Selected'
         TabOrder = 1
         OnClick = actUpgradeExecute
-        ExplicitTop = 41
       end
       object btnSelectAll: TButton
         Left = 0
@@ -88,7 +87,7 @@ inherited frmHeritee: TfrmHeritee
       end
     end
   end
-  object pnlTitleToolBar: TPanel
+  object pnlTitleToolBar: TsPanel
     Left = 0
     Top = 0
     Width = 640
@@ -98,9 +97,9 @@ inherited frmHeritee: TfrmHeritee
     BevelOuter = bvNone
     Caption = 'Upgradable Packages'
     Color = 12615680
+    StyleElements = [seFont, seBorder]
     ParentBackground = False
     TabOrder = 1
-    StyleElements = [seFont, seBorder]
   end
   object actlstUpgrade: TActionList
     Left = 568
@@ -113,5 +112,9 @@ inherited frmHeritee: TfrmHeritee
       Caption = 'actUpgrade'
       OnExecute = actUpgradeExecute
     end
+  end
+  object sFrameAdapter1: TsFrameAdapter
+    Left = 552
+    Top = 377
   end
 end

@@ -5,23 +5,24 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, Winapi.CommCtrl, Vcl.StdCtrls, uConst, System.Actions, Vcl.ActnList,
-  uRunWinget;
+  uRunWinget, sFrameAdapter,sListView,sEdit, sPanel;
 
 const
-  aColWidths : array of Integer = [42,29,13,13,8];
+  aColWidths : array of Integer = [42,29,12,12,6];
 
 type
   TfrmHeritee = class(TfrmBase)
-    ListView1: TListView;
-    pnlUpgMain: TPanel;
-    pnlUpgSideBar: TPanel;
-    pnlUpgTopSide: TPanel;
+    ListView1: TsListView;
+    pnlUpgMain: TsPanel;
+    pnlUpgSideBar: TsPanel;
+    pnlUpgTopSide: TsPanel;
     btnUgRun: TButton;
-    pnlTitleToolBar: TPanel;
+    pnlTitleToolBar: TsPanel;
     btnSelectAll: TButton;
     actlstUpgrade: TActionList;
     actSelectAll: TAction;
     actUpgrade: TAction;
+    sFrameAdapter1: TsFrameAdapter;
     procedure FrameResize(Sender: TObject);
     procedure actSelectAllExecute(Sender: TObject);
     procedure actUpgradeExecute(Sender: TObject);
@@ -79,7 +80,7 @@ end;
 
 procedure TfrmHeritee.FrameResize(Sender: TObject);
 var
-  listeView: TListView;
+  listeView: TsListView;
   columns: TListColumns;
   column: TListColumn;
   i: Integer;
