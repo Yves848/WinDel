@@ -26,8 +26,8 @@ const
   aColListLibs: TArray<string> = ['Description', 'Id', 'Version', 'Source'];
   aColUpdLibs: TArray<string> = ['Description', 'Id', 'Version', 'Available', 'Source'];
 
-  sRunUpdate = 'winget upgrade --id %s';
-  sRunInstall = 'winget install --id %s --force';
+  //sRunUpdate = 'winget upgrade --id %s';
+  //sRunInstall = 'winget install --id %s --force';
 
   WM_GETWINGETVERSION = WM_USER + 2001;
   WM_STARTSEARCH = WM_GETWINGETVERSION + 1;

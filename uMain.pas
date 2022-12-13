@@ -71,6 +71,7 @@ type
     procedure TrayIcon1DblClick(Sender: TObject);
     procedure S1Click(Sender: TObject);
     procedure SearchPackages1Click(Sender: TObject);
+    procedure sbUpgradeClick(Sender: TObject);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
@@ -327,6 +328,11 @@ end;
 procedure TfMain.sbQuitClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TfMain.sbUpgradeClick(Sender: TObject);
+begin
+  taskUpgrade(Sender);
 end;
 
 procedure TfMain.SearchPackages1Click(Sender: TObject);

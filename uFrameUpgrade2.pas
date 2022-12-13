@@ -5,26 +5,29 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFrameBase, Vcl.ComCtrls, Vcl.ExtCtrls, Winapi.CommCtrl, Vcl.StdCtrls, uConst, System.Actions, Vcl.ActnList,
-  uRunWinget;
+  uRunWinget,sListView,sPanel, sSpeedButton, Vcl.Buttons, System.ImageList, Vcl.ImgList, acAlphaImageList;
 
 const
   aColWidths : array of Integer = [42,29,13,13,8];
 
 type
   TfrmHeritee = class(TfrmBase)
-    ListView1: TListView;
-    pnlUpgMain: TPanel;
-    pnlUpgSideBar: TPanel;
-    pnlUpgTopSide: TPanel;
-    btnUgRun: TButton;
-    pnlTitleToolBar: TPanel;
-    btnSelectAll: TButton;
+    ListView1: TsListView;
+    pnlUpgMain: TsPanel;
+    pnlUpgSideBar: TsPanel;
+    pnlUpgTopSide: TsPanel;
+    pnlTitleToolBar: TsPanel;
     actlstUpgrade: TActionList;
     actSelectAll: TAction;
     actUpgrade: TAction;
+    sbUgRun: TsSpeedButton;
+    sbSelectAll: TsSpeedButton;
+    sCharImageList1: TsCharImageList;
     procedure FrameResize(Sender: TObject);
     procedure actSelectAllExecute(Sender: TObject);
     procedure actUpgradeExecute(Sender: TObject);
+    procedure sbSelectAllClick(Sender: TObject);
+    procedure sbUgRunClick(Sender: TObject);
   private
     { Déclarations privées }
   public
@@ -45,16 +48,18 @@ var
   i : Integer;
 begin
   inherited;
-  bSelected := btnSelectAll.Tag = 0;
-  if (btnSelectAll.tag = 0) then
+  bSelected := sbSelectAll.Tag = 0;
+  if (sbSelectAll.tag = 0) then
   begin
-     btnSelectAll.Tag := 1;
-     btnSelectAll.Caption := 'Unselect &All';
+     sbSelectAll.Tag := 1;
+     sbSelectAll.Caption := 'Unselect All'+chr(13)+'(F5)';
+     sbSelectAll.ImageIndex := 1;
   end
   else
   begin
-     btnSelectAll.Tag := 0;
-     btnSelectAll.Caption := 'Select &All';
+     sbSelectAll.Tag := 0;
+     sbSelectAll.Caption := 'Select All'+Chr(13)+'(F5)';
+     sbSelectAll.ImageIndex := 0;
   end;
 
   i := 0;
@@ -79,7 +84,7 @@ end;
 
 procedure TfrmHeritee.FrameResize(Sender: TObject);
 var
-  listeView: TListView;
+  listeView: TsListView;
   columns: TListColumns;
   column: TListColumn;
   i: Integer;
@@ -98,6 +103,18 @@ begin
     column.Width := listeView.Width div 100 * aColWidths[i];
   end;
 
+end;
+
+procedure TfrmHeritee.sbSelectAllClick(Sender: TObject);
+begin
+  inherited;
+  actSelectAllExecute(Sender)
+end;
+
+procedure TfrmHeritee.sbUgRunClick(Sender: TObject);
+begin
+  inherited;
+  actUpgradeExecute(Sender);
 end;
 
 procedure TfrmHeritee.setupColumnHeaders;

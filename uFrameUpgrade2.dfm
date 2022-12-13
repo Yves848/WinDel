@@ -1,6 +1,6 @@
 inherited frmHeritee: TfrmHeritee
   OnResize = FrameResize
-  object pnlUpgMain: TPanel
+  object pnlUpgMain: TsPanel
     Left = 0
     Top = 24
     Width = 640
@@ -9,42 +9,42 @@ inherited frmHeritee: TfrmHeritee
     Caption = 'pnlUpgMain'
     ShowCaption = False
     TabOrder = 0
-    object ListView1: TListView
+    object ListView1: TsListView
       Left = 1
       Top = 1
       Width = 511
       Height = 454
-      Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
+      Align = alClient
       Checkboxes = True
       Columns = <
         item
-          AutoSize = True
           Caption = 'Description'
           MinWidth = 200
+          Width = 200
         end
         item
-          AutoSize = True
           Caption = 'ID'
+          Width = 79
         end
         item
-          AutoSize = True
           Caption = 'Version'
+          Width = 76
         end
         item
-          AutoSize = True
           Caption = 'Available'
+          Width = 76
         end
         item
-          AutoSize = True
           Caption = 'Source'
+          Width = 76
         end>
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
     end
-    object pnlUpgSideBar: TPanel
+    object pnlUpgSideBar: TsPanel
       Left = 512
       Top = 1
       Width = 127
@@ -54,7 +54,35 @@ inherited frmHeritee: TfrmHeritee
       Caption = 'pnlUpgSideBar'
       ShowCaption = False
       TabOrder = 1
-      object pnlUpgTopSide: TPanel
+      object sbUgRun: TsSpeedButton
+        Left = 0
+        Top = 97
+        Width = 127
+        Height = 56
+        Align = alTop
+        Caption = 'Upgrade Selected'#13#10'(F8)'
+        ImageIndex = 2
+        Images = sCharImageList1
+        OnClick = sbUgRunClick
+        ExplicitLeft = 356
+        ExplicitTop = 113
+        ExplicitWidth = 177
+      end
+      object sbSelectAll: TsSpeedButton
+        Left = 0
+        Top = 41
+        Width = 127
+        Height = 56
+        Align = alTop
+        Caption = 'Select All'#13#10'(F5)'
+        ImageIndex = 0
+        Images = sCharImageList1
+        OnClick = sbSelectAllClick
+        ExplicitLeft = 356
+        ExplicitTop = 113
+        ExplicitWidth = 177
+      end
+      object pnlUpgTopSide: TsPanel
         Left = 0
         Top = 0
         Width = 127
@@ -65,30 +93,9 @@ inherited frmHeritee: TfrmHeritee
         ShowCaption = False
         TabOrder = 0
       end
-      object btnUgRun: TButton
-        Left = 0
-        Top = 81
-        Width = 127
-        Height = 40
-        Align = alTop
-        Caption = '&Upgrade Selected'
-        TabOrder = 1
-        OnClick = actUpgradeExecute
-        ExplicitTop = 41
-      end
-      object btnSelectAll: TButton
-        Left = 0
-        Top = 41
-        Width = 127
-        Height = 40
-        Align = alTop
-        Caption = 'Select &All'
-        TabOrder = 2
-        OnClick = actSelectAllExecute
-      end
     end
   end
-  object pnlTitleToolBar: TPanel
+  object pnlTitleToolBar: TsPanel
     Left = 0
     Top = 0
     Width = 640
@@ -98,20 +105,45 @@ inherited frmHeritee: TfrmHeritee
     BevelOuter = bvNone
     Caption = 'Upgradable Packages'
     Color = 12615680
+    StyleElements = [seFont, seBorder]
     ParentBackground = False
     TabOrder = 1
-    StyleElements = [seFont, seBorder]
   end
   object actlstUpgrade: TActionList
     Left = 568
-    Top = 233
+    Top = 305
     object actSelectAll: TAction
       Caption = 'actSelectAll'
+      ShortCut = 116
       OnExecute = actSelectAllExecute
     end
     object actUpgrade: TAction
       Caption = 'actUpgrade'
+      ShortCut = 119
       OnExecute = actUpgradeExecute
     end
+  end
+  object sCharImageList1: TsCharImageList
+    EmbeddedFonts = <
+      item
+        FontName = 'FontAwesome'
+        FontData = {}
+      end>
+    Items = <
+      item
+        Char = 61510
+        Color = clLime
+      end
+      item
+        Char = 61590
+        Color = clRed
+      end
+      item
+        Char = 61573
+        Color = clLime
+      end>
+    Left = 520
+    Top = 353
+    Bitmap = {}
   end
 end

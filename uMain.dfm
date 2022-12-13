@@ -32,7 +32,7 @@ object fMain: TfMain
     Padding.Bottom = 2
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 1062
+    ExplicitWidth = 1052
     object sSpeedButton1: TsSpeedButton
       Left = 145
       Top = 2
@@ -98,7 +98,7 @@ object fMain: TfMain
       ImageIndex = 4
       Images = sCharImageList1
       Spacing = 15
-      OnClick = sSpeedButton1Click
+      OnClick = sbUpgradeClick
       Reflected = True
       ExplicitLeft = 377
       ExplicitTop = -2
@@ -114,8 +114,8 @@ object fMain: TfMain
     Caption = 'pnlFooter'
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 668
-    ExplicitWidth = 1062
+    ExplicitTop = 636
+    ExplicitWidth = 1052
     DesignSize = (
       1066
       41)
@@ -180,8 +180,8 @@ object fMain: TfMain
     Padding.Bottom = 3
     ShowCaption = False
     TabOrder = 2
-    ExplicitWidth = 1062
-    ExplicitHeight = 614
+    ExplicitWidth = 1052
+    ExplicitHeight = 582
   end
   object DosCommand1: TDosCommand
     InputToOutput = False
@@ -2011,6 +2011,7 @@ object fMain: TfMain
     MenuSupport.Font.Height = -11
     MenuSupport.Font.Name = 'Segoe UI'
     MenuSupport.Font.Style = []
+    Options.PixelsPerInch = 192
     SkinDirectory = 'C:\skins\Skins'
     SkinName = 'Windows 11 dark (internal)'
     SkinInfo = '16.13'
