@@ -30,6 +30,7 @@ type
     procedure sbUgRunClick(Sender: TObject);
   private
     { Déclarations privées }
+    procedure removeItem(sId : String);
   public
     { Déclarations publiques }
     procedure setupColumnHeaders;
@@ -74,11 +75,28 @@ end;
 
 procedure TfrmHeritee.actUpgradeExecute(Sender: TObject);
 var
-  frunWinget : TfRunWinget;
+  fRunWinget : TfRunWinget;
+  i : Integer;
+  aWingetPackage: tWingetPackage;
 begin
   inherited;
   fRunWinget := TfRunWinget.Create(self);
-  fRunWinget.showModal;
+  i := 0;
+  while i <= ListView1.Items.Count -1 do
+  begin
+    if (ListView1.Items[i].Data <> Nil) and (ListView1.Items[i].Checked) then
+    begin
+       aWingetPackage := tWingetPackage(ListView1.Items[i].Data);
+       fRunWinget.addId(aWingetPackage.getField('id'));
+    end;
+    inc(i);
+  end;
+  fRunWinget.typeRun := ptUpgrade;
+  fRunWinget.removeItem := removeitem;
+  if fRunWinget.showModal = mrOk then
+  begin
+
+  end;
   fRunWinget.Free;
 end;
 
@@ -101,6 +119,25 @@ begin
   begin
     column := listeView.columns[i];
     column.Width := listeView.Width div 100 * aColWidths[i];
+  end;
+
+end;
+
+procedure TfrmHeritee.removeItem(sId: String);
+var
+  i : Integer;
+  aWingetPackage: tWingetPackage;
+begin
+    i := 0;
+  while i <= ListView1.Items.Count -1 do
+  begin
+    if (ListView1.Items[i].Data <> Nil) and (ListView1.Items[i].Checked) then
+    begin
+       aWingetPackage := tWingetPackage(ListView1.Items[i].Data);
+       if trim(aWingetPackage.getField('id')) = sId then
+          listView1.Items.Delete(i);
+    end;
+    inc(i);
   end;
 
 end;

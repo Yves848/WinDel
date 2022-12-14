@@ -48,6 +48,7 @@ type
   tWingetcommand = class
     class function Install(sID: String): String;
     class function Upgrade: String;
+    class function upgradePKG(sID: String): String;
     class Function List: String;
     class function Search(sText: String): String;
     class function version: String;
@@ -271,6 +272,12 @@ begin
   wgCommands.TryGetValue('upgrade', Result);
 end;
 
+class function tWingetcommand.upgradePKG(sID: String): String;
+begin
+   wgCommands.TryGetValue('upgradePKG', Result);
+   Result := format(Result, [sID]);
+end;
+
 class function tWingetcommand.version: String;
 begin
   wgCommands.TryGetValue('version', Result);
@@ -421,6 +428,7 @@ initialization
 wgCommands := TDictionary<string, string>.create();
 wgCommands.Add('list', 'winget list --accept-source-agreements');
 wgCommands.Add('upgrade', 'winget upgrade --include-unknown');
+wgCommands.Add('upgradePKG', 'winget upgrade  --id "%s"');
 wgCommands.Add('search', 'winget search "%s" --source winget');
 wgCommands.Add('install', 'winget install --id "%s"');
 wgCommands.Add('uninstall', 'winget uninstall --id "%s"');

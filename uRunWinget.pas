@@ -114,6 +114,9 @@ begin
         ptUninstall : begin
           dcRun.CommandLine := tWingetcommand.unInstall(lIDs[lIds.count -1]);
         end;
+        ptUpgrade : begin
+          dcrun.CommandLine := tWingetcommand.UpgradePKG(lIDs[lIds.count -1]);
+        end;
       end;
     dcRun.Execute;
   end
