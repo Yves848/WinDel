@@ -44,6 +44,7 @@ type
     N1: TMenuItem;
     N2: TMenuItem;
     sbUpgrade: TsSpeedButton;
+    sSpeedButton3: TsSpeedButton;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -72,6 +73,7 @@ type
     procedure S1Click(Sender: TObject);
     procedure SearchPackages1Click(Sender: TObject);
     procedure sbUpgradeClick(Sender: TObject);
+    procedure sSpeedButton3Click(Sender: TObject);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
@@ -82,6 +84,7 @@ type
     procedure taskSearch(Sender: TObject);
     procedure taskList(Sender: TObject);
     procedure taskUpgrade(Sender: TObject);
+    procedure popup;
   public
     { Public declarations }
     lOutPut: tStrings;
@@ -304,6 +307,15 @@ begin
   Close;
 end;
 
+procedure TfMain.popup;
+begin
+  TrayIcon1.BalloonTitle := 'Balloon Title';
+  TrayIcon1.BalloonHint := 'Balloon Hint';
+  TrayIcon1.BalloonTimeout := 2000;
+  TrayIcon1.ShowBalloonHint;
+
+end;
+
 procedure TfMain.S1Click(Sender: TObject);
 begin
   Show;
@@ -318,6 +330,11 @@ end;
 procedure TfMain.sSpeedButton2Click(Sender: TObject);
 begin
   taskSearch(Sender);
+end;
+
+procedure TfMain.sSpeedButton3Click(Sender: TObject);
+begin
+  popup;
 end;
 
 procedure TfMain.sbConfigClick(Sender: TObject);

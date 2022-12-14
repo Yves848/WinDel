@@ -4,7 +4,7 @@ object frmOptions: TfrmOptions
   AlphaBlend = True
   AlphaBlendValue = 235
   BorderStyle = bsSingle
-  Caption = 'frmOptions'
+  Caption = 'Options'
   ClientHeight = 424
   ClientWidth = 618
   Color = clBtnFace
@@ -53,8 +53,39 @@ object frmOptions: TfrmOptions
       'General'
       'Winget')
     TabIndex = 0
-    ExplicitWidth = 614
-    ExplicitHeight = 382
+    ExplicitTop = -5
+    object sCheckBox1: TsCheckBox
+      Left = 16
+      Top = 39
+      Width = 110
+      Height = 19
+      Caption = 'Start Minimized'
+      TabOrder = 0
+    end
+    object sCheckBox2: TsCheckBox
+      Left = 16
+      Top = 64
+      Width = 186
+      Height = 19
+      Caption = 'Automatic Update verification'
+      TabOrder = 1
+    end
+    object sTrackBar1: TsTrackBar
+      Left = 52
+      Top = 89
+      Width = 150
+      Height = 45
+      Max = 60
+      Min = 5
+      ParentShowHint = False
+      Frequency = 5
+      Position = 5
+      PositionToolTip = ptTop
+      ShowHint = True
+      ShowSelRange = False
+      TabOrder = 2
+      ShowProgress = True
+    end
   end
   object sCharImageList1: TsCharImageList
     EmbeddedFonts = <

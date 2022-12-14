@@ -32,7 +32,7 @@ object fMain: TfMain
     Padding.Bottom = 2
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 1052
+    ExplicitWidth = 1062
     object sSpeedButton1: TsSpeedButton
       Left = 145
       Top = 2
@@ -103,6 +103,15 @@ object fMain: TfMain
       ExplicitLeft = 377
       ExplicitTop = -2
     end
+    object sSpeedButton3: TsSpeedButton
+      Left = 425
+      Top = 2
+      Width = 112
+      Height = 50
+      Align = alLeft
+      Caption = 'Test'
+      OnClick = sSpeedButton3Click
+    end
   end
   object pnlFooter: TPanel
     Left = 0
@@ -114,8 +123,8 @@ object fMain: TfMain
     Caption = 'pnlFooter'
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 636
-    ExplicitWidth = 1052
+    ExplicitTop = 668
+    ExplicitWidth = 1062
     DesignSize = (
       1066
       41)
@@ -180,8 +189,8 @@ object fMain: TfMain
     Padding.Bottom = 3
     ShowCaption = False
     TabOrder = 2
-    ExplicitWidth = 1052
-    ExplicitHeight = 582
+    ExplicitWidth = 1062
+    ExplicitHeight = 614
   end
   object DosCommand1: TDosCommand
     InputToOutput = False
@@ -2011,7 +2020,6 @@ object fMain: TfMain
     MenuSupport.Font.Height = -11
     MenuSupport.Font.Name = 'Segoe UI'
     MenuSupport.Font.Style = []
-    Options.PixelsPerInch = 192
     SkinDirectory = 'C:\skins\Skins'
     SkinName = 'Windows 11 dark (internal)'
     SkinInfo = '16.13'
@@ -2089,6 +2097,7 @@ object fMain: TfMain
     Animate = True
     Hint = 'Winget Helper'
     BalloonTitle = 'Winget Helper'
+    BalloonFlags = bfInfo
     PopupMenu = pmTray
     Visible = True
     OnDblClick = TrayIcon1DblClick
