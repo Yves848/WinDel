@@ -35,7 +35,7 @@ object frmOptions: TfrmOptions
       Width = 113
       Height = 39
       Align = alRight
-      Caption = 'Close'
+      Caption = 'Accept'
       ImageIndex = 0
       Images = sCharImageList1
       TabOrder = 0
@@ -54,8 +54,14 @@ object frmOptions: TfrmOptions
       'General'
       'Winget')
     TabIndex = 0
-    ExplicitWidth = 614
-    ExplicitHeight = 382
+    ExplicitHeight = 385
+    object sLabel1: TsLabel
+      Left = 208
+      Top = 128
+      Width = 43
+      Height = 15
+      Caption = 'minutes'
+    end
     object ckStarMinimized: TsCheckBox
       Left = 16
       Top = 71
@@ -64,7 +70,7 @@ object frmOptions: TfrmOptions
       Caption = 'Start Minimized'
       TabOrder = 0
     end
-    object sCheckBox2: TsCheckBox
+    object ckAutoUpdCheck: TsCheckBox
       Left = 16
       Top = 96
       Width = 186
@@ -72,7 +78,7 @@ object frmOptions: TfrmOptions
       Caption = 'Automatic Update verification'
       TabOrder = 1
     end
-    object sTrackBar1: TsTrackBar
+    object tbInterval: TsTrackBar
       Left = 52
       Top = 121
       Width = 150
@@ -81,7 +87,7 @@ object frmOptions: TfrmOptions
       Min = 5
       ParentShowHint = False
       Frequency = 5
-      Position = 5
+      Position = 30
       PositionToolTip = ptTop
       ShowHint = True
       ShowSelRange = False

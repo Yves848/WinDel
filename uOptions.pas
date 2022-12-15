@@ -3,10 +3,12 @@ unit uOptions;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, System.IOUtils,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, sPanel, acNoteBook, Vcl.ComCtrls, sTabControl, Vcl.StdCtrls, Vcl.Buttons, sBitBtn,
-  System.ImageList, Vcl.ImgList, acAlphaImageList, sCheckBox, sGroupBox,uConst,
-  sTrackBar;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, System.IOUtils,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, sPanel, acNoteBook,
+  Vcl.ComCtrls, sTabControl, Vcl.StdCtrls, Vcl.Buttons, sBitBtn,
+  System.ImageList, Vcl.ImgList, acAlphaImageList, sCheckBox, sGroupBox, uConst,
+  sTrackBar, sLabel;
 
 type
   TfrmOptions = class(TForm)
@@ -15,14 +17,18 @@ type
     sCharImageList1: TsCharImageList;
     btnClose: TsBitBtn;
     ckStarMinimized: TsCheckBox;
-    sCheckBox2: TsCheckBox;
-    sTrackBar1: TsTrackBar;
+    ckAutoUpdCheck: TsCheckBox;
+    tbInterval: TsTrackBar;
     ckStartup: TsCheckBox;
+    sLabel1: TsLabel;
     procedure btnCloseClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure ckStartupMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure ckStartupMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
+    procedure loadParams;
+    procedure saveParams;
   public
     { Public declarations }
   end;
@@ -36,21 +42,20 @@ implementation
 
 procedure TfrmOptions.btnCloseClick(Sender: TObject);
 begin
-  pPArams.SetParamb('RunOnStartUp',ckStartup.checked);
-  pPArams.setParamb('StartMinimized',ckStarMinimized.Checked);
-  pParams.saveParams;
+  saveParams;
   ModalResult := mrOk;
 end;
 
-procedure TfrmOptions.ckStartupMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TfrmOptions.ckStartupMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 var
-  sPath : String;
+  sPath: String;
 begin
   if ckStartup.Checked then
   begin
-     sPath := IncludeTrailingBackslash(TPath.GetDirectoryName(ParamStr(0)));
-     RunOnStartup('Winget Helper',TPath.Combine(sPath,'wingethelper.exe'),False);
-
+    sPath := IncludeTrailingBackslash(TPath.GetDirectoryName(ParamStr(0)));
+    RunOnStartup('Winget Helper', TPath.Combine(sPath,
+      'wingethelper.exe'), False);
   end
   else
   begin
@@ -62,8 +67,20 @@ end;
 procedure TfrmOptions.FormShow(Sender: TObject);
 begin
   //
-  ckStartup.checked := pPArams.getParamb('RunOnStartUp');
+  loadParams;
+end;
+
+procedure TfrmOptions.loadParams;
+begin
+  ckStartup.Checked := pPArams.getParamb('RunOnStartUp');
   ckStarMinimized.Checked := pPArams.getParamb('StartMinimized');
+end;
+
+procedure TfrmOptions.saveParams;
+begin
+  pPArams.SetParamb('RunOnStartUp', ckStartup.Checked);
+  pPArams.SetParamb('StartMinimized', ckStarMinimized.Checked);
+  pPArams.saveParams;
 end;
 
 end.

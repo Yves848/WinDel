@@ -2093,20 +2093,12 @@ object fMain: TfMain
     Top = 481
     Bitmap = {}
   end
-  object TrayIcon1: TTrayIcon
-    Hint = 'Winget Helper'
-    BalloonTitle = 'Winget Helper'
-    BalloonFlags = bfInfo
-    PopupMenu = pmTray
-    OnDblClick = TrayIcon1DblClick
-    Left = 528
-    Top = 360
-  end
   object pmTray: TPopupMenu
     Left = 528
     Top = 478
     object W1: TMenuItem
       Caption = 'Winget Helper'
+      OnClick = W1Click
     end
     object WingetHelper1: TMenuItem
       Caption = '-'
@@ -2119,6 +2111,9 @@ object fMain: TfMain
       Caption = 'List Installed Packages'
       OnClick = SearchPackages1Click
     end
+    object U1: TMenuItem
+      Caption = 'Updatables Packages'
+    end
     object N1: TMenuItem
       Caption = '-'
     end
@@ -2126,13 +2121,6 @@ object fMain: TfMain
       Caption = 'Quit'
       OnClick = N2Click
     end
-  end
-  object JvBalloonHint1: TJvBalloonHint
-    Options = [boShowCloseBtn, boCustomAnimation]
-    ApplicationHintOptions = [ahShowHeaderInHint, ahShowIconInHint, ahPlaySound]
-    UseBalloonAsApplicationHint = True
-    Left = 456
-    Top = 262
   end
   object JvTrayIcon1: TJvTrayIcon
     Active = True

@@ -36,7 +36,6 @@ type
     sbConfig: TsSpeedButton;
     actConfig: TAction;
     lblScoopVersion: TsLabelFX;
-    TrayIcon1: TTrayIcon;
     pmTray: TPopupMenu;
     W1: TMenuItem;
     WingetHelper1: TMenuItem;
@@ -46,8 +45,8 @@ type
     N2: TMenuItem;
     sbUpgrade: TsSpeedButton;
     sSpeedButton3: TsSpeedButton;
-    JvBalloonHint1: TJvBalloonHint;
     JvTrayIcon1: TJvTrayIcon;
+    U1: TMenuItem;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -77,6 +76,7 @@ type
     procedure SearchPackages1Click(Sender: TObject);
     procedure sbUpgradeClick(Sender: TObject);
     procedure sSpeedButton3Click(Sender: TObject);
+    procedure W1Click(Sender: TObject);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
@@ -312,8 +312,8 @@ end;
 
 procedure TfMain.popup;
 begin
-  JvBalloonHint1.DefaultHeader := 'test';
 
+      JvTrayIcon1.BalloonHint('Test','Test2',btInfo,2000,false);
 
 end;
 
@@ -468,6 +468,11 @@ begin
   begin
     lblScoopVersion.Caption := 'Scoop not installed    '+'💈';
   end;
+end;
+
+procedure TfMain.W1Click(Sender: TObject);
+begin
+  Show;
 end;
 
 procedure TfMain.WMSysCommand(var Msg: TWMSysCommand);

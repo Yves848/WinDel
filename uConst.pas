@@ -77,8 +77,10 @@ type
 
     function getParamb(sParam: string): Boolean;
     function getParams(sParam: string): String;
+    function getParamI(sParam: Integer): Integer;
     procedure SetParamb(sParam: string; bValue: Boolean);
     procedure SetParams(sParam: string; sValue: String);
+    procedure setParamI(sParam : string; iVaue : Integer);
   end;
 
   tWingetPackage = Class
@@ -98,11 +100,11 @@ type
     constructor create(pWingetPackage: tWingetPackage); overload;
     function getField(sField: string): String;
     function getAllFields: TStrings;
-
   End;
 
 var
   lListColumn: TStrings;
+  lListUpdates:  TStrings;
   wgCommands: TDictionary<string, string>;
   pParams: tParams;
 
@@ -412,6 +414,11 @@ begin
   result := bValue;
 end;
 
+function tParams.getParamI(sParam: Integer): Integer;
+begin
+
+end;
+
 function tParams.getParams(sParam: string): String;
 begin
 
@@ -420,11 +427,16 @@ end;
 procedure tParams.initParams;
 var
   sConfigFile: String;
+  jAutoUpd : TJSONObject;
 begin
   sConfigFile := TPath.Combine(fConfigPath, 'params.json');
   fJSON := TJSONObject.create;
-  fJSON.AddPair('StartMinimized', False);
-  fJSON.AddPair('RunOnStartUp', False);
+  fJSON.AddPair('StartMinimized', tJSONBool.Create(False));
+  fJSON.AddPair('RunOnStartUp', TJSONBool.Create(False));
+  jAutoUpd := TJSONObject.Create;
+  jAutoUpd.AddPair('RunAutoUpdCheck',TJSONBool.Create(False));
+  jAutoUpd.AddPair('Interval',TJSONNumber.Create(30));
+  fJSON.addpair('CheckUpdates',jAutoUpd);
   TFile.WriteAllText(sConfigFile, fJSON.ToJSON);
 end;
 
@@ -470,10 +482,13 @@ var
 begin
   jspair := fJSON.Get(sParam);
   if assigned(jsPair) then begin
-    fJSON.RemovePair(sPAram);
+    fJSON.RemovePair(sParam)
   end;
-  fJSON.AddPair(sPAram, bValue);
+  fJSON.AddPair(sPAram, TJSONBool.Create(bValue));
+end;
 
+procedure tParams.setParamI(sParam: string; iVaue: Integer);
+begin
 
 end;
 
