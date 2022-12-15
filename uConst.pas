@@ -10,6 +10,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.IOUtils,
+  System.Win.Registry,
   winapi.Windows,
   winapi.Messages,
   vcl.ComCtrls,
@@ -26,8 +27,8 @@ const
   aColListLibs: TArray<string> = ['Description', 'Id', 'Version', 'Source'];
   aColUpdLibs: TArray<string> = ['Description', 'Id', 'Version', 'Available', 'Source'];
 
-  //sRunUpdate = 'winget upgrade --id %s';
-  //sRunInstall = 'winget install --id %s --force';
+  // sRunUpdate = 'winget upgrade --id %s';
+  // sRunInstall = 'winget install --id %s --force';
 
   WM_GETWINGETVERSION = WM_USER + 2001;
   WM_STARTSEARCH = WM_GETWINGETVERSION + 1;
@@ -76,6 +77,8 @@ type
 
     function getParamb(sParam: string): Boolean;
     function getParams(sParam: string): String;
+    procedure SetParamb(sParam: string; bValue: Boolean);
+    procedure SetParams(sParam: string; sValue: String);
   end;
 
   tWingetPackage = Class
@@ -106,8 +109,37 @@ var
 procedure makeUpgradeDictonary(sLine: String);
 procedure removekey;
 function CurrentUserName: String;
+procedure RunOnStartup(sProgTitle, sCmdLine: string; bRunOnce: Boolean);
+procedure RemoveOnStartup(sProgTitle: string);
 
 implementation
+
+procedure RunOnStartup(sProgTitle, sCmdLine: string; bRunOnce: Boolean);
+var
+  sKey: string;
+  reg: TRegIniFile;
+begin
+  if (bRunOnce) then
+    sKey := 'Once'
+  else
+    sKey := '';
+
+  reg := TRegIniFile.create('');
+  reg.RootKey := HKEY_CURRENT_USER;
+  reg.WriteString('\Software\Microsoft\Windows\CurrentVersion\Run' + sKey + #0, sProgTitle, sCmdLine);
+  reg.Free;
+end;
+
+procedure RemoveOnStartup(sProgTitle: string);
+var
+  sKey: string;
+  reg: TRegIniFile;
+begin
+  reg := TRegIniFile.create('');
+  reg.RootKey := HKEY_CURRENT_USER;
+  reg.DeleteKey('\Software\Microsoft\Windows\CurrentVersion\Run', sProgTitle);
+  reg.Free;
+end;
 
 function CurrentUserName: String;
 var
@@ -274,8 +306,8 @@ end;
 
 class function tWingetcommand.upgradePKG(sID: String): String;
 begin
-   wgCommands.TryGetValue('upgradePKG', Result);
-   Result := format(Result, [sID]);
+  wgCommands.TryGetValue('upgradePKG', Result);
+  Result := format(Result, [sID]);
 end;
 
 class function tWingetcommand.version: String;
@@ -372,8 +404,12 @@ begin
 end;
 
 function tParams.getParamb(sParam: string): Boolean;
+var
+  bValue : Boolean;
 begin
-    fJSON.TryGetValue<Boolean>(sParam,result);
+  Result := False;
+  if fJSON.TryGetValue<Boolean>(sParam, bValue) then
+  result := bValue;
 end;
 
 function tParams.getParams(sParam: string): String;
@@ -386,9 +422,10 @@ var
   sConfigFile: String;
 begin
   sConfigFile := TPath.Combine(fConfigPath, 'params.json');
-  fJson := TJSONObject.Create;
-  fJSON.AddPair('StartMinimized',False);
-  TFile.WriteAllText(sConfigFile,fJSON.ToJSON);
+  fJSON := TJSONObject.create;
+  fJSON.AddPair('StartMinimized', False);
+  fJSON.AddPair('RunOnStartUp', False);
+  TFile.WriteAllText(sConfigFile, fJSON.ToJSON);
 end;
 
 procedure tParams.loadParams;
@@ -397,9 +434,9 @@ var
 begin
   if ConfigExists then
   begin
-     sConfigFile := TPath.Combine(fConfigPath, 'params.json');
-     fJSON := TJSONObject.Create;
-     fJson := TJSONObject(fJson.ParseJSONValue(tFile.ReadAllText(sConfigFile,TEncoding.UTF8)));
+    sConfigFile := TPath.Combine(fConfigPath, 'params.json');
+    fJSON := TJSONObject.create;
+    fJSON := TJSONObject(fJSON.ParseJSONValue(TFile.ReadAllText(sConfigFile, TEncoding.UTF8)));
   end
   else
     initParams;
@@ -419,6 +456,28 @@ begin
 end;
 
 procedure tParams.saveParams;
+var
+  sConfigFile: String;
+begin
+  sConfigFile := TPath.Combine(fConfigPath, 'params.json');
+  TFile.WriteAllText(sConfigFile, fJSON.ToJSON);
+
+end;
+
+procedure tParams.SetParamb(sParam: string; bValue: Boolean);
+var
+  jsPair: tJSONPair;
+begin
+  jspair := fJSON.Get(sParam);
+  if assigned(jsPair) then begin
+    fJSON.RemovePair(sPAram);
+  end;
+  fJSON.AddPair(sPAram, bValue);
+
+
+end;
+
+procedure tParams.SetParams(sParam, sValue: String);
 begin
 
 end;

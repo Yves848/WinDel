@@ -16,6 +16,7 @@ object frmOptions: TfrmOptions
   GlassFrame.Enabled = True
   GlassFrame.SheetOfGlass = True
   Position = poMainFormCenter
+  OnShow = FormShow
   TextHeight = 15
   object sPanel1: TsPanel
     Left = 0
@@ -53,10 +54,11 @@ object frmOptions: TfrmOptions
       'General'
       'Winget')
     TabIndex = 0
-    ExplicitTop = -5
-    object sCheckBox1: TsCheckBox
+    ExplicitWidth = 614
+    ExplicitHeight = 382
+    object ckStarMinimized: TsCheckBox
       Left = 16
-      Top = 39
+      Top = 71
       Width = 110
       Height = 19
       Caption = 'Start Minimized'
@@ -64,7 +66,7 @@ object frmOptions: TfrmOptions
     end
     object sCheckBox2: TsCheckBox
       Left = 16
-      Top = 64
+      Top = 96
       Width = 186
       Height = 19
       Caption = 'Automatic Update verification'
@@ -72,7 +74,7 @@ object frmOptions: TfrmOptions
     end
     object sTrackBar1: TsTrackBar
       Left = 52
-      Top = 89
+      Top = 121
       Width = 150
       Height = 45
       Max = 60
@@ -85,6 +87,15 @@ object frmOptions: TfrmOptions
       ShowSelRange = False
       TabOrder = 2
       ShowProgress = True
+    end
+    object ckStartup: TsCheckBox
+      Left = 16
+      Top = 46
+      Width = 102
+      Height = 19
+      Caption = 'Run on Sartup'
+      TabOrder = 3
+      OnMouseUp = ckStartupMouseUp
     end
   end
   object sCharImageList1: TsCharImageList

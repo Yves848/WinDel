@@ -9,7 +9,8 @@ uses
   Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
   Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList,
   System.Actions,
-  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel, uOptions, Vcl.Menus;
+  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel, uOptions, Vcl.Menus, JvComponentBase,
+  JvBalloonHint, JvTrayIcon;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -45,6 +46,8 @@ type
     N2: TMenuItem;
     sbUpgrade: TsSpeedButton;
     sSpeedButton3: TsSpeedButton;
+    JvBalloonHint1: TJvBalloonHint;
+    JvTrayIcon1: TJvTrayIcon;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -309,10 +312,8 @@ end;
 
 procedure TfMain.popup;
 begin
-  TrayIcon1.BalloonTitle := 'Balloon Title';
-  TrayIcon1.BalloonHint := 'Balloon Hint';
-  TrayIcon1.BalloonTimeout := 2000;
-  TrayIcon1.ShowBalloonHint;
+  JvBalloonHint1.DefaultHeader := 'test';
+
 
 end;
 

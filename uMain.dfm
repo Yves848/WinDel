@@ -2094,12 +2094,10 @@ object fMain: TfMain
     Bitmap = {}
   end
   object TrayIcon1: TTrayIcon
-    Animate = True
     Hint = 'Winget Helper'
     BalloonTitle = 'Winget Helper'
     BalloonFlags = bfInfo
     PopupMenu = pmTray
-    Visible = True
     OnDblClick = TrayIcon1DblClick
     Left = 528
     Top = 360
@@ -2128,5 +2126,20 @@ object fMain: TfMain
       Caption = 'Quit'
       OnClick = N2Click
     end
+  end
+  object JvBalloonHint1: TJvBalloonHint
+    Options = [boShowCloseBtn, boCustomAnimation]
+    ApplicationHintOptions = [ahShowHeaderInHint, ahShowIconInHint, ahPlaySound]
+    UseBalloonAsApplicationHint = True
+    Left = 456
+    Top = 262
+  end
+  object JvTrayIcon1: TJvTrayIcon
+    Active = True
+    Animated = True
+    IconIndex = 0
+    PopupMenu = pmTray
+    Left = 304
+    Top = 350
   end
 end
