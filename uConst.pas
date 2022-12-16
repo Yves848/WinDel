@@ -68,6 +68,9 @@ type
   private
     fJSON: TJSONObject;
     fConfigPath: string;
+    fStartMinimized : Boolean;
+    fAutoCheckUpdates : Boolean;
+    fCheckUpateInterval : Integer;
     procedure initParams;
     procedure makeConfigPath;
     function ConfigExists: Boolean;
@@ -81,6 +84,9 @@ type
     procedure SetParamb(sParam: string; bValue: Boolean);
     procedure SetParams(sParam: string; sValue: String);
     procedure setParamI(sParam : string; iVaue : Integer);
+    property StartMinimized: Boolean  read fStartMinimized;
+    Property AutoCheckUpdatees : Boolean read fAutoCheckupdates;
+    Property CheckUpdatesInterval : Integer read fCheckUpateInterval;
   end;
 
   tWingetPackage = Class
@@ -104,7 +110,7 @@ type
 
 var
   lListColumn: TStrings;
-  lListUpdates:  TStrings;
+  lListUpdates:  TObjectList<tWingetPackage>;
   wgCommands: TDictionary<string, string>;
   pParams: tParams;
 
@@ -452,6 +458,8 @@ begin
   end
   else
     initParams;
+
+  // Load param variables.
 end;
 
 procedure tParams.makeConfigPath;
@@ -508,11 +516,13 @@ wgCommands.Add('install', 'winget install --id "%s"');
 wgCommands.Add('uninstall', 'winget uninstall --id "%s"');
 wgCommands.Add('version', 'winget --version');
 pParams := tParams.create;
+lListUpdates := TObjectList<tWingetPackage>.create;
 
 Finalization
 
 wgCommands.Clear;
 wgCommands.Free;
 pParams.Free;
+lListUpdates.Free;
 
 end.

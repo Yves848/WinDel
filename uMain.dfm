@@ -2130,4 +2130,12 @@ object fMain: TfMain
     Left = 304
     Top = 350
   end
+  object dcupgradeSearch: TDosCommand
+    InputToOutput = False
+    MaxTimeAfterBeginning = 0
+    MaxTimeAfterLastOutput = 0
+    OnCharDecoding = DosCommand1CharDecoding
+    Left = 912
+    Top = 158
+  end
 end
