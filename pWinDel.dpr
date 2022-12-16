@@ -18,7 +18,7 @@ begin
   Application.Initialize;
   pPArams.loadParams;
   Application.MainFormOnTaskbar := True;
-  Application.ShowMainForm :=  not pPArams.getParamb('StartMinimized');
+  Application.ShowMainForm :=  not pParams.StartMinimized;
   Application.CreateForm(TfMain, fMain);
   Application.Run;
 

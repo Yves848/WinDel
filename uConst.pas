@@ -36,6 +36,7 @@ const
   WM_RUNNEXT = WM_STARTLIST + 1;
   WM_CLOSERUNEXT = WM_RUNNEXT + 1;
   WM_FRAMERESIZE = WM_CLOSERUNEXT + 1;
+  WM_GETUPGRADELIST = WM_FRAMERESIZE + 1;
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList, ptUninstall);
@@ -110,7 +111,7 @@ type
 
 var
   lListColumn: TStrings;
-  lListUpdates:  TObjectList<tWingetPackage>;
+  lListUpdates:  tStrings;
   wgCommands: TDictionary<string, string>;
   pParams: tParams;
 
@@ -449,12 +450,17 @@ end;
 procedure tParams.loadParams;
 var
   sConfigFile: String;
+  jAutoUpd : TJSONObject;
 begin
   if ConfigExists then
   begin
     sConfigFile := TPath.Combine(fConfigPath, 'params.json');
     fJSON := TJSONObject.create;
     fJSON := TJSONObject(fJSON.ParseJSONValue(TFile.ReadAllText(sConfigFile, TEncoding.UTF8)));
+    fStartMinimized := getParamb('');
+    jAutoUpd := TJSONObject(fJSON.Get('CheckUpdates'));
+    jAutoUpd.TryGetValue<Boolean>('RunAutoUpdCheck',fAutoCheckUpdates);
+    jAutoUpd.TryGetValue<Integer>('Interal',fCheckUpateInterval);
   end
   else
     initParams;
@@ -516,7 +522,7 @@ wgCommands.Add('install', 'winget install --id "%s"');
 wgCommands.Add('uninstall', 'winget uninstall --id "%s"');
 wgCommands.Add('version', 'winget --version');
 pParams := tParams.create;
-lListUpdates := TObjectList<tWingetPackage>.create;
+lListUpdates := tStringList.Create;
 
 Finalization
 

@@ -3,14 +3,48 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,System.IOUtils,
-  System.Classes, System.Types, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
-  Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils, System.RegularExpressions, uConst,
-  Vcl.CheckLst, SynEdit, DosCommand, Vcl.WinXCtrls, Vcl.ExtCtrls, Vcl.Buttons,
-  Vcl.ComCtrls, uFrameUpgrade2, uFrameBase, uFrameList, uFrameSearch, System.ImageList, Vcl.ImgList,
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.IOUtils,
+  System.Classes,
+  System.Types,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  System.StrUtils,
+  System.RegularExpressions,
+  uConst,
+  Vcl.CheckLst,
+  SynEdit,
+  DosCommand,
+  Vcl.WinXCtrls,
+  Vcl.ExtCtrls,
+  Vcl.Buttons,
+  Vcl.ComCtrls,
+  uFrameUpgrade2,
+  uFrameBase,
+  uFrameList,
+  uFrameSearch,
+  System.ImageList,
+  Vcl.ImgList,
   System.Actions,
-  Vcl.ActnList, sSkinProvider, sSkinManager, acAlphaImageList, sSpeedButton, sLabel, acFontStore, sPanel, uOptions, Vcl.Menus, JvComponentBase,
-  JvBalloonHint, JvTrayIcon;
+  Vcl.ActnList,
+  sSkinProvider,
+  sSkinManager,
+  acAlphaImageList,
+  sSpeedButton,
+  sLabel,
+  acFontStore,
+  sPanel,
+  uOptions,
+  Vcl.Menus,
+  JvComponentBase,
+  JvBalloonHint,
+  JvTrayIcon;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -89,15 +123,18 @@ type
     procedure taskList(Sender: TObject);
     procedure taskUpgrade(Sender: TObject);
     procedure popup;
+    procedure GetUpgradeList(var Msg : TMessage); message WM_GETUPGRADELIST;
+    procedure ListUpgradeTerminated(Sender : TObject);
   public
     { Public declarations }
     lOutPut: tStrings;
+    lOutPutUpg : tStrings;
     aFrame: TfrmBase;
     procedure upgradeTerminated(Sender: TObject);
     procedure versionTerminated(Sender: TObject);
     procedure listTerminated(Sender: TObject);
     procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
-    Procedure ActivitySet(bActive : Boolean);
+    procedure ActivitySet(bActive: Boolean);
   end;
 
 var
@@ -109,11 +146,11 @@ implementation
 
 procedure TfMain.actConfigExecute(Sender: TObject);
 var
-  frmOptions : TfrmOptions;
+  frmOptions: TfrmOptions;
 begin
-   frmOptions := TfrmOptions.Create(Self);
-   frmOptions.ShowModal;
-   frmOptions.Free;
+  frmOptions := TfrmOptions.Create(Self);
+  frmOptions.ShowModal;
+  frmOptions.Free;
 end;
 
 procedure TfMain.ActivitySet(bActive: Boolean);
@@ -195,7 +232,7 @@ end;
 procedure TfMain.FormCreate(Sender: TObject);
 begin
   lOutPut := tStringList.Create;
-
+  lOutPutUpg := tStringList.Create;
 end;
 
 procedure TfMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -220,6 +257,18 @@ end;
 procedure TfMain.FormShow(Sender: TObject);
 begin
   PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
+  PostMessage(handle, WM_GETUPGRADELIST, 0, 0);
+end;
+
+procedure TfMain.GetUpgradeList(var Msg: TMessage);
+begin
+  if not dcupgradeSearch.IsRunning then
+  begin
+      dcupgradeSearch.CommandLine := tWingetcommand.Upgrade;
+      dcupgradeSearch.OnTerminated := ListUpgradeTerminated;
+      dcupgradeSearch.Execute;
+  end;
+
 end;
 
 procedure TfMain.GetVersion(var m: tMessage);
@@ -266,8 +315,13 @@ begin
   tfrmList(aFrame).filterWinget;
   TfrmList(aFrame).ApplyFilter;
   TfrmList(aFrame).ListView1.OnSelectItem := LVSelectItem;
-  PostMessage(aFrame.handle,WM_FRAMERESIZE,0,0);
+  PostMessage(aFrame.handle, WM_FRAMERESIZE, 0, 0);
   ActivitySet(False);
+end;
+
+procedure TfMain.ListUpgradeTerminated(Sender: TObject);
+begin
+  //
 end;
 
 procedure TfMain.LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
@@ -314,7 +368,7 @@ end;
 procedure TfMain.popup;
 begin
 
-      JvTrayIcon1.BalloonHint('Test','Test2',btInfo,2000,false);
+  JvTrayIcon1.BalloonHint('Test', 'Test2', btInfo, 2000, false);
 
 end;
 
@@ -356,8 +410,8 @@ end;
 
 procedure TfMain.SearchPackages1Click(Sender: TObject);
 begin
-    taskList(Sender);
-    Show;
+  taskList(Sender);
+  Show;
 end;
 
 procedure TfMain.StartList(var m: tMessage);
@@ -461,13 +515,13 @@ procedure TfMain.versionTerminated(Sender: TObject);
 begin
   lblWingetVersion.Caption := Format('Winget version %s', [lOutPut[0]]);
   // Chack if scoop is installed
-  if TDirectory.Exists(Format('c:\users\%s\scoop',[CurrentUserName])) then
+  if TDirectory.Exists(Format('c:\users\%s\scoop', [CurrentUserName])) then
   begin
-    lblScoopVersion.Caption := 'Scoop Installed     '+'💈';
+    lblScoopVersion.Caption := 'Scoop Installed     ' + '💈';
   end
   else
   begin
-    lblScoopVersion.Caption := 'Scoop not installed    '+'💈';
+    lblScoopVersion.Caption := 'Scoop not installed    ' + '💈';
   end;
 end;
 
@@ -505,3 +559,4 @@ begin
 end;
 
 end.
+
