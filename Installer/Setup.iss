@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Winget Helper"
-#define MyAppVersion "0.2.2"
+#define MyAppVersion "0.2.0.2"
 #define MyAppPublisher "YGO"
 #define MyAppURL "http://www.example.com/"
 #define MyAppExeName "WingetHelper.exe"
@@ -11,7 +11,7 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{C8773ACD-7F18-4B35-8C23-6DA178B56029}
+AppId={{9BE7FCE9-4D8F-44C0-8FF5-2B98139A33FF}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}

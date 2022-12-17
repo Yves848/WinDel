@@ -42,11 +42,11 @@ uses
   sLabel,
   acFontStore,
   sPanel,
-  uOptions,
   Vcl.Menus,
   JvComponentBase,
   JvBalloonHint,
-  JvTrayIcon;
+  JvTrayIcon,
+  udlgClose;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -81,7 +81,7 @@ type
     N2: TMenuItem;
     sbUpgrade: TsSpeedButton;
     sSpeedButton3: TsSpeedButton;
-    U1: TMenuItem;
+    pmUpdatables: TMenuItem;
     dcupgradeSearch: TDosCommand;
     Timer1: TTimer;
     TrayIcon1: TTrayIcon;
@@ -117,7 +117,8 @@ type
     procedure W1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure dcupgradeSearchNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
-    procedure U1Click(Sender: TObject);
+    procedure pmUpdatablesClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
@@ -244,6 +245,17 @@ procedure TfMain.DosCommand1NewLine(ASender: TObject; const ANewLine: string; AO
 begin
   if ANewLine.IndexOf(Chr(08)) = -1 then
     lOutPut.Add(ANewLine);
+end;
+
+procedure TfMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+var
+  frmCloseDlg : TfrmCloseDlg;
+begin
+  frmCloseDlg := TfrmCloseDlg.Create(Self);
+  CanClose := (frmCloseDlg.showModal = mrNo);
+  frmCloseDlg.Free;
+  if not CanClose then
+    Hide;
 end;
 
 procedure TfMain.FormCreate(Sender: TObject);
@@ -513,9 +525,10 @@ begin
   Show;
 end;
 
-procedure TfMain.U1Click(Sender: TObject);
+procedure TfMain.pmUpdatablesClick(Sender: TObject);
 begin
-    Timer1Timer(Sender);
+  taskUpgrade(Sender);
+  Show;
 end;
 
 procedure TfMain.upgradeAutoTerminated(Sender: TObject);
@@ -549,6 +562,7 @@ begin
   end;
   ActivitySet(False);
   if bNewPack then popup;
+  pmUpdatables.Caption := Format('Updatables Packages (%d)',[lListUpdates.Count]);
   Timer1.Enabled := pParams.AutoCheckUpdates;
 end;
 

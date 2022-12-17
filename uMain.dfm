@@ -14,6 +14,7 @@ object fMain: TfMain
   Font.Style = []
   KeyPreview = True
   Position = poScreenCenter
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   TextHeight = 15
@@ -2111,9 +2112,9 @@ object fMain: TfMain
       Caption = 'List Installed Packages'
       OnClick = SearchPackages1Click
     end
-    object U1: TMenuItem
+    object pmUpdatables: TMenuItem
       Caption = 'Updatables Packages'
-      OnClick = U1Click
+      OnClick = pmUpdatablesClick
     end
     object N1: TMenuItem
       Caption = '-'

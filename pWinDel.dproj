@@ -4,7 +4,7 @@
         <ProjectVersion>19.5</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Config Condition="'$(Config)'==''">Debug</Config>
+        <Config Condition="'$(Config)'==''">Release</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
@@ -145,10 +145,6 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="uConst.pas"/>
-        <DCCReference Include="uOptions.pas">
-            <Form>frmOptions</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="uFrameBase.pas">
             <Form>frmBase</Form>
             <FormType>dfm</FormType>
@@ -177,6 +173,10 @@
             <Form>frmConfig</Form>
             <FormType>dfm</FormType>
             <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="udlgClose.pas">
+            <Form>frmCloseDlg</Form>
+            <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
