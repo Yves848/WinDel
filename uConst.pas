@@ -457,7 +457,7 @@ begin
     sConfigFile := TPath.Combine(fConfigPath, 'params.json');
     fJSON := TJSONObject.create;
     fJSON := TJSONObject(fJSON.ParseJSONValue(TFile.ReadAllText(sConfigFile, TEncoding.UTF8)));
-    fStartMinimized := getParamb('');
+    fStartMinimized := getParamb('StartMinimized');
     jAutoUpd := TJSONObject(fJSON.Get('CheckUpdates'));
     jAutoUpd.TryGetValue<Boolean>('RunAutoUpdCheck',fAutoCheckUpdates);
     jAutoUpd.TryGetValue<Integer>('Interal',fCheckUpateInterval);

@@ -82,6 +82,7 @@ type
     JvTrayIcon1: TJvTrayIcon;
     U1: TMenuItem;
     dcupgradeSearch: TDosCommand;
+    Timer1: TTimer;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -112,10 +113,12 @@ type
     procedure sbUpgradeClick(Sender: TObject);
     procedure sSpeedButton3Click(Sender: TObject);
     procedure W1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure dcupgradeSearchNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
-    function makeUpgList: tStrings;
+    function makeUpgList(listIn: TStrings): tStrings;
     procedure GetVersion(var m: tMessage); message WM_GETWINGETVERSION;
     procedure StartSearch(var m: tMessage); message WM_STARTSEARCH;
     procedure StartList(var m: tMessage); message WM_STARTLIST;
@@ -131,6 +134,7 @@ type
     lOutPutUpg : tStrings;
     aFrame: TfrmBase;
     procedure upgradeTerminated(Sender: TObject);
+    procedure upgradeAutoTerminated(Sender : TObject);
     procedure versionTerminated(Sender: TObject);
     procedure listTerminated(Sender: TObject);
     procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
@@ -198,6 +202,12 @@ begin
   taskUpgrade(Sender);
 end;
 
+procedure TfMain.dcupgradeSearchNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
+begin
+  if ANewLine.IndexOf(Chr(08)) = -1 then
+    lOutPutUpg.Add(ANewLine);
+end;
+
 function TfMain.DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
 var
   pBytes: TBytes;
@@ -257,15 +267,16 @@ end;
 procedure TfMain.FormShow(Sender: TObject);
 begin
   PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
-  PostMessage(handle, WM_GETUPGRADELIST, 0, 0);
+  Timer1.Enabled := True;
 end;
 
 procedure TfMain.GetUpgradeList(var Msg: TMessage);
 begin
   if not dcupgradeSearch.IsRunning then
   begin
+      Timer1.Enabled := False;
       dcupgradeSearch.CommandLine := tWingetcommand.Upgrade;
-      dcupgradeSearch.OnTerminated := ListUpgradeTerminated;
+      dcupgradeSearch.OnTerminated := upgradeAutoTerminated;
       dcupgradeSearch.Execute;
   end;
 
@@ -297,7 +308,7 @@ begin
   aFrame.Parent := pnlMain;
   aFrame.Align := alClient;
   TfrmList(aFrame).Init;
-  lOutClean := makeUpgList;
+  lOutClean := makeUpgList(lOutPut);
   while i <= lOutClean.Count - 1 do
   begin
     sLine := lOutClean[i];
@@ -335,7 +346,7 @@ begin
     end;
 end;
 
-function TfMain.makeUpgList: tStrings;
+function TfMain.makeUpgList(listIn: TStrings): tStrings;
 var
   sHeaders: string;
   ANewLine: string;
@@ -345,13 +356,13 @@ begin
   result := tStringList.Create;
   iLine := 0;
   bClean := False;
-  while iLine <= lOutPut.Count - 1 do
+  while iLine <= listIn.Count - 1 do
   begin
-    ANewLine := lOutPut[iLine];
+    ANewLine := listIn[iLine];
     if TRegEx.IsMatch(ANewLine, '----') then
     begin
       bClean := True;
-      sHeaders := lOutPut[iLine - 1];
+      sHeaders := listIn[iLine - 1];
       makeUpgradeDictonary(sHeaders);
     end
     else if bClean then
@@ -368,7 +379,7 @@ end;
 procedure TfMain.popup;
 begin
 
-  JvTrayIcon1.BalloonHint('Test', 'Test2', btInfo, 2000, false);
+  JvTrayIcon1.BalloonHint('Winget Hepler', Format('New Upgrades availables (%d)',[lListUpdates.count]), btInfo, 5000, false);
 
 end;
 
@@ -467,9 +478,47 @@ begin
   DosCommand1.Execute;
 end;
 
+procedure TfMain.Timer1Timer(Sender: TObject);
+begin
+  PostMessage(handle, WM_GETUPGRADELIST, 0, 0);
+end;
+
 procedure TfMain.TrayIcon1DblClick(Sender: TObject);
 begin
   Show;
+end;
+
+procedure TfMain.upgradeAutoTerminated(Sender: TObject);
+var
+  i, iCol: Integer;
+  liste: TListItems;
+  Item: TListItem;
+  sLine: string;
+  sString: string;
+  aColumn: tColumnClass;
+  lOutClean: tStrings;
+  aWingetPackage: tWingetPackage;
+  bNewPack : Boolean;
+begin
+  i := 0;
+  bNewPack := false;
+  lOutClean := makeUpgList(lOutPutUpg);
+  while i < lOutClean.Count - 1 do
+  begin
+    sLine := lOutClean[i];
+    aWingetPackage := tWingetPackage.Create(sLine, ptUpgrade);
+    if lListUpdates.IndexOf(aWingetPackage.getField('id')) = -1 then
+    begin
+      lListUpdates.AddObject(aWingetPackage.getField('id'),aWingetPackage);
+      bNewPack := True;
+    end;
+    inc(i);
+  end;
+  ActivitySet(False);
+  if bNewPack then popup;
+  if pParams.AutoCheckUpdatees then Timer1.Enabled := True;
+  
+
 end;
 
 procedure TfMain.upgradeTerminated(Sender: TObject);
@@ -484,7 +533,7 @@ var
   aWingetPackage: tWingetPackage;
 begin
   i := 0;
-  lOutClean := makeUpgList;
+  lOutClean := makeUpgList(loutput);
   TfrmHeritee(aFrame).setupColumnHeaders;
   liste := TfrmHeritee(aFrame).ListView1.Items;
   while i < lOutClean.Count - 1 do

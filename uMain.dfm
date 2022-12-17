@@ -110,6 +110,7 @@ object fMain: TfMain
       Height = 50
       Align = alLeft
       Caption = 'Test'
+      Visible = False
       OnClick = sSpeedButton3Click
     end
   end
@@ -2135,7 +2136,15 @@ object fMain: TfMain
     MaxTimeAfterBeginning = 0
     MaxTimeAfterLastOutput = 0
     OnCharDecoding = DosCommand1CharDecoding
+    OnNewLine = dcupgradeSearchNewLine
     Left = 912
     Top = 158
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 2000
+    OnTimer = Timer1Timer
+    Left = 528
+    Top = 360
   end
 end
