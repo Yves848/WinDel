@@ -2114,6 +2114,7 @@ object fMain: TfMain
     end
     object U1: TMenuItem
       Caption = 'Updatables Packages'
+      OnClick = U1Click
     end
     object N1: TMenuItem
       Caption = '-'
@@ -2122,14 +2123,6 @@ object fMain: TfMain
       Caption = 'Quit'
       OnClick = N2Click
     end
-  end
-  object JvTrayIcon1: TJvTrayIcon
-    Active = True
-    Animated = True
-    IconIndex = 0
-    PopupMenu = pmTray
-    Left = 304
-    Top = 350
   end
   object dcupgradeSearch: TDosCommand
     InputToOutput = False
@@ -2146,5 +2139,16 @@ object fMain: TfMain
     OnTimer = Timer1Timer
     Left = 528
     Top = 360
+  end
+  object TrayIcon1: TTrayIcon
+    Animate = True
+    PopupMenu = pmTray
+    Visible = True
+    Left = 352
+    Top = 454
+  end
+  object NotificationCenter1: TNotificationCenter
+    Left = 208
+    Top = 294
   end
 end

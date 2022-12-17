@@ -8,6 +8,7 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.IOUtils,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -56,6 +57,7 @@ type
     procedure ckStartupMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure tbIntervalChange(Sender: TObject);
+    procedure btnUnInstallRunClick(Sender: TObject);
   private
     { Déclarations privées }
     procedure isChanged(bChanged : boolean);
@@ -72,6 +74,17 @@ implementation
 {$R *.dfm}
 
 { TfrmConfig }
+
+procedure TfrmConfig.btnUnInstallRunClick(Sender: TObject);
+begin
+  inherited;
+  pParams.StartMinimized := ckStarMinimized.Checked;
+  pParams.RunOnStartup := ckStartup.Checked;
+  pParams.AutoCheckUpdates := ckAutoUpdCheck.Checked;
+  pPArams.CheckUpdatesInterval := (tbInterval.Position);
+  pParams.saveParams;
+  isChanged(False);
+end;
 
 procedure TfrmConfig.ckAutoUpdCheckMouseUp(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
@@ -90,8 +103,19 @@ end;
 
 procedure TfrmConfig.ckStartupMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
+var
+  sPath: String;
 begin
-  inherited;
+  if ckStartup.Checked then
+  begin
+    sPath := IncludeTrailingBackslash(TPath.GetDirectoryName(ParamStr(0)));
+    RunOnStartup('Winget Helper', TPath.Combine(sPath,
+      'wingethelper.exe'), False);
+  end
+  else
+  begin
+    RemoveOnStartup('Winget Helper');
+  end;
   isChanged(ckStartup.Checked <> pParams.RunOnStartup);
 end;
 

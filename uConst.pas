@@ -37,6 +37,7 @@ const
   WM_CLOSERUNEXT = WM_RUNNEXT + 1;
   WM_FRAMERESIZE = WM_CLOSERUNEXT + 1;
   WM_GETUPGRADELIST = WM_FRAMERESIZE + 1;
+  WM_HIDEMAIN = WM_GETUPGRADELIST + 1;
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList, ptUninstall);
@@ -86,10 +87,10 @@ type
     procedure SetParamb(sParam: string; bValue: Boolean);
     procedure SetParams(sParam: string; sValue: String);
     procedure setParamI(sParam : string; iVaue : Integer);
-    property StartMinimized: Boolean  read fStartMinimized;
-    Property AutoCheckUpdates : Boolean read fAutoCheckupdates;
-    Property CheckUpdatesInterval : Integer read fCheckUpateInterval;
-    Property RunOnStartup : Boolean read fRunOnStartup;
+    property StartMinimized: Boolean read fStartMinimized Write fStartMinimized;
+    Property AutoCheckUpdates : Boolean read fAutoCheckupdates Write fAutoCheckupdates;
+    Property CheckUpdatesInterval : Integer read fCheckUpateInterval Write fCheckUpateInterval;
+    Property RunOnStartup : Boolean read fRunOnStartup Write fRunOnStartup;
   end;
 
   tWingetPackage = Class
@@ -490,10 +491,18 @@ end;
 procedure tParams.saveParams;
 var
   sConfigFile: String;
+  jAutoUpd : TJSONObject;
 begin
   sConfigFile := TPath.Combine(fConfigPath, 'params.json');
+  fJSON.Free;
+  fJSON := TJSONObject.create;
+  fJSON.AddPair('StartMinimized', tJSONBool.Create(fStartMinimized));
+  fJSON.AddPair('RunOnStartUp', TJSONBool.Create(fRunOnStartup));
+  jAutoUpd := TJSONObject.Create;
+  jAutoUpd.AddPair('RunAutoUpdCheck',TJSONBool.Create(fAutoCheckUpdates));
+  jAutoUpd.AddPair('Interval',TJSONNumber.Create(fCheckUpateInterval));
+  fJSON.addpair('CheckUpdates',jAutoUpd);
   TFile.WriteAllText(sConfigFile, fJSON.ToJSON);
-
 end;
 
 procedure tParams.SetParamb(sParam: string; bValue: Boolean);

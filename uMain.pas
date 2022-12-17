@@ -5,6 +5,7 @@ interface
 uses
   Winapi.Windows,
   Winapi.Messages,
+  System.Notification,
   System.SysUtils,
   System.Variants,
   System.IOUtils,
@@ -80,10 +81,11 @@ type
     N2: TMenuItem;
     sbUpgrade: TsSpeedButton;
     sSpeedButton3: TsSpeedButton;
-    JvTrayIcon1: TJvTrayIcon;
     U1: TMenuItem;
     dcupgradeSearch: TDosCommand;
     Timer1: TTimer;
+    TrayIcon1: TTrayIcon;
+    NotificationCenter1: TNotificationCenter;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -101,7 +103,6 @@ type
     procedure actListExecute(Sender: TObject);
     procedure actSearchExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure sbQuitClick(Sender: TObject);
     procedure sSpeedButton2Click(Sender: TObject);
     procedure sSpeedButton1Click(Sender: TObject);
@@ -116,6 +117,8 @@ type
     procedure W1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure dcupgradeSearchNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
+    procedure U1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
@@ -129,6 +132,7 @@ type
     procedure popup;
     procedure GetUpgradeList(var Msg : TMessage); message WM_GETUPGRADELIST;
     procedure ListUpgradeTerminated(Sender : TObject);
+    procedure HideMain(var msg : TMessage); message WM_HIDEMAIN;
   public
     { Public declarations }
     lOutPut: tStrings;
@@ -270,11 +274,11 @@ end;
 
 procedure TfMain.FormShow(Sender: TObject);
 begin
-
-  Timer1.Interval := pParams.CheckUpdatesInterval;
-  PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
-  PostMessage(handle, WM_GETUPGRADELIST, 0, 0);
+  Timer1.Interval := pParams.CheckUpdatesInterval * 3600;
+  //PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
+  //PostMessage(handle, WM_GETUPGRADELIST, 0, 0);
   Timer1.Enabled := pParams.AutoCheckUpdates;
+  //PostMessage(handle, WM_HIDEMAIN, 0, 0);
 end;
 
 procedure TfMain.GetUpgradeList(var Msg: TMessage);
@@ -297,6 +301,12 @@ begin
     DosCommand1.OnTerminated := versionTerminated;
     DosCommand1.Execute;
   end;
+end;
+
+procedure TfMain.HideMain(var msg: TMessage);
+begin
+  if pParams.StartMinimized then
+    Hide;
 end;
 
 procedure TfMain.listTerminated(Sender: TObject);
@@ -384,15 +394,29 @@ begin
 end;
 
 procedure TfMain.popup;
+var
+   MyNotification: TNotification;
 begin
+MyNotification := NotificationCenter1.CreateNotification; //Creates the notification
+  try
+    MyNotification.Name := 'Winget Helper Notification'; //Defines the name of the notification.
+    MyNotification.Title := 'Winget Helper'; //Defines the name that appears when the notification is presented.
+    MyNotification.AlertBody := Format('New Upgrades availables (%d)',[lListUpdates.count]); //Defines the body of the notification that appears below the title.
+    MyNotification.EnableSound := True;
 
-  JvTrayIcon1.BalloonHint('Winget Hepler', Format('New Upgrades availables (%d)',[lListUpdates.count]), btInfo, 5000, false);
-
+    NotificationCenter1.PresentNotification(MyNotification); //Presents the notification on the screen.
+  finally
+    MyNotification.Free; //Frees the variable
+  end;
+  //JvTrayIcon1.BalloonHint('Winget Hepler', Format('New Upgrades availables (%d)',[lListUpdates.count]), btInfo, 5000, false);
+  //TrayIcon1.BalloonHint := Format('New Upgrades availables (%d)',[lListUpdates.count]);
+  //TrayIcon1.BalloonTitle  := 'Winget Helper';
+  //TrayIcon1.ShowBalloonHint;
 end;
 
 procedure TfMain.S1Click(Sender: TObject);
 begin
-  Show;
+  show;
   taskSearch(Sender);
 end;
 
@@ -495,6 +519,11 @@ begin
   Show;
 end;
 
+procedure TfMain.U1Click(Sender: TObject);
+begin
+    popup;
+end;
+
 procedure TfMain.upgradeAutoTerminated(Sender: TObject);
 var
   i, iCol: Integer;
@@ -577,7 +606,7 @@ begin
   begin
     lblScoopVersion.Caption := 'Scoop not installed    ' + '💈';
   end;
-
+  OnShow := nil;
 end;
 
 procedure TfMain.W1Click(Sender: TObject);

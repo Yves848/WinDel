@@ -1,6 +1,8 @@
 program pWinDel;
 
 uses
+  Winapi.Windows,
+  Winapi.Messages,
   Vcl.Forms,
   uMain in 'uMain.pas' {fMain},
   uConst in 'uConst.pas',
@@ -18,9 +20,11 @@ begin
 
   Application.Initialize;
   pPArams.loadParams;
-  Application.MainFormOnTaskbar := True;
+  Application.MainFormOnTaskbar := not pParams.StartMinimized;
   Application.ShowMainForm :=  not pParams.StartMinimized;
   Application.CreateForm(TfMain, fMain);
+  PostMessage(fMain.handle, WM_GETWINGETVERSION, 0, 0);
+  PostMessage(fMain.handle, WM_GETUPGRADELIST, 0, 0);
   Application.Run;
 
 end.

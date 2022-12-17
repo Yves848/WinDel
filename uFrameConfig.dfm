@@ -40,6 +40,7 @@ inherited frmConfig: TfrmConfig
         Caption = 'Save Params'#13#10'(F8)'
         ImageIndex = 1
         Images = sCharImageList1
+        OnClick = btnUnInstallRunClick
         TextOffset = 10
         ExplicitLeft = 2
         ExplicitTop = 9
