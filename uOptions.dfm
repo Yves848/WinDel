@@ -5,8 +5,8 @@ object frmOptions: TfrmOptions
   AlphaBlendValue = 235
   BorderStyle = bsSingle
   Caption = 'Options'
-  ClientHeight = 424
-  ClientWidth = 618
+  ClientHeight = 423
+  ClientWidth = 614
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,17 +20,15 @@ object frmOptions: TfrmOptions
   TextHeight = 15
   object sPanel1: TsPanel
     Left = 0
-    Top = 383
-    Width = 618
+    Top = 382
+    Width = 614
     Height = 41
     Align = alBottom
     Caption = 'sPanel1'
     ShowCaption = False
     TabOrder = 0
-    ExplicitTop = 382
-    ExplicitWidth = 614
     object btnClose: TsBitBtn
-      Left = 504
+      Left = 500
       Top = 1
       Width = 113
       Height = 39
@@ -40,32 +38,31 @@ object frmOptions: TfrmOptions
       Images = sCharImageList1
       TabOrder = 0
       OnClick = btnCloseClick
-      ExplicitLeft = 500
     end
     object sButton1: TsButton
-      Left = 391
+      Left = 387
       Top = 1
       Width = 113
       Height = 39
       Align = alRight
       Caption = 'Cancel'
+      ImageIndex = 1
+      Images = sCharImageList1
       TabOrder = 1
-      ExplicitLeft = 429
+      OnClick = sButton1Click
     end
   end
   object sTabControl1: TsTabControl
     Left = 0
     Top = 0
-    Width = 618
-    Height = 383
+    Width = 614
+    Height = 382
     Align = alClient
     TabOrder = 1
     Tabs.Strings = (
       'General'
       'Winget')
     TabIndex = 0
-    ExplicitLeft = -1
-    ExplicitTop = -5
     object ckStarMinimized: TsCheckBox
       Left = 16
       Top = 71
@@ -100,7 +97,6 @@ object frmOptions: TfrmOptions
       Caption = 'pnlFrequency'
       ShowCaption = False
       TabOrder = 3
-      Visible = False
       object sLabel2: TsLabel
         Left = 12
         Top = 7
@@ -154,6 +150,10 @@ object frmOptions: TfrmOptions
       item
         Char = 61452
         Color = -7249920
+      end
+      item
+        Char = 61453
+        Color = clRed
       end>
     Left = 408
     Top = 224

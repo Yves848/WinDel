@@ -56,10 +56,10 @@ inherited frmHeritee: TfrmHeritee
       TabOrder = 1
       object sbUgRun: TsSpeedButton
         Left = 0
-        Top = 97
+        Top = 398
         Width = 127
         Height = 56
-        Align = alTop
+        Align = alBottom
         Caption = 'Upgrade Selected'#13#10'(F8)'
         ImageIndex = 2
         Images = sCharImageList1

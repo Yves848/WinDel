@@ -29,6 +29,7 @@ uses
   uFrameBase,
   uFrameList,
   uFrameSearch,
+  uFrameConfig,
   System.ImageList,
   Vcl.ImgList,
   System.Actions,
@@ -149,12 +150,14 @@ implementation
 {$R *.dfm}
 
 procedure TfMain.actConfigExecute(Sender: TObject);
-var
-  frmOptions: TfrmOptions;
 begin
-  frmOptions := TfrmOptions.Create(Self);
-  frmOptions.ShowModal;
-  frmOptions.Free;
+if aFrame <> Nil then
+    aFrame.Free;
+
+  aFrame := TfrmConfig.Create(pnlMain);
+
+  aFrame.Parent := pnlMain;
+  aFrame.Align := alClient;
 end;
 
 procedure TfMain.ActivitySet(bActive: Boolean);

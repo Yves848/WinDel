@@ -32,6 +32,7 @@ type
     procedure tbIntervalChange(Sender: TObject);
     procedure ckAutoUpdCheckMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure sButton1Click(Sender: TObject);
   private
     { Private declarations }
     procedure loadParams;
@@ -98,6 +99,11 @@ begin
   pPArams.SetParamb('RunOnStartUp', ckStartup.Checked);
   pPArams.SetParamb('StartMinimized', ckStarMinimized.Checked);
   pPArams.saveParams;
+end;
+
+procedure TfrmOptions.sButton1Click(Sender: TObject);
+begin
+  ModalResult := mrCancel;
 end;
 
 procedure TfrmOptions.tbIntervalChange(Sender: TObject);

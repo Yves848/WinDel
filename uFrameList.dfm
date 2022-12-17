@@ -58,15 +58,15 @@ inherited frmList: TfrmList
       TabOrder = 1
       object btnUnInstallRun: TsSpeedButton
         Left = 4
-        Top = 113
+        Top = 394
         Width = 177
         Height = 56
-        Align = alTop
+        Align = alBottom
         Caption = 'Uninstall Selected'#13#10'(F8)'
-        ImageIndex = 0
+        ImageIndex = 1
         Images = sCharImageList1
         OnClick = btnUnInstallRunClick
-        ExplicitLeft = 356
+        ExplicitLeft = 6
       end
       object pnlUpgTopSide: TsPanel
         Left = 4

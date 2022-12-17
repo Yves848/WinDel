@@ -9,7 +9,8 @@ uses
   uFrameUpgrade2 in 'uFrameUpgrade2.pas' {frmHeritee: TFrame},
   uFrameList in 'uFrameList.pas' {frmList: TFrame},
   uFrameSearch in 'uFrameSearch.pas' {frmSearch: TFrame},
-  uRunWinget in 'uRunWinget.pas' {fRunWinget};
+  uRunWinget in 'uRunWinget.pas' {fRunWinget},
+  uFrameConfig in 'uFrameConfig.pas' {frmConfig: TFrame};
 
 {$R *.res}
 

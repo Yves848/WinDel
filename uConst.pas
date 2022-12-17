@@ -452,7 +452,7 @@ end;
 procedure tParams.loadParams;
 var
   sConfigFile: String;
-  jAutoUpd : TJSONObject;
+  jAutoUpd : TJSonValue;
 begin
   if ConfigExists then
   begin
@@ -461,9 +461,12 @@ begin
     fJSON := TJSONObject(fJSON.ParseJSONValue(TFile.ReadAllText(sConfigFile, TEncoding.UTF8)));
     fStartMinimized := getParamb('StartMinimized');
     fRunOnStartup := getParamb('RunOnStartup');
-    jAutoUpd := TJSONObject(fJSON.Get('CheckUpdates'));
+
+
+    jAutoUpd := fJSON.GetValue('CheckUpdates');
     jAutoUpd.TryGetValue<Boolean>('RunAutoUpdCheck',fAutoCheckUpdates);
     jAutoUpd.TryGetValue<Integer>('Interval',fCheckUpateInterval);
+
   end
   else
     initParams;
