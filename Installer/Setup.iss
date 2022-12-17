@@ -4,8 +4,8 @@
 #define MyAppName "Winget Helper"
 #define MyAppVersion "0.2.0.2"
 #define MyAppPublisher "YGO"
-#define MyAppURL "http://www.example.com/"
-#define MyAppExeName "WingetHelper.exe"
+#define MyAppURL "https://github.com/Yves848/WinDel/"
+#define MyAppExeName "WGHelp.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=WGHelperSetup
+OutputBaseFilename=WGHelpSetup
 Compression=lzma
 SolidCompression=yes
 
@@ -33,7 +33,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "..\Win32\Release\WingetHelper.exe"; DestDir: "{app}"; DestName: "WingetHelper.exe"
+Source: "..\Win32\Release\WGHelp.exe"; DestDir: "{app}"; DestName: "WGHelp.exe"
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

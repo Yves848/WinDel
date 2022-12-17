@@ -4,7 +4,7 @@ A graphical interface for Winget
 
 ![Image1](Images/img1.png)
 
-A Brief demo video is available there : 
+A Brief demo video is available there : https://youtu.be/niizmd0TRWg
 
 ## Installation
 The setup of the latest release is available here : https://github.com/Yves848/WinDel/releases/download/0.2.0.2/Setup.exe

@@ -1,4 +1,4 @@
-program WingetHelper;
+program WGHelp;
 
 uses
   Winapi.Windows,
