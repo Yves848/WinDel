@@ -124,12 +124,12 @@
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
-        <VerInfo_MinorVer>1</VerInfo_MinorVer>
+        <VerInfo_MinorVer>2</VerInfo_MinorVer>
         <VerInfo_PreRelease>true</VerInfo_PreRelease>
         <VerInfo_AutoIncVersion>true</VerInfo_AutoIncVersion>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Build>2</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=Y.Godart;FileDescription=WingetHelper;FileVersion=0.1.0.2;InternalName=Winget GUI;LegalCopyright=2022 - YGO;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=WingetHelper;ProductVersion=0.1.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=Y.Godart;FileDescription=WingetHelper;FileVersion=0.2.0.2;InternalName=Winget GUI;LegalCopyright=2022 - YGO;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=WingetHelper;ProductVersion=0.2;Comments=</VerInfo_Keys>
         <Icon_MainIcon>pWinDel_Icon4.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
@@ -199,6 +199,8 @@
                     <Source Name="MainSource">pWinDel.dpr</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k280.bpl">Package Serveurs Office 2000 Embarcadero C++Builder</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp280.bpl">Package Serveurs Office XP Embarcadero C++Builder</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Composants Microsoft Office 2000 Sample Automation Server Wrapper</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp280.bpl">Composants Microsoft Office XP Sample Automation Server Wrapper</Excluded_Packages>
                 </Excluded_Packages>
