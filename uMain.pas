@@ -118,7 +118,6 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure dcupgradeSearchNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure U1Click(Sender: TObject);
-    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
@@ -251,6 +250,8 @@ procedure TfMain.FormCreate(Sender: TObject);
 begin
   lOutPut := tStringList.Create;
   lOutPutUpg := tStringList.Create;
+  Timer1.Interval := pParams.CheckUpdatesInterval * 60 * 1000;
+  Timer1.Enabled := pParams.AutoCheckUpdates;
 end;
 
 procedure TfMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -272,19 +273,11 @@ begin
     end;
 end;
 
-procedure TfMain.FormShow(Sender: TObject);
-begin
-  Timer1.Interval := pParams.CheckUpdatesInterval * 3600;
-  //PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
-  //PostMessage(handle, WM_GETUPGRADELIST, 0, 0);
-  Timer1.Enabled := pParams.AutoCheckUpdates;
-  //PostMessage(handle, WM_HIDEMAIN, 0, 0);
-end;
-
 procedure TfMain.GetUpgradeList(var Msg: TMessage);
 begin
   if not dcupgradeSearch.IsRunning then
   begin
+      lOutPutUpg.clear;
       Timer1.Enabled := False;
       dcupgradeSearch.CommandLine := tWingetcommand.Upgrade;
       dcupgradeSearch.OnTerminated := upgradeAutoTerminated;
@@ -432,7 +425,7 @@ end;
 
 procedure TfMain.sSpeedButton3Click(Sender: TObject);
 begin
-  popup;
+   Timer1Timer(Sender);
 end;
 
 procedure TfMain.sbConfigClick(Sender: TObject);
@@ -511,6 +504,7 @@ end;
 
 procedure TfMain.Timer1Timer(Sender: TObject);
 begin
+  //Memo1.Lines.Add('Timer');
   PostMessage(handle, WM_GETUPGRADELIST, 0, 0);
 end;
 
@@ -521,7 +515,7 @@ end;
 
 procedure TfMain.U1Click(Sender: TObject);
 begin
-    popup;
+    Timer1Timer(Sender);
 end;
 
 procedure TfMain.upgradeAutoTerminated(Sender: TObject);
@@ -539,12 +533,15 @@ begin
   i := 0;
   bNewPack := false;
   lOutClean := makeUpgList(lOutPutUpg);
+  //Memo1.Lines.Add('#### Updates ####');
   while i < lOutClean.Count - 1 do
   begin
     sLine := lOutClean[i];
     aWingetPackage := tWingetPackage.Create(sLine, ptUpgrade);
+    //Memo1.Lines.Add(sLine) ;
     if lListUpdates.IndexOf(aWingetPackage.getField('id')) = -1 then
     begin
+
       lListUpdates.AddObject(aWingetPackage.getField('id'),aWingetPackage);
       bNewPack := True;
     end;
@@ -552,7 +549,7 @@ begin
   end;
   ActivitySet(False);
   if bNewPack then popup;
-  if pParams.AutoCheckUpdates then Timer1.Enabled := True;
+  Timer1.Enabled := pParams.AutoCheckUpdates;
 end;
 
 procedure TfMain.upgradeTerminated(Sender: TObject);
