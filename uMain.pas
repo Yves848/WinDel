@@ -158,6 +158,7 @@ if aFrame <> Nil then
 
   aFrame.Parent := pnlMain;
   aFrame.Align := alClient;
+  TfrmConfig(aFrame).loadparams;
 end;
 
 procedure TfMain.ActivitySet(bActive: Boolean);
@@ -269,8 +270,11 @@ end;
 
 procedure TfMain.FormShow(Sender: TObject);
 begin
+
+  Timer1.Interval := pParams.CheckUpdatesInterval;
   PostMessage(handle, WM_GETWINGETVERSION, 0, 0);
-  Timer1.Enabled := True;
+  PostMessage(handle, WM_GETUPGRADELIST, 0, 0);
+  Timer1.Enabled := pParams.AutoCheckUpdates;
 end;
 
 procedure TfMain.GetUpgradeList(var Msg: TMessage);
@@ -573,6 +577,7 @@ begin
   begin
     lblScoopVersion.Caption := 'Scoop not installed    ' + '💈';
   end;
+
 end;
 
 procedure TfMain.W1Click(Sender: TObject);

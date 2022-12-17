@@ -55,6 +55,84 @@ inherited frmConfig: TfrmConfig
       TabOrder = 2
       object sTabSheet1: TsTabSheet
         Caption = 'General'
+        object ckStartup: TsCheckBox
+          Left = 16
+          Top = 46
+          Width = 102
+          Height = 19
+          Caption = 'Run on Sartup'
+          TabOrder = 0
+          OnMouseUp = ckStartupMouseUp
+        end
+        object ckStarMinimized: TsCheckBox
+          Left = 16
+          Top = 71
+          Width = 110
+          Height = 19
+          Caption = 'Start Minimized'
+          TabOrder = 1
+          OnMouseUp = ckStarMinimizedMouseUp
+        end
+        object ckAutoUpdCheck: TsCheckBox
+          Left = 16
+          Top = 96
+          Width = 186
+          Height = 19
+          Caption = 'Automatic Update verification'
+          TabOrder = 2
+          OnMouseUp = ckAutoUpdCheckMouseUp
+        end
+        object pnlFrequency: TsPanel
+          Left = 32
+          Top = 121
+          Width = 296
+          Height = 32
+          Caption = 'pnlFrequency'
+          ShowCaption = False
+          TabOrder = 3
+          Visible = False
+          object sLabel2: TsLabel
+            Left = 12
+            Top = 7
+            Width = 28
+            Height = 15
+            Caption = 'Every'
+          end
+          object sLabel1: TsLabel
+            Left = 237
+            Top = 7
+            Width = 43
+            Height = 15
+            Caption = 'minutes'
+          end
+          object lblMin: TsLabel
+            Left = 202
+            Top = 8
+            Width = 23
+            Height = 15
+            Alignment = taRightJustify
+            AutoSize = False
+            Caption = '0'
+          end
+          object tbInterval: TsTrackBar
+            Left = 46
+            Top = 0
+            Width = 150
+            Height = 45
+            Max = 60
+            Min = 5
+            ParentShowHint = False
+            Frequency = 5
+            Position = 5
+            PositionToolTip = ptTop
+            ShowHint = True
+            ShowSelRange = False
+            TabOrder = 0
+            TickStyle = tsNone
+            OnChange = tbIntervalChange
+            ShowProgress = True
+          end
+        end
       end
       object Winget: TsTabSheet
         Caption = 'Winget'
