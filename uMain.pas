@@ -516,9 +516,7 @@ begin
   end;
   ActivitySet(False);
   if bNewPack then popup;
-  if pParams.AutoCheckUpdatees then Timer1.Enabled := True;
-  
-
+  if pParams.AutoCheckUpdates then Timer1.Enabled := True;
 end;
 
 procedure TfMain.upgradeTerminated(Sender: TObject);

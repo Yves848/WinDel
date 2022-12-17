@@ -42,6 +42,16 @@ object frmOptions: TfrmOptions
       OnClick = btnCloseClick
       ExplicitLeft = 500
     end
+    object sButton1: TsButton
+      Left = 391
+      Top = 1
+      Width = 113
+      Height = 39
+      Align = alRight
+      Caption = 'Cancel'
+      TabOrder = 1
+      ExplicitLeft = 429
+    end
   end
   object sTabControl1: TsTabControl
     Left = 0
@@ -54,14 +64,8 @@ object frmOptions: TfrmOptions
       'General'
       'Winget')
     TabIndex = 0
-    ExplicitHeight = 385
-    object sLabel1: TsLabel
-      Left = 208
-      Top = 128
-      Width = 43
-      Height = 15
-      Caption = 'minutes'
-    end
+    ExplicitLeft = -1
+    ExplicitTop = -5
     object ckStarMinimized: TsCheckBox
       Left = 16
       Top = 71
@@ -77,22 +81,7 @@ object frmOptions: TfrmOptions
       Height = 19
       Caption = 'Automatic Update verification'
       TabOrder = 1
-    end
-    object tbInterval: TsTrackBar
-      Left = 52
-      Top = 121
-      Width = 150
-      Height = 45
-      Max = 60
-      Min = 5
-      ParentShowHint = False
-      Frequency = 5
-      Position = 30
-      PositionToolTip = ptTop
-      ShowHint = True
-      ShowSelRange = False
-      TabOrder = 2
-      ShowProgress = True
+      OnMouseUp = ckAutoUpdCheckMouseUp
     end
     object ckStartup: TsCheckBox
       Left = 16
@@ -100,8 +89,59 @@ object frmOptions: TfrmOptions
       Width = 102
       Height = 19
       Caption = 'Run on Sartup'
-      TabOrder = 3
+      TabOrder = 2
       OnMouseUp = ckStartupMouseUp
+    end
+    object pnlFrequency: TsPanel
+      Left = 32
+      Top = 121
+      Width = 296
+      Height = 32
+      Caption = 'pnlFrequency'
+      ShowCaption = False
+      TabOrder = 3
+      Visible = False
+      object sLabel2: TsLabel
+        Left = 12
+        Top = 7
+        Width = 28
+        Height = 15
+        Caption = 'Every'
+      end
+      object sLabel1: TsLabel
+        Left = 237
+        Top = 7
+        Width = 43
+        Height = 15
+        Caption = 'minutes'
+      end
+      object lblMin: TsLabel
+        Left = 202
+        Top = 8
+        Width = 23
+        Height = 15
+        Alignment = taRightJustify
+        AutoSize = False
+        Caption = '0'
+      end
+      object tbInterval: TsTrackBar
+        Left = 46
+        Top = 0
+        Width = 150
+        Height = 45
+        Max = 60
+        Min = 5
+        ParentShowHint = False
+        Frequency = 5
+        Position = 5
+        PositionToolTip = ptTop
+        ShowHint = True
+        ShowSelRange = False
+        TabOrder = 0
+        TickStyle = tsNone
+        OnChange = tbIntervalChange
+        ShowProgress = True
+      end
     end
   end
   object sCharImageList1: TsCharImageList

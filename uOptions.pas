@@ -8,7 +8,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, sPanel, acNoteBook,
   Vcl.ComCtrls, sTabControl, Vcl.StdCtrls, Vcl.Buttons, sBitBtn,
   System.ImageList, Vcl.ImgList, acAlphaImageList, sCheckBox, sGroupBox, uConst,
-  sTrackBar, sLabel;
+  sTrackBar, sLabel, sButton;
 
 type
   TfrmOptions = class(TForm)
@@ -21,9 +21,16 @@ type
     tbInterval: TsTrackBar;
     ckStartup: TsCheckBox;
     sLabel1: TsLabel;
+    sButton1: TsButton;
+    sLabel2: TsLabel;
+    pnlFrequency: TsPanel;
+    lblMin: TsLabel;
     procedure btnCloseClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure ckStartupMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure tbIntervalChange(Sender: TObject);
+    procedure ckAutoUpdCheckMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
   private
     { Private declarations }
@@ -44,6 +51,13 @@ procedure TfrmOptions.btnCloseClick(Sender: TObject);
 begin
   saveParams;
   ModalResult := mrOk;
+end;
+
+procedure TfrmOptions.ckAutoUpdCheckMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  //
+  pnlFrequency.Visible := ckAutoUpdCheck.Checked;
 end;
 
 procedure TfrmOptions.ckStartupMouseUp(Sender: TObject; Button: TMouseButton;
@@ -72,8 +86,11 @@ end;
 
 procedure TfrmOptions.loadParams;
 begin
-  ckStartup.Checked := pPArams.getParamb('RunOnStartUp');
-  ckStarMinimized.Checked := pPArams.getParamb('StartMinimized');
+  ckStartup.Checked := pPArams.RunOnStartup;
+  ckStarMinimized.Checked := pParams.StartMinimized;
+  tbInterval.Position := pParams.CheckUpdatesInterval;
+  ckAutoUpdCheck.Checked := pParams.AutoCheckUpdates;
+
 end;
 
 procedure TfrmOptions.saveParams;
@@ -81,6 +98,11 @@ begin
   pPArams.SetParamb('RunOnStartUp', ckStartup.Checked);
   pPArams.SetParamb('StartMinimized', ckStarMinimized.Checked);
   pPArams.saveParams;
+end;
+
+procedure TfrmOptions.tbIntervalChange(Sender: TObject);
+begin
+  lblMin.Caption := IntToStr(tbInterval.Position);
 end;
 
 end.

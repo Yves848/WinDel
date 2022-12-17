@@ -72,6 +72,7 @@ type
     fStartMinimized : Boolean;
     fAutoCheckUpdates : Boolean;
     fCheckUpateInterval : Integer;
+    fRunOnStartup : Boolean;
     procedure initParams;
     procedure makeConfigPath;
     function ConfigExists: Boolean;
@@ -86,8 +87,9 @@ type
     procedure SetParams(sParam: string; sValue: String);
     procedure setParamI(sParam : string; iVaue : Integer);
     property StartMinimized: Boolean  read fStartMinimized;
-    Property AutoCheckUpdatees : Boolean read fAutoCheckupdates;
+    Property AutoCheckUpdates : Boolean read fAutoCheckupdates;
     Property CheckUpdatesInterval : Integer read fCheckUpateInterval;
+    Property RunOnStartup : Boolean read fRunOnStartup;
   end;
 
   tWingetPackage = Class
@@ -458,9 +460,10 @@ begin
     fJSON := TJSONObject.create;
     fJSON := TJSONObject(fJSON.ParseJSONValue(TFile.ReadAllText(sConfigFile, TEncoding.UTF8)));
     fStartMinimized := getParamb('StartMinimized');
+    fRunOnStartup := getParamb('RunOnStartup');
     jAutoUpd := TJSONObject(fJSON.Get('CheckUpdates'));
     jAutoUpd.TryGetValue<Boolean>('RunAutoUpdCheck',fAutoCheckUpdates);
-    jAutoUpd.TryGetValue<Integer>('Interal',fCheckUpateInterval);
+    jAutoUpd.TryGetValue<Integer>('Interval',fCheckUpateInterval);
   end
   else
     initParams;
