@@ -2,7 +2,7 @@
 
 A graphical interface for Winget
 
-![Image1](.\Images/img1.png)
+![Image1](Images/img1.png)
 
 A Brief demo video is available there : 
 
