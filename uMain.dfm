@@ -17,6 +17,7 @@ object fMain: TfMain
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
+  OnShow = FormShow
   TextHeight = 15
   object pnlToolbar: TsPanel
     Left = 0

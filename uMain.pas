@@ -11,6 +11,7 @@ uses
   System.IOUtils,
   System.Classes,
   System.Types,
+  System.DateUtils,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -119,6 +120,7 @@ type
     procedure dcupgradeSearchNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure pmUpdatablesClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure FormShow(Sender: TObject);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
@@ -144,6 +146,7 @@ type
     procedure listTerminated(Sender: TObject);
     procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure ActivitySet(bActive: Boolean);
+    procedure Show2(Sender : TObject);
   end;
 
 var
@@ -283,6 +286,12 @@ begin
         end;
       end;
     end;
+end;
+
+procedure TfMain.FormShow(Sender: TObject);
+begin
+     PostMessage(fMain.handle, WM_GETWINGETVERSION, 0, 0);
+     PostMessage(fMain.handle, WM_GETUPGRADELIST, 0, 0);
 end;
 
 procedure TfMain.GetUpgradeList(var Msg: TMessage);
@@ -459,6 +468,11 @@ procedure TfMain.SearchPackages1Click(Sender: TObject);
 begin
   taskList(Sender);
   Show;
+end;
+
+procedure TfMain.Show2(Sender: TObject);
+begin
+//
 end;
 
 procedure TfMain.StartList(var m: tMessage);

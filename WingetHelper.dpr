@@ -1,4 +1,4 @@
-program pWinDel;
+program WingetHelper;
 
 uses
   Winapi.Windows,
@@ -20,11 +20,16 @@ begin
 
   Application.Initialize;
   pPArams.loadParams;
-  Application.MainFormOnTaskbar := not pParams.StartMinimized;
+  Application.MainFormOnTaskbar := True;
   Application.ShowMainForm :=  not pParams.StartMinimized;
   Application.CreateForm(TfMain, fMain);
-  PostMessage(fMain.handle, WM_GETWINGETVERSION, 0, 0);
-  PostMessage(fMain.handle, WM_GETUPGRADELIST, 0, 0);
+  if pParams.StartMinimized then
+  begin
+     fMain.Onshow := Nil;
+     PostMessage(fMain.handle, WM_GETWINGETVERSION, 0, 0);
+     PostMessage(fMain.handle, WM_GETUPGRADELIST, 0, 0);
+  end;
+
   Application.Run;
 
 end.
