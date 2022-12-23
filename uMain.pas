@@ -47,7 +47,7 @@ uses
   JvComponentBase,
   JvBalloonHint,
   JvTrayIcon,
-  udlgClose;
+  udlgClose, sPageControl, SynEditHighlighter, SynHighlighterBat;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -87,7 +87,11 @@ type
     Timer1: TTimer;
     TrayIcon1: TTrayIcon;
     NotificationCenter1: TNotificationCenter;
-    sPanel1: TsPanel;
+    sPageControl1: TsPageControl;
+    tsMainPage: TsTabSheet;
+    tsScript: TsTabSheet;
+    SynEdit1: TSynEdit;
+    SynBatSyn1: TSynBatSyn;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;

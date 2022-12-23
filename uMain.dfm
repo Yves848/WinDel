@@ -177,31 +177,80 @@ object fMain: TfMain
       IndicatorType = aitRotatingSector
     end
   end
-  object pnlMain: TsPanel
+  object sPageControl1: TsPageControl
     Left = 0
     Top = 54
     Width = 1066
-    Height = 442
+    Height = 615
+    ActivePage = tsMainPage
     Align = alClient
-    BevelOuter = bvNone
-    Caption = 'pnlMain'
-    Padding.Left = 3
-    Padding.Top = 3
-    Padding.Right = 3
-    Padding.Bottom = 3
-    ShowCaption = False
     TabOrder = 2
-    ExplicitWidth = 1062
-    ExplicitHeight = 614
-  end
-  object sPanel1: TsPanel
-    Left = 0
-    Top = 496
-    Width = 1066
-    Height = 173
-    Align = alBottom
-    Caption = 'sPanel1'
-    TabOrder = 3
+    object tsMainPage: TsTabSheet
+      Caption = 'Main'
+      object pnlMain: TsPanel
+        Left = 0
+        Top = 0
+        Width = 1058
+        Height = 585
+        Align = alClient
+        BevelOuter = bvNone
+        Caption = 'pnlMain'
+        Padding.Top = 3
+        Padding.Bottom = 3
+        ShowCaption = False
+        TabOrder = 0
+        ExplicitTop = 54
+        ExplicitWidth = 1066
+        ExplicitHeight = 615
+      end
+    end
+    object tsScript: TsTabSheet
+      Caption = 'Script'
+      object SynEdit1: TSynEdit
+        Left = 0
+        Top = 435
+        Width = 1058
+        Height = 150
+        Align = alBottom
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Consolas'
+        Font.Style = []
+        Font.Quality = fqClearTypeNatural
+        TabOrder = 0
+        UseCodeFolding = False
+        Gutter.Font.Charset = DEFAULT_CHARSET
+        Gutter.Font.Color = clWindowText
+        Gutter.Font.Height = -11
+        Gutter.Font.Name = 'Consolas'
+        Gutter.Font.Style = []
+        Gutter.Bands = <
+          item
+            Kind = gbkMarks
+            Width = 13
+          end
+          item
+            Kind = gbkLineNumbers
+          end
+          item
+            Kind = gbkFold
+          end
+          item
+            Kind = gbkTrackChanges
+          end
+          item
+            Kind = gbkMargin
+            Width = 3
+          end>
+        Lines.Strings = (
+          'SynEdit1')
+        SelectedColor.Alpha = 0.400000005960464500
+        ExplicitLeft = 152
+        ExplicitTop = 376
+        ExplicitWidth = 200
+      end
+    end
   end
   object DosCommand1: TDosCommand
     InputToOutput = False
@@ -2160,5 +2209,9 @@ object fMain: TfMain
   object NotificationCenter1: TNotificationCenter
     Left = 208
     Top = 294
+  end
+  object SynBatSyn1: TSynBatSyn
+    Left = 636
+    Top = 600
   end
 end
