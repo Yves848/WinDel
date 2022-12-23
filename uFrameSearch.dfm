@@ -1,25 +1,25 @@
 inherited frmSearch: TfrmSearch
-  Width = 435
-  Height = 266
+  Width = 948
+  Height = 592
   OnResize = FrameResize
-  ExplicitWidth = 435
-  ExplicitHeight = 266
+  ExplicitWidth = 948
+  ExplicitHeight = 592
   object pnlSearchMain: TsPanel
     Left = 0
     Top = 24
-    Width = 435
-    Height = 242
+    Width = 948
+    Height = 568
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlSearchMain'
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 856
-    ExplicitHeight = 622
+    ExplicitWidth = 435
+    ExplicitHeight = 242
     object pnlSearchEdit: TsPanel
       Left = 0
       Top = 0
-      Width = 435
+      Width = 948
       Height = 105
       Align = alTop
       BevelOuter = bvNone
@@ -28,7 +28,7 @@ inherited frmSearch: TfrmSearch
       ShowCaption = False
       ParentBackground = False
       TabOrder = 0
-      ExplicitWidth = 856
+      ExplicitWidth = 435
       object btnLaunch: TsSpeedButton
         Left = 704
         Top = 16
@@ -57,16 +57,16 @@ inherited frmSearch: TfrmSearch
     object sPanel1: TsPanel
       Left = 0
       Top = 105
-      Width = 435
+      Width = 948
       Height = 248
       Align = alTop
       Caption = 'sPanel1'
       TabOrder = 1
-      ExplicitWidth = 856
+      ExplicitWidth = 435
       object ListView1: TsListView
         Left = 1
         Top = 1
-        Width = 248
+        Width = 761
         Height = 246
         BevelInner = bvNone
         BevelOuter = bvNone
@@ -97,10 +97,10 @@ inherited frmSearch: TfrmSearch
         RowSelect = True
         TabOrder = 0
         ViewStyle = vsReport
-        ExplicitWidth = 669
+        ExplicitWidth = 248
       end
       object pnlUpgSideBar: TsPanel
-        Left = 249
+        Left = 762
         Top = 1
         Width = 185
         Height = 246
@@ -111,7 +111,7 @@ inherited frmSearch: TfrmSearch
         Padding.Right = 4
         ShowCaption = False
         TabOrder = 1
-        ExplicitLeft = 670
+        ExplicitLeft = 249
         object sbAddtoSelection: TsSpeedButton
           Left = 4
           Top = 0
@@ -131,17 +131,18 @@ inherited frmSearch: TfrmSearch
     object sPanel2: TsPanel
       Left = 0
       Top = 394
-      Width = 435
-      Height = 228
+      Width = 948
+      Height = 174
       Align = alClient
       Caption = 'sPanel2'
       TabOrder = 2
-      ExplicitWidth = 856
+      ExplicitWidth = 435
+      ExplicitHeight = 228
       object lvInstall: TsListView
         Left = 1
         Top = 1
-        Width = 248
-        Height = 226
+        Width = 761
+        Height = 172
         BevelInner = bvNone
         BevelOuter = bvNone
         Align = alClient
@@ -171,13 +172,14 @@ inherited frmSearch: TfrmSearch
         RowSelect = True
         TabOrder = 0
         ViewStyle = vsReport
-        ExplicitWidth = 669
+        ExplicitWidth = 248
+        ExplicitHeight = 226
       end
       object sPanel3: TsPanel
-        Left = 249
+        Left = 762
         Top = 1
         Width = 185
-        Height = 226
+        Height = 172
         Align = alRight
         BevelOuter = bvNone
         Caption = 'pnlUpgSideBar'
@@ -185,7 +187,8 @@ inherited frmSearch: TfrmSearch
         Padding.Right = 4
         ShowCaption = False
         TabOrder = 1
-        ExplicitLeft = 670
+        ExplicitLeft = 249
+        ExplicitHeight = 226
         object sbInstallRun: TsSpeedButton
           Left = 4
           Top = 48
@@ -220,17 +223,17 @@ inherited frmSearch: TfrmSearch
     object spnl1: TsPanel
       Left = 0
       Top = 353
-      Width = 435
+      Width = 948
       Height = 41
       Align = alTop
       Caption = 'spnl1'
       ShowCaption = False
       TabOrder = 3
-      ExplicitWidth = 856
+      ExplicitWidth = 435
       object spdbtn1: TsSpeedButton
         Left = 1
         Top = 1
-        Width = 433
+        Width = 946
         Height = 39
         Align = alClient
         ImageIndex = 4
@@ -246,7 +249,7 @@ inherited frmSearch: TfrmSearch
   object pnlTitleToolBar: TsPanel
     Left = 0
     Top = 0
-    Width = 435
+    Width = 948
     Height = 24
     Align = alTop
     Alignment = taLeftJustify
@@ -256,7 +259,7 @@ inherited frmSearch: TfrmSearch
     StyleElements = [seFont, seBorder]
     ParentBackground = False
     TabOrder = 1
-    ExplicitWidth = 856
+    ExplicitWidth = 435
   end
   object dcSearch1: TDosCommand
     InputToOutput = False

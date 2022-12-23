@@ -181,7 +181,7 @@ object fMain: TfMain
     Left = 0
     Top = 54
     Width = 1066
-    Height = 615
+    Height = 442
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlMain'
@@ -193,6 +193,15 @@ object fMain: TfMain
     TabOrder = 2
     ExplicitWidth = 1062
     ExplicitHeight = 614
+  end
+  object sPanel1: TsPanel
+    Left = 0
+    Top = 496
+    Width = 1066
+    Height = 173
+    Align = alBottom
+    Caption = 'sPanel1'
+    TabOrder = 3
   end
   object DosCommand1: TDosCommand
     InputToOutput = False

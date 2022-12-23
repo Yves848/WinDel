@@ -145,8 +145,8 @@ inherited frmList: TfrmList
         Char = 61561
         Color = clBlue
       end>
-    Left = 534
-    Top = 401
+    Left = 502
+    Top = 185
     Bitmap = {}
   end
   object ActionList1: TActionList
