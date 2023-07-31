@@ -101,6 +101,7 @@ type
     dFields: TDictionary<string, string>;
     procedure makeFields(sLine: String);
     procedure makeListFields(sLine: String);
+    function splitCols(line : string): tStrings;
   published
     property Line: String read fLine;
     property PackageType: tPackageType read fType;
@@ -151,6 +152,40 @@ begin
   reg.RootKey := HKEY_CURRENT_USER;
   reg.DeleteKey('\Software\Microsoft\Windows\CurrentVersion\Run', sProgTitle);
   reg.Free;
+end;
+
+function GetCharsCount(const AStr: UTF8String): Integer;
+var
+  P: PWideChar;
+begin
+  Result := 0;
+  P := PWideChar(UnicodeString(AStr));
+  while P <> '' do begin
+    Inc(Result);
+    P := CharNextW(P);
+  end;
+end;
+
+function CopyChars(sLine : String; iStart : Integer; iLen : Integer) : String;
+var
+  i : integer;
+  P: PWideChar;
+begin
+  result := '';
+  i := 0;
+  while i <= iLen do
+  begin
+    if (i >= iStart) and (i <= iLen) then
+    begin
+      P := PWideChar(UnicodeString(sLine[i]));
+      result := result + P;
+       while P <> '' do begin
+        P := CharNextW(P);
+      end;
+    end;
+
+    inc(i);
+  end;
 end;
 
 function CurrentUserName: String;
@@ -355,13 +390,51 @@ procedure tWingetPackage.makeFields(sLine: String);
 var
   aColumn: tColumnClass;
   iCol: Integer;
+  s : PWideChar;
+  slCols : tStrings;
 begin
   iCol := 0;
-  while iCol <= lListColumn.Count - 1 do
+  slCols := splitCols(sLine);
+  while iCol <= slcols.Count - 1 do
   begin
     aColumn := tColumnClass(lListColumn.Objects[iCol]);
-    dFields.Add(Fields[iCol], copy(sLine, aColumn.iPos, aColumn.iLen));
+    dFields.Add(Fields[iCol], slCols[iCol]);
     inc(iCol);
+  end;
+  slCols.Free;
+end;
+
+function tWingetPackage.splitCols(line : string): tStrings;
+var
+  i : integer;
+  c,l, cl : integer;
+  s : String;
+  fName : String;
+begin
+  result := tStringlist.Create;
+  i := 0;
+  c := 0;
+  l := 0;
+  cl := 0;
+  fName := '';
+  while i < llistcolumn.Count do
+  begin
+    if (c < line.Length) then
+    s := line[c+1]
+    else
+    s := ' ';
+    cl := TEncoding.UTF8.GetByteCount(s);
+    if cl > 1 then dec(cl);
+    l := l + cl;
+    fName := fName + s;
+    if l >= tColumnClass(lListColumn.Objects[i]).iLen then
+    begin
+      l := 0;
+      result.Add(fName);
+      fName := '';
+      inc(i);
+    end;
+    inc(c);
   end;
 end;
 
@@ -393,7 +466,6 @@ begin
     begin
       cc(aColListLibs[i], aLstWidths[i]);
     end;
-
   end
   else
   begin
