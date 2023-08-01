@@ -9,6 +9,9 @@
         <Projects Include="pTestString.dproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="Download res\pDoawloadres.dproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -35,14 +38,23 @@
     <Target Name="pTestString:Make">
         <MSBuild Projects="pTestString.dproj" Targets="Make"/>
     </Target>
+    <Target Name="pDoawloadres">
+        <MSBuild Projects="Download res\pDoawloadres.dproj"/>
+    </Target>
+    <Target Name="pDoawloadres:Clean">
+        <MSBuild Projects="Download res\pDoawloadres.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="pDoawloadres:Make">
+        <MSBuild Projects="Download res\pDoawloadres.dproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="WGHelp;pTestString"/>
+        <CallTarget Targets="WGHelp;pTestString;pDoawloadres"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="WGHelp:Clean;pTestString:Clean"/>
+        <CallTarget Targets="WGHelp:Clean;pTestString:Clean;pDoawloadres:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="WGHelp:Make;pTestString:Make"/>
+        <CallTarget Targets="WGHelp:Make;pTestString:Make;pDoawloadres:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

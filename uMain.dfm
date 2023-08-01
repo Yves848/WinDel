@@ -2096,8 +2096,8 @@ object fMain: TfMain
     Bitmap = {}
   end
   object pmTray: TPopupMenu
-    Left = 528
-    Top = 478
+    Left = 448
+    Top = 454
     object W1: TMenuItem
       Caption = 'Winget Helper'
       OnClick = W1Click
@@ -2138,8 +2138,8 @@ object fMain: TfMain
     Enabled = False
     Interval = 2000
     OnTimer = Timer1Timer
-    Left = 528
-    Top = 360
+    Left = 448
+    Top = 384
   end
   object TrayIcon1: TTrayIcon
     Animate = True
@@ -2149,7 +2149,7 @@ object fMain: TfMain
     Top = 454
   end
   object NotificationCenter1: TNotificationCenter
-    Left = 208
-    Top = 294
+    Left = 352
+    Top = 382
   end
 end

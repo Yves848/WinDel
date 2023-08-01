@@ -20,11 +20,36 @@ object Form1: TForm1
     TabOrder = 0
     OnClick = Button1Click
   end
-  object Memo1: TMemo
+  object memo1: TMemo
     Left = 8
     Top = 64
     Width = 612
     Height = 370
     TabOrder = 1
+  end
+  object Button2: TButton
+    Left = 104
+    Top = 16
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 2
+    OnClick = Button2Click
+  end
+  object IdHTTP1: TIdHTTP
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 176
+    Top = 16
   end
 end

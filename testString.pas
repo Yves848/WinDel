@@ -3,24 +3,33 @@
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, system.StrUtils, system.AnsiStrings, uConst;
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, System.StrUtils,
+  System.AnsiStrings, uConst, Vcl.AppEvnts, IdBaseComponent, IdComponent,XMLIntf, XMLDoc,
+  IdTCPConnection, IdTCPClient, IdHTTP, IdIOHandler, IdIOHandlerSocket, IdIOHandlerStack, IdSSL, IdSSLOpenSSL;
 
 const
-  aUpdWidths: TArray<Integer> = [19, 19, 13, 6];
-  aUpgFields: TArray<String> = ['nom', 'id', 'version', 'source'];
+  sVersion = 'v1.5.1881';
 
 type
   TForm1 = class(TForm)
     Button1: TButton;
-    Memo1: TMemo;
+    memo1: TMemo;
+    IdHTTP1: TIdHTTP;
+    Button2: TButton;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+
   private
     { Déclarations privées }
-    function splitCols(aWidth : tArray<Integer>; aCols : tArray<String>; line : string) : tStrings;
+
   public
     { Déclarations publiques }
   end;
+
+function GetKeyboardLanguageCodeStr: string;
+function GetWindowsLanguage: string;
 
 var
   Form1: TForm1;
@@ -28,48 +37,112 @@ var
 implementation
 
 {$R *.dfm}
+// function GetWindowsLanguage: string;
+// var
+// langId: word;
+// buffer: array [0..4] of Char;
+// begin
+// langId := GetUserDefaultUILanguage;
+//
+// // The primary language ID is in the low-order 10 bits,
+// // and the sublanguage ID is in the high-order 6 bits.
+// // Combine them to get the language ID in the format "LANG-SUBLANG".
+// StrFmt(buffer, '%x-%x', [langId and $3FF, langId shr 10]);
+//
+// Result := buffer;
+// end;
+
+function GetWindowsLanguage: string;
+var
+  localeName: array [0 .. LOCALE_NAME_MAX_LENGTH] of Char;
+begin
+  if GetUserDefaultLocaleName(localeName, LOCALE_NAME_MAX_LENGTH) > 0 then
+    Result := localeName
+  else
+    Result := '';
+end;
+
+function GetKeyboardLanguageCodeStr: string;
+var
+  tid: word;
+  lid: word;
+  ndxLocale: integer;
+begin
+  try
+
+    tid := getCurrentThreadID;
+    lid := getKeyboardLayout(tid);
+    ndxLocale := languages.IndexOf(lid);
+    Result := languages.localeName[ndxLocale];
+  except
+    Result := 'xx'; // Error
+  end;
+end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 var
-  l : String;
-  h : string;
-  s : string;
+  l1, l2: integer;
+  slocale: string;
+  Stream: TMemoryStream;
+  Url, FileName: String;
+  IdSSL: TIdSSLIOHandlerSocketOpenSSL;
 begin
-  h := 'Nom                ID                     Version      Source';
-  //l := 'QQ小程序开发者工具 Tencent.qq-devtool 0.70.2209190 winget';
-  l := 'Presenter          WorshipTools.Presenter 2023.1.4     winget';
-  s := l[1];
-  memo1.Lines.AddStrings(splitCols(aUpdWidths,aUpgFields,l));
+  slocale := languages.localeName[languages.IndexOf(SysLocale.DefaultLCID)];
+  Url := Format('https://raw.githubusercontent.com/microsoft/winget-cli/release-%s/Localization/Resources/%s/winget.resw',[sVersion,'fr-FR']);
+  FileName := 'config.xml';
+  IdSSL := TIdSSLIOHandlerSocketOpenSSL.create(nil);
+  IdSSL.SSLOptions.Method := sslvTLSv1_2;
+  IdSSL.SSLOptions.Mode := sslmUnassigned;
+  IdHTTP1.IOHandler := IdSSL;
+  Stream := TMemoryStream.Create;
+  try
+
+    IdHTTP1.Get(Url, Stream);
+    Stream.SaveToFile(FileName);
+  finally
+    Stream.Free;
+    //IdHTTP1.Free;
+    IdSSL.Free;
+  end;
 end;
 
-function TForm1.splitCols(aWidth: tArray<Integer>; aCols: tArray<String>; line : string): tStrings;
+procedure TForm1.Button2Click(Sender: TObject);
 var
-  i : integer;
-  c,l, cl : integer;
-  s : String;
-  fName : String;
+   LDocument: IXMLDocument;
+   LNodeElement, LNode: IXMLNode;
+   i : integer;
 begin
-  result := tStringlist.Create;
-  i := 0;
-  c := 0;
-  l := 0;
-  cl := 0;
-  fName := '';
-  while i < length(aWidth) do
+//
+  if FileExists('d:\params.xml') then
   begin
-    s := line[c+1];
-    cl := TEncoding.UTF8.GetByteCount(s);
-    if cl > 1 then dec(cl);
-    l := l + cl;
-    fName := fName + s;
-    if l >= aWidth[i] then
+    LDocument := TXMLDocument.Create(nil);
+    LDocument.LoadFromFile('d:\params.xml'); { File should exist. }
+
+    { Find a specific node. }
+    LNodeElement := LDocument.ChildNodes.FindNode('root');
+    if (LNodeElement <> nil) then
     begin
-      l := 0;
-      result.Add(fName);
-      fName := '';
-      inc(i);
+      for I := 0 to LNodeElement.ChildNodes.Count - 1 do
+      begin
+        LNode := LNodeElement.ChildNodes.Get(I);
+        { Display node name. }
+        Writeln(sLineBreak + 'Node name: ' + LNode.NodeName);
+        { Check whether the node type is Text. }
+        if LNode.NodeType = ntText then
+        begin
+          memo1.lines.add('This is a node of type Text. The text is: ' + LNode.Text);
+        end;
+        { Check whether the node is text element. }
+        if LNode.IsTextElement then
+        begin
+          memo1.lines.add('This is a text element. The text is: ' + LNode.Text);
+        end;
+      end;
     end;
-    inc(c);
+  end
+  else
+  begin
+    memo1.Lines.Add('nope');
   end;
 end;
 
