@@ -32,6 +32,7 @@ uses
   uFrameList,
   uFrameSearch,
   uFrameConfig,
+  uGlobalFrame,
   System.ImageList,
   Vcl.ImgList,
   System.Actions,
@@ -114,7 +115,6 @@ type
     procedure S1Click(Sender: TObject);
     procedure SearchPackages1Click(Sender: TObject);
     procedure sbUpgradeClick(Sender: TObject);
-    procedure sSpeedButton3Click(Sender: TObject);
     procedure W1Click(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure dcupgradeSearchNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
@@ -135,6 +135,7 @@ type
     procedure GetUpgradeList(var Msg : TMessage); message WM_GETUPGRADELIST;
     procedure ListUpgradeTerminated(Sender : TObject);
     procedure HideMain(var msg : TMessage); message WM_HIDEMAIN;
+    procedure DisplayDashBoard(var msg : TMessage); message WM_DISPLAYDASHBOARD;
   public
     { Public declarations }
     lOutPut: tStrings;
@@ -144,6 +145,7 @@ type
     procedure upgradeAutoTerminated(Sender : TObject);
     procedure versionTerminated(Sender: TObject);
     procedure listTerminated(Sender: TObject);
+     procedure listTerminated2(Sender: TObject);
     procedure LVSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure ActivitySet(bActive: Boolean);
     procedure Show2(Sender : TObject);
@@ -219,6 +221,15 @@ begin
     lOutPutUpg.Add(ANewLine);
 end;
 
+procedure TfMain.DisplayDashBoard(var msg: TMessage);
+begin
+  while dcupgradeSearch.IsRunning do begin
+    Application.ProcessMessages;
+  end;
+
+  taskList(Nil);
+end;
+
 function TfMain.DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
 var
   pBytes: TBytes;
@@ -292,10 +303,14 @@ procedure TfMain.FormShow(Sender: TObject);
 begin
      PostMessage(fMain.handle, WM_GETWINGETVERSION, 0, 0);
      PostMessage(fMain.handle, WM_GETUPGRADELIST, 0, 0);
+     PostMessage(fMain.Handle, WM_DISPLAYDASHBOARD,0,0);
 end;
 
 procedure TfMain.GetUpgradeList(var Msg: TMessage);
 begin
+  while (dcupgradeSearch.IsRunning) do
+  Application.ProcessMessages;
+
   if not dcupgradeSearch.IsRunning then
   begin
       lOutPutUpg.clear;
@@ -361,6 +376,42 @@ begin
   ActivitySet(False);
 end;
 
+procedure TfMain.listTerminated2(Sender: TObject);
+var
+  i, iCol: Integer;
+  liste: TListItems;
+  Item: TListItem;
+  sLine: string;
+  sString: string;
+  aColumn: tColumnClass;
+  lOutClean: tStrings;
+  aWingetPackage: tWingetPackage;
+begin
+  i := 0;
+  aFrame := tfGlobalFrame.Create(pnlMain);
+  aFrame.Parent := pnlMain;
+  aFrame.Align := alClient;
+  //tfGlobalFrame(aFrame).Init;
+//  lOutClean := makeUpgList(lOutPut);
+//  while i <= lOutClean.Count - 1 do
+//  begin
+//    sLine := lOutClean[i];
+//    aWingetPackage := tWingetPackage.Create(sLine, ptList);
+//
+//    inc(i);
+//  end;
+
+//  liste := TfrmList(aFrame).ListView1.Items;
+//
+//  tGridConfig.MakeColumns(TfrmList(aFrame).ListView1);
+//
+//  TfrmList(aFrame).setupColumnHeaders;
+//  tfrmList(aFrame).filterWinget;
+//  TfrmList(aFrame).ApplyFilter;
+//  TfrmList(aFrame).ListView1.OnSelectItem := LVSelectItem;
+  PostMessage(aFrame.handle, WM_FRAMERESIZE, 0, 0);
+  ActivitySet(False);
+end;
 procedure TfMain.ListUpgradeTerminated(Sender: TObject);
 begin
   //
@@ -444,11 +495,6 @@ begin
   taskSearch(Sender);
 end;
 
-procedure TfMain.sSpeedButton3Click(Sender: TObject);
-begin
-   Timer1Timer(Sender);
-end;
-
 procedure TfMain.sbConfigClick(Sender: TObject);
 begin
   actConfigExecute(Sender);
@@ -491,8 +537,7 @@ begin
   if aFrame <> Nil then
     aFrame.Free;
   lOutPut.clear;
-
-  DosCommand1.OnTerminated := listTerminated;
+  DosCommand1.OnTerminated := listTerminated2;
   DosCommand1.CommandLine := tWingetcommand.List;
   DosCommand1.Execute;
 end;

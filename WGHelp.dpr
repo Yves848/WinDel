@@ -12,7 +12,8 @@ uses
   uFrameSearch in 'uFrameSearch.pas' {frmSearch: TFrame},
   uRunWinget in 'uRunWinget.pas' {fRunWinget},
   uFrameConfig in 'uFrameConfig.pas' {frmConfig: TFrame},
-  udlgClose in 'udlgClose.pas' {frmCloseDlg};
+  udlgClose in 'udlgClose.pas' {frmCloseDlg},
+  uGlobalFrame in 'uGlobalFrame.pas' {fGlobalFrame: TFrame};
 
 {$R *.res}
 

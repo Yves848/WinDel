@@ -46,6 +46,7 @@ object fMain: TfMain
       Spacing = 15
       OnClick = sSpeedButton1Click
       Reflected = True
+      ExplicitTop = -2
     end
     object sSpeedButton2: TsSpeedButton
       Left = 5
@@ -57,9 +58,11 @@ object fMain: TfMain
       ImageIndex = 0
       Images = sCharImageList1
       Spacing = 15
+      Visible = False
       OnClick = sSpeedButton2Click
       ButtonStyle = tbsTextButton
       Reflected = True
+      ExplicitTop = -2
     end
     object sbQuit: TsSpeedButton
       Left = 921
@@ -99,6 +102,7 @@ object fMain: TfMain
       ImageIndex = 4
       Images = sCharImageList1
       Spacing = 15
+      Visible = False
       OnClick = sbUpgradeClick
       Reflected = True
       ExplicitLeft = 377
@@ -111,8 +115,8 @@ object fMain: TfMain
       Height = 50
       Align = alLeft
       Caption = 'Test'
-      Visible = False
-      OnClick = sSpeedButton3Click
+      ExplicitLeft = 431
+      ExplicitTop = -2
     end
   end
   object pnlFooter: TPanel

@@ -38,6 +38,7 @@ const
   WM_FRAMERESIZE = WM_CLOSERUNEXT + 1;
   WM_GETUPGRADELIST = WM_FRAMERESIZE + 1;
   WM_HIDEMAIN = WM_GETUPGRADELIST + 1;
+  WM_DISPLAYDASHBOARD = WM_HIDEMAIN +1;
 
 type
   tPackageType = (ptInstall, ptUpgrade, ptSearch, ptList, ptUninstall);
@@ -125,7 +126,28 @@ function CurrentUserName: String;
 procedure RunOnStartup(sProgTitle, sCmdLine: string; bRunOnce: Boolean);
 procedure RemoveOnStartup(sProgTitle: string);
 
+
 implementation
+
+function CharDecoding(ASender: TObject; ABuf: TStream) : String;
+var
+  pBytes: TBytes;
+  iLength: Integer;
+begin
+  iLength := ABuf.Size;
+  if iLength > 0 then
+  begin
+    SetLength(pBytes, iLength);
+    ABuf.Read(pBytes, iLength);
+    try
+      result := tEncoding.UTF8.GetString(pBytes);
+    except
+      result := '';
+    end;
+  end
+  else
+    result := '';
+end;
 
 procedure RunOnStartup(sProgTitle, sCmdLine: string; bRunOnce: Boolean);
 var
@@ -600,12 +622,13 @@ end;
 
 initialization
 
+
 wgCommands := TDictionary<string, string>.create();
 wgCommands.Add('list', 'winget list --accept-source-agreements');
-wgCommands.Add('upgrade', 'winget upgrade --include-unknown');
+wgCommands.Add('upgrade', 'winget upgrade --include-unknown ');
 wgCommands.Add('upgradePKG', 'winget upgrade  --id "%s"');
 wgCommands.Add('search', 'winget search "%s" --source winget');
-wgCommands.Add('install', 'winget install --id "%s"');
+wgCommands.Add('install', 'winget install --id "%s" --ignore-security-hash');
 wgCommands.Add('uninstall', 'winget uninstall --id "%s"');
 wgCommands.Add('version', 'winget --version');
 pParams := tParams.create;
