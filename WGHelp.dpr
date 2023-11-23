@@ -13,7 +13,9 @@ uses
   uRunWinget in 'uRunWinget.pas' {fRunWinget},
   uFrameConfig in 'uFrameConfig.pas' {frmConfig: TFrame},
   udlgClose in 'udlgClose.pas' {frmCloseDlg},
-  uGlobalFrame in 'uGlobalFrame.pas' {fGlobalFrame: TFrame};
+  uGlobalFrame in 'uGlobalFrame.pas' {fGlobalFrame: TFrame},
+  Vcl.Themes,
+  Vcl.Styles;
 
 {$R *.res}
 
@@ -30,7 +32,6 @@ begin
      PostMessage(fMain.handle, WM_GETWINGETVERSION, 0, 0);
      PostMessage(fMain.handle, WM_GETUPGRADELIST, 0, 0);
   end;
-
   Application.Run;
 
 end.

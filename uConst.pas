@@ -628,7 +628,7 @@ wgCommands.Add('list', 'winget list --accept-source-agreements');
 wgCommands.Add('upgrade', 'winget upgrade --include-unknown ');
 wgCommands.Add('upgradePKG', 'winget upgrade  --id "%s"');
 wgCommands.Add('search', 'winget search "%s" --source winget');
-wgCommands.Add('install', 'winget install --id "%s" --ignore-security-hash');
+wgCommands.Add('install', 'winget install --id "%s"');
 wgCommands.Add('uninstall', 'winget uninstall --id "%s"');
 wgCommands.Add('version', 'winget --version');
 pParams := tParams.create;

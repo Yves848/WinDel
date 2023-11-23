@@ -48,7 +48,7 @@ uses
   JvComponentBase,
   JvBalloonHint,
   JvTrayIcon,
-  udlgClose;
+  udlgClose, Vcl.Grids, AdvObj, BaseGrid, AdvGrid, AdvGlowButton, sScrollBox, sFrameBar, acTitleBar;
 
 type
   TArg<T> = reference to procedure(const Arg: T);
@@ -64,9 +64,6 @@ type
     actList: TAction;
     actUpgrade: TAction;
     actQuit: TAction;
-    sSkinManager1: TsSkinManager;
-    sSkinProvider1: TsSkinProvider;
-    sCharImageList1: TsCharImageList;
     sSpeedButton1: TsSpeedButton;
     sSpeedButton2: TsSpeedButton;
     sbQuit: TsSpeedButton;
@@ -88,6 +85,10 @@ type
     Timer1: TTimer;
     TrayIcon1: TTrayIcon;
     NotificationCenter1: TNotificationCenter;
+    Button1: TButton;
+    sTitleBar1: TsTitleBar;
+    sSkinManager1: TsSkinManager;
+    sSkinProvider1: TsSkinProvider;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -121,6 +122,7 @@ type
     procedure pmUpdatablesClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
     procedure WMSysCommand(var Msg: TWMSysCommand); message WM_SYSCOMMAND;
@@ -215,6 +217,11 @@ begin
   taskUpgrade(Sender);
 end;
 
+procedure TfMain.Button1Click(Sender: TObject);
+begin
+  taskList(Sender);
+end;
+
 procedure TfMain.dcupgradeSearchNewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
 begin
   if ANewLine.IndexOf(Chr(08)) = -1 then
@@ -277,7 +284,7 @@ begin
   lOutPut := tStringList.Create;
   lOutPutUpg := tStringList.Create;
   Timer1.Interval := pParams.CheckUpdatesInterval * 60 * 1000;
-  Timer1.Enabled := pParams.AutoCheckUpdates;
+  //Timer1.Enabled := pParams.AutoCheckUpdates;
 end;
 
 procedure TfMain.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -302,14 +309,13 @@ end;
 procedure TfMain.FormShow(Sender: TObject);
 begin
      PostMessage(fMain.handle, WM_GETWINGETVERSION, 0, 0);
-     PostMessage(fMain.handle, WM_GETUPGRADELIST, 0, 0);
-     PostMessage(fMain.Handle, WM_DISPLAYDASHBOARD,0,0);
+     //PostMessage(fMain.Handle, WM_DISPLAYDASHBOARD,0,0);
 end;
 
 procedure TfMain.GetUpgradeList(var Msg: TMessage);
 begin
   while (dcupgradeSearch.IsRunning) do
-  Application.ProcessMessages;
+     Application.ProcessMessages;
 
   if not dcupgradeSearch.IsRunning then
   begin
@@ -537,7 +543,7 @@ begin
   if aFrame <> Nil then
     aFrame.Free;
   lOutPut.clear;
-  DosCommand1.OnTerminated := listTerminated2;
+  DosCommand1.OnTerminated := listTerminated;
   DosCommand1.CommandLine := tWingetcommand.List;
   DosCommand1.Execute;
 end;
@@ -668,15 +674,16 @@ procedure TfMain.versionTerminated(Sender: TObject);
 begin
   lblWingetVersion.Caption := Format('Winget version %s', [lOutPut[0]]);
   // Chack if scoop is installed
-  if TDirectory.Exists(Format('c:\users\%s\scoop', [CurrentUserName])) then
-  begin
-    lblScoopVersion.Caption := 'Scoop Installed     ' + '💈';
-  end
-  else
-  begin
-    lblScoopVersion.Caption := 'Scoop not installed    ' + '💈';
-  end;
+//  if TDirectory.Exists(Format('c:\users\%s\scoop', [CurrentUserName])) then
+//  begin
+//    lblScoopVersion.Caption := 'Scoop Installed     ' + '💈';
+//  end
+//  else
+//  begin
+//    lblScoopVersion.Caption := 'Scoop not installed    ' + '💈';
+//  end;
   OnShow := nil;
+  PostMessage(fMain.handle, WM_STARTLIST, 0, 0);
 end;
 
 procedure TfMain.W1Click(Sender: TObject);
