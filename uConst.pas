@@ -100,12 +100,14 @@ type
     fType: tPackageType;
     fLine: string;
     dFields: TDictionary<string, string>;
+    fChecked : boolean;
     procedure makeFields(sLine: String);
     procedure makeListFields(sLine: String);
     function splitCols(line : string): tStrings;
   published
     property Line: String read fLine;
     property PackageType: tPackageType read fType;
+    property isChecked : Boolean read fChecked write fChecked;
   public
     property Fields: TArray<String> read fFields write fFields;
     constructor create(sLine: String; sType: tPackageType); overload;

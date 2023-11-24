@@ -2,8 +2,9 @@ object fMain: TfMain
   Left = 0
   Top = 0
   AlphaBlend = True
-  ClientHeight = 710
-  ClientWidth = 1066
+  BorderStyle = bsSizeToolWin
+  ClientHeight = 721
+  ClientWidth = 1070
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,7 +21,7 @@ object fMain: TfMain
   object pnlToolbar: TsPanel
     Left = 0
     Top = 0
-    Width = 1066
+    Width = 1070
     Height = 54
     Align = alTop
     BevelOuter = bvNone
@@ -63,7 +64,7 @@ object fMain: TfMain
       ExplicitTop = -2
     end
     object sbQuit: TsSpeedButton
-      Left = 921
+      Left = 925
       Top = 2
       Width = 140
       Height = 50
@@ -76,7 +77,7 @@ object fMain: TfMain
       ExplicitLeft = 936
     end
     object sbConfig: TsSpeedButton
-      Left = 781
+      Left = 785
       Top = 2
       Width = 140
       Height = 50
@@ -127,8 +128,8 @@ object fMain: TfMain
   end
   object pnlFooter: TPanel
     Left = 0
-    Top = 669
-    Width = 1066
+    Top = 680
+    Width = 1070
     Height = 41
     Align = alBottom
     BevelOuter = bvNone
@@ -138,10 +139,10 @@ object fMain: TfMain
     ExplicitTop = 668
     ExplicitWidth = 1062
     DesignSize = (
-      1066
+      1070
       41)
     object lblWingetVersion: TsLabelFX
-      Left = 1060
+      Left = 1064
       Top = 0
       Width = 6
       Height = 41
@@ -160,7 +161,7 @@ object fMain: TfMain
       ExplicitHeight = 23
     end
     object lblScoopVersion: TsLabelFX
-      Left = 1054
+      Left = 1058
       Top = 0
       Width = 6
       Height = 41
@@ -190,8 +191,8 @@ object fMain: TfMain
   object pnlMain: TsPanel
     Left = 0
     Top = 54
-    Width = 1066
-    Height = 615
+    Width = 1070
+    Height = 626
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlMain'
@@ -313,7 +314,8 @@ object fMain: TfMain
         FontData.Font.Name = 'Segoe UI'
         FontData.Font.Style = []
         Index = 0
-        Name = 'TacTitleBarItem'
+        Name = 'MainBarMenu'
+        Style = bsMenu
       end
       item
         FontData.Font.Charset = DEFAULT_CHARSET
@@ -323,7 +325,7 @@ object fMain: TfMain
         FontData.Font.Style = []
         Spacing = 10
         Index = 1
-        Name = 'TacTitleBarItem'
+        Name = 'Spacer1'
         Style = bsSpacing
       end
       item
@@ -335,7 +337,7 @@ object fMain: TfMain
         FontData.Font.Name = 'Segoe UI'
         FontData.Font.Style = []
         Index = 2
-        Name = 'TacTitleBarItem'
+        Name = 'SourceBarMenu'
         Style = bsMenu
       end>
     ShowCaption = True

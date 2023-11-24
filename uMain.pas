@@ -410,6 +410,7 @@ begin
     inc(i);
   end;
   TfGlobalFrame(aFrame).sgPackages.AutoFitColumns();
+  TfGlobalFrame(aFrame).sgPackages.NarrowDown('winget', 5);
   //TfGlobalFrame(aFrame).AutoSize := true;
 
 

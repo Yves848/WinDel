@@ -10,32 +10,51 @@ inherited fGlobalFrame: TfGlobalFrame
     Height = 41
     Align = alTop
     BevelOuter = bvNone
-    Caption = 'Dashboard'
     TabOrder = 0
-    ExplicitWidth = 1040
+    object sLabel1: TsLabel
+      Left = 0
+      Top = 0
+      Width = 96
+      Height = 41
+      Align = alLeft
+      Caption = 'Installed Packages'
+      ExplicitHeight = 15
+    end
   end
   object sgPackages: TAdvStringGrid
     Left = 0
     Top = 41
-    Width = 1290
+    Width = 1111
     Height = 641
     Align = alClient
     BorderStyle = bsNone
     ColCount = 6
+    Ctl3D = False
+    DefaultRowHeight = 28
     DrawingStyle = gdsClassic
     FixedColor = clWhite
     FixedCols = 0
-    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goFixedRowDefAlign]
+    RowCount = 2
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Segoe UI'
+    Font.Style = []
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goRowSelect, goFixedRowDefAlign]
+    ParentCtl3D = False
+    ParentFont = False
     TabOrder = 1
+    OnCanEditCell = sgPackagesCanEditCell
+    OnGetEditorType = sgPackagesGetEditorType
     ActiveCellFont.Charset = DEFAULT_CHARSET
     ActiveCellFont.Color = 4474440
     ActiveCellFont.Height = -12
     ActiveCellFont.Name = 'Segoe UI'
     ActiveCellFont.Style = [fsBold]
-    ActiveCellColor = clBlue
+    ActiveCellColor = 15387318
     Bands.Active = True
-    Bands.PrimaryColor = 3618615
-    Bands.SecondaryColor = clInfoText
+    Bands.PrimaryColor = 6118749
+    Bands.SecondaryColor = 3618615
     ColumnHeaders.Strings = (
       ''
       'Name'
@@ -92,15 +111,30 @@ inherited fGlobalFrame: TfGlobalFrame
       'Larger than'
       'Smaller than'
       'Clear')
-    FixedColWidth = 210
-    FixedRowHeight = 22
+    FixedColWidth = 79
+    FixedRowHeight = 28
     FixedFont.Charset = DEFAULT_CHARSET
     FixedFont.Color = clWindowText
     FixedFont.Height = -11
     FixedFont.Name = 'Segoe UI'
     FixedFont.Style = [fsBold]
+    Flat = True
     FloatFormat = '%.2f'
-    HoverButtons.Buttons = <>
+    HoverButtons.Buttons = <
+      item
+        Caption = 'test'
+        Flat = True
+        ImageIndex = 0
+      end
+      item
+        Caption = 'Test2'
+        ImageIndex = 0
+      end
+      item
+        Caption = 'Test3'
+        ImageIndex = 0
+      end>
+    HoverButtons.Position = hbRightFromColumnLeft
     HTMLSettings.ImageFolder = 'images'
     HTMLSettings.ImageBaseName = 'img'
     Look = glTMS
@@ -147,14 +181,26 @@ inherited fGlobalFrame: TfGlobalFrame
     SortSettings.HeaderMirrorColor = clWhite
     SortSettings.HeaderMirrorColorTo = clWhite
     Version = '8.6.14.2'
-    ExplicitWidth = 1121
+    ExplicitLeft = 185
+    ExplicitTop = 47
+    ExplicitWidth = 1105
     ColWidths = (
-      210
-      167
-      473
-      59
-      59
-      322)
+      79
+      223
+      274
+      171
+      184
+      180)
+  end
+  object sPanel2: TsPanel
+    Left = 1111
+    Top = 41
+    Width = 179
+    Height = 641
+    Align = alRight
+    Caption = 'sPanel2'
+    ShowCaption = False
+    TabOrder = 2
   end
   object sFrameAdapter1: TsFrameAdapter
     ThirdParty.ThirdGrids = 'TAdvStringGrid'#13#10
