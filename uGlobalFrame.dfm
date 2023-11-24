@@ -1,49 +1,63 @@
 inherited fGlobalFrame: TfGlobalFrame
-  Width = 1040
+  Width = 1290
   Height = 682
-  ExplicitWidth = 1040
+  ExplicitWidth = 1290
   ExplicitHeight = 682
   object sPanel1: TsPanel
     Left = 0
     Top = 0
-    Width = 1040
+    Width = 1290
     Height = 41
     Align = alTop
     BevelOuter = bvNone
     Caption = 'Dashboard'
     TabOrder = 0
-    ExplicitLeft = 576
-    ExplicitTop = 192
-    ExplicitWidth = 185
+    ExplicitWidth = 1040
   end
-  object AdvStringGrid1: TAdvStringGrid
-    Left = 64
-    Top = 120
-    Width = 400
-    Height = 250
+  object sgPackages: TAdvStringGrid
+    Left = 0
+    Top = 41
+    Width = 1290
+    Height = 641
+    Align = alClient
+    BorderStyle = bsNone
+    ColCount = 6
     DrawingStyle = gdsClassic
     FixedColor = clWhite
+    FixedCols = 0
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goFixedRowDefAlign]
     TabOrder = 1
-    GridLineColor = 13948116
-    GridFixedLineColor = 11250603
     ActiveCellFont.Charset = DEFAULT_CHARSET
     ActiveCellFont.Color = 4474440
     ActiveCellFont.Height = -12
     ActiveCellFont.Name = 'Segoe UI'
     ActiveCellFont.Style = [fsBold]
-    ActiveCellColor = 11565130
-    ActiveCellColorTo = 11565130
-    BorderColor = 11250603
+    ActiveCellColor = clBlue
+    Bands.Active = True
+    Bands.PrimaryColor = 3618615
+    Bands.SecondaryColor = clInfoText
+    ColumnHeaders.Strings = (
+      ''
+      'Name'
+      'ID'
+      'Version'
+      'Available'
+      'Source')
+    ColumnSize.Stretch = True
+    ColumnSize.StretchColumn = 2
+    ColumnSize.SynchWithGrid = True
+    ColumnSize.SynchNormalCellsOnly = True
     ControlLook.FixedGradientFrom = clWhite
-    ControlLook.FixedGradientTo = clWhite
-    ControlLook.FixedGradientHoverTo = clWhite
-    ControlLook.FixedGradientHoverMirrorFrom = clWhite
-    ControlLook.FixedGradientHoverMirrorTo = clWhite
+    ControlLook.FixedGradientTo = clSilver
+    ControlLook.FixedGradientHoverFrom = 13619409
+    ControlLook.FixedGradientHoverTo = 12502728
+    ControlLook.FixedGradientHoverMirrorFrom = 12502728
+    ControlLook.FixedGradientHoverMirrorTo = 11254975
     ControlLook.FixedGradientHoverBorder = 11645361
-    ControlLook.FixedGradientDownFrom = clWhite
-    ControlLook.FixedGradientDownTo = clWhite
-    ControlLook.FixedGradientDownMirrorFrom = clWhite
-    ControlLook.FixedGradientDownMirrorTo = clWhite
+    ControlLook.FixedGradientDownFrom = 8816520
+    ControlLook.FixedGradientDownTo = 7568510
+    ControlLook.FixedGradientDownMirrorFrom = 7568510
+    ControlLook.FixedGradientDownMirrorTo = 6452086
     ControlLook.FixedGradientDownBorder = 11250603
     ControlLook.DropDownHeader.Font.Charset = DEFAULT_CHARSET
     ControlLook.DropDownHeader.Font.Color = clWindowText
@@ -78,9 +92,10 @@ inherited fGlobalFrame: TfGlobalFrame
       'Larger than'
       'Smaller than'
       'Clear')
+    FixedColWidth = 210
     FixedRowHeight = 22
     FixedFont.Charset = DEFAULT_CHARSET
-    FixedFont.Color = 3881787
+    FixedFont.Color = clWindowText
     FixedFont.Height = -11
     FixedFont.Name = 'Segoe UI'
     FixedFont.Style = [fsBold]
@@ -88,7 +103,7 @@ inherited fGlobalFrame: TfGlobalFrame
     HoverButtons.Buttons = <>
     HTMLSettings.ImageFolder = 'images'
     HTMLSettings.ImageBaseName = 'img'
-    Look = glCustom
+    Look = glTMS
     PrintSettings.DateFormat = 'dd/mm/yyyy'
     PrintSettings.Font.Charset = DEFAULT_CHARSET
     PrintSettings.Font.Color = clWindowText
@@ -111,7 +126,8 @@ inherited fGlobalFrame: TfGlobalFrame
     PrintSettings.FooterFont.Name = 'Segoe UI'
     PrintSettings.FooterFont.Style = []
     PrintSettings.PageNumSep = '/'
-    SearchFooter.ColorTo = clNone
+    ScrollWidth = 21
+    SearchFooter.ColorTo = 15790320
     SearchFooter.FindNextCaption = 'Find &next'
     SearchFooter.FindPrevCaption = 'Find &previous'
     SearchFooter.Font.Charset = DEFAULT_CHARSET
@@ -126,24 +142,23 @@ inherited fGlobalFrame: TfGlobalFrame
     SearchFooter.HintHighlight = 'Highlight occurrences'
     SearchFooter.MatchCaseCaption = 'Match case'
     SearchFooter.ResultFormat = '(%d of %d)'
-    SelectionColor = 13744549
     ShowDesignHelper = False
-    SortSettings.HeaderColor = clWhite
     SortSettings.HeaderColorTo = clWhite
     SortSettings.HeaderMirrorColor = clWhite
     SortSettings.HeaderMirrorColorTo = clWhite
     Version = '8.6.14.2'
+    ExplicitWidth = 1121
+    ColWidths = (
+      210
+      167
+      473
+      59
+      59
+      322)
   end
-  object sPanel2: TsPanel
-    Left = 855
-    Top = 41
-    Width = 185
-    Height = 641
-    Align = alRight
-    Caption = 'sPanel2'
-    TabOrder = 2
-    ExplicitLeft = 808
-    ExplicitTop = 392
-    ExplicitHeight = 41
+  object sFrameAdapter1: TsFrameAdapter
+    ThirdParty.ThirdGrids = 'TAdvStringGrid'#13#10
+    Left = 768
+    Top = 385
   end
 end

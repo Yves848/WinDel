@@ -157,14 +157,12 @@ object fMain: TfMain
       Angle = 0
       Shadow.OffsetKeeper.LeftTop = 0
       Shadow.OffsetKeeper.RightBottom = 2
-      ExplicitLeft = 1059
-      ExplicitTop = 1
       ExplicitHeight = 23
     end
     object lblScoopVersion: TsLabelFX
-      Left = 1052
+      Left = 1054
       Top = 0
-      Width = 8
+      Width = 6
       Height = 41
       Margins.Right = 15
       Align = alRight
@@ -179,8 +177,7 @@ object fMain: TfMain
       Angle = 0
       Shadow.OffsetKeeper.LeftTop = 0
       Shadow.OffsetKeeper.RightBottom = 2
-      ExplicitLeft = 1054
-      ExplicitHeight = 25
+      ExplicitHeight = 23
     end
     object AI1: TActivityIndicator
       Left = 5
@@ -204,7 +201,8 @@ object fMain: TfMain
     Padding.Bottom = 3
     ShowCaption = False
     TabOrder = 2
-    ExplicitTop = 58
+    ExplicitWidth = 1062
+    ExplicitHeight = 614
   end
   object DosCommand1: TDosCommand
     InputToOutput = False
@@ -316,6 +314,29 @@ object fMain: TfMain
         FontData.Font.Style = []
         Index = 0
         Name = 'TacTitleBarItem'
+      end
+      item
+        FontData.Font.Charset = DEFAULT_CHARSET
+        FontData.Font.Color = clWindowText
+        FontData.Font.Height = -12
+        FontData.Font.Name = 'Segoe UI'
+        FontData.Font.Style = []
+        Spacing = 10
+        Index = 1
+        Name = 'TacTitleBarItem'
+        Style = bsSpacing
+      end
+      item
+        Caption = 'Sources'
+        DropdownMenu = popupSources
+        FontData.Font.Charset = DEFAULT_CHARSET
+        FontData.Font.Color = clWindowText
+        FontData.Font.Height = -12
+        FontData.Font.Name = 'Segoe UI'
+        FontData.Font.Style = []
+        Index = 2
+        Name = 'TacTitleBarItem'
+        Style = bsMenu
       end>
     ShowCaption = True
     Left = 632
@@ -369,5 +390,15 @@ object fMain: TfMain
     TitleButtons = <>
     Left = 984
     Top = 398
+  end
+  object popupSources: TPopupMenu
+    Left = 248
+    Top = 550
+    object W2: TMenuItem
+      Caption = 'winget'
+    end
+    object winget1: TMenuItem
+      Caption = 'all'
+    end
   end
 end

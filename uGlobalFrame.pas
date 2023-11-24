@@ -10,13 +10,14 @@ uses
 type
   TfGlobalFrame = class(TfrmBase)
     sPanel1: TsPanel;
-    AdvStringGrid1: TAdvStringGrid;
-    sPanel2: TsPanel;
+    sgPackages: TAdvStringGrid;
+    sFrameAdapter1: TsFrameAdapter;
   private
     { Private declarations }
+    procedure clearGrid;
   public
     { Public declarations }
-
+    procedure init;
     procedure addItem(aItem: tWingetPackage);
   end;
 
@@ -33,7 +34,37 @@ implementation
 
 procedure TfGlobalFrame.addItem(aItem: tWingetPackage);
 begin
-       //
+  var i : integer := sgPackages.RowCount -1;
+  if sgPackages.Objects[1,i] <> nil then
+  begin
+     inc(i);
+     sgPackages.RowCount := sgPackages.RowCount + 1;
+  end;
+  sgPackages.Objects[1,i] := aItem;
+
+  sgPackages.Cells[1,i] := aItem.getField('nom');
+  sgPackages.Cells[2,i] := aItem.getField('id');
+  sgPackages.Cells[3,i] := aItem.getField('version');
+  sgPackages.Cells[4,i] := aItem.getField('disponible');
+  sgPackages.Cells[5,i] := aItem.getField('source');
+end;
+
+procedure TfGlobalFrame.clearGrid;
+begin
+  var i : Integer := 1;
+  while i <= sgPackages.RowCount -1 do
+  begin
+    if sgPackages.Objects[1,i] <> Nil then
+      tWingetPackage(sgPackages.Objects[1,i]).Free;
+    inc(i);
+  end;
+  sgPackages.RowCount := 2;
+
+end;
+
+procedure TfGlobalFrame.init;
+begin
+  clearGrid;
 end;
 
 initialization

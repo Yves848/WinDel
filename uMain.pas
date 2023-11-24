@@ -89,6 +89,9 @@ type
     sTitleBar1: TsTitleBar;
     sSkinManager1: TsSkinManager;
     sSkinProvider1: TsSkinProvider;
+    popupSources: TPopupMenu;
+    W2: TMenuItem;
+    winget1: TMenuItem;
     procedure DosCommand1NewLine(ASender: TObject; const ANewLine: string; AOutputType: TOutputType);
     procedure btnQuitClick(Sender: TObject);
     function DosCommand1CharDecoding(ASender: TObject; ABuf: TStream): string;
@@ -397,15 +400,18 @@ begin
   aFrame := tfGlobalFrame.Create(pnlMain);
   aFrame.Parent := pnlMain;
   aFrame.Align := alClient;
-  //tfGlobalFrame(aFrame).Init;
-//  lOutClean := makeUpgList(lOutPut);
-//  while i <= lOutClean.Count - 1 do
-//  begin
-//    sLine := lOutClean[i];
-//    aWingetPackage := tWingetPackage.Create(sLine, ptList);
-//
-//    inc(i);
-//  end;
+  tfGlobalFrame(aFrame).Init;
+  lOutClean := makeUpgList(lOutPut);
+  while i <= lOutClean.Count - 1 do
+  begin
+    sLine := lOutClean[i];
+    aWingetPackage := tWingetPackage.Create(sLine, ptList);
+    TfGlobalFrame(aFrame).addItem(aWingetPackage);
+    inc(i);
+  end;
+  TfGlobalFrame(aFrame).sgPackages.AutoFitColumns();
+  //TfGlobalFrame(aFrame).AutoSize := true;
+
 
 //  liste := TfrmList(aFrame).ListView1.Items;
 //
@@ -543,7 +549,7 @@ begin
   if aFrame <> Nil then
     aFrame.Free;
   lOutPut.clear;
-  DosCommand1.OnTerminated := listTerminated;
+  DosCommand1.OnTerminated := listTerminated2;
   DosCommand1.CommandLine := tWingetcommand.List;
   DosCommand1.Execute;
 end;
